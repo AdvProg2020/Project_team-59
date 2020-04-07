@@ -1,4 +1,4 @@
-This repository was made by Farid Fotouhi
+This repository was made by Farid Fotouhi,\n
 Team members are as shown below:
 
 | `Person Number` | First Name | Last Name | Student Number |
