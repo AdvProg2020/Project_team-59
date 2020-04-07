@@ -1,6 +1,6 @@
-# Team 59
+# Team 59 😊
 
-## Welcome to team 59 git repository,
+## Welcome to team 59 git repository.
 
 This repository was made by ***Farid Fotouhi***,
 
