@@ -2,7 +2,7 @@
 
 ## Welcome to team 59 git repository.
 
-This repository was made by ***Farid Fotouhi***,
+This repository was made by ***Farid Fotuhi***,
 
 Team members are as shown below:
 
