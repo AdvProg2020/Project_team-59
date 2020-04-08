@@ -8,6 +8,6 @@ Team members are as shown below:
 
   | `Person Number` | First Name | Last Name | Student Number |
   |:---------------:|:------------:|:-----------:|:----------------:|
-  | `First Person` |  |  |  |
+  | `First Person` | fareed | fotuhi | 98110073  |
   | `Second Person` | Iman | Alipour | 98102024 |
   | `Third Person` |  |  |  |
