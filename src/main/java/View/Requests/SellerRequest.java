@@ -1,0 +1,16 @@
+package View.Requests;
+
+public enum SellerRequest{
+    VIEW_COMPANY_INFORMATION,
+    VIEW_SALES_HISTORY,
+    MANAGE_PRODUCTS,
+    SHOW_CATEGORIES,
+    VIEW_SALES,
+    VIEW_BALANCE,
+    VIEW_PRODUCT_BUYERS,
+    EDIT_PRODUCT,
+    ADD_PRODUCT,
+    REMOVE_PRODUCT,
+    EDIT_SALE,
+    ADD_SALE
+}
