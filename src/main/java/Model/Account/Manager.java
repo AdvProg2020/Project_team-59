@@ -17,6 +17,7 @@ public class Manager extends Account{
     public Manager(AccountInformation accountInformation, Role role) {
         super(accountInformation, Role.MANAGER);
         allManagers.add(this);
+        accountList.add(this);
     }
 
     public Good getGoodById(String productId){

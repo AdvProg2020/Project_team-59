@@ -1,22 +1,33 @@
 package Controller;
 
 import Model.Account.Account;
+import Model.Account.AccountInformation;
 import Model.Account.Manager;
+import Model.Account.Role;
 import Model.Good.Characteristic;
+import View.Menus.CreatAccountMenu;
 
 import java.util.ArrayList;
 
 public class Controller {
-    private Manager coreManager;
+    private static Manager coreManager;
     private Account currentAccount;
     private boolean filteringIsPossible;//not sure
     private boolean hasDigestHappened;//not sure
 
-    public void initializer(){
+    public Controller() {
+    }
+
+    public static void initializer(){
         //TODO initializes core manager
     }
 
-    public void terminator(){
+    public static void creatAdmin( AccountInformation accountInformation ){
+
+        coreManager = new Manager( accountInformation , Role.MANAGER );
+    }
+
+    public static void terminator(){
         //TODO terminates program by saving all data
     }
 
@@ -24,7 +35,7 @@ public class Controller {
         //TODO opens offs page
     }
 
-    public void goToPtoductspage(){
+    public void goToProductPage(){
         //TODO opens products page
     }
 

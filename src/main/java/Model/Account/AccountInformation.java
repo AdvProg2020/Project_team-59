@@ -3,9 +3,9 @@ package Model.Account;
 public class AccountInformation {
     private String username;
     private String name;
-    private String  lastname;
+    private String lastName;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
     private String passWord;
 
     public void emailIsValid( String email ){
@@ -16,12 +16,12 @@ public class AccountInformation {
         // TODO IMPLEMENT change type to boolean...
     }
 
-    public AccountInformation(String username, String name, String lastname, String email, String phoneNumber, String passWord) {
+    public AccountInformation(String username, String name, String lastName, String email, String phoneNumber, String passWord) {
         this.username = username;
         this.name = name;
-        this.lastname = lastname;
-        //this.email = email;
-        //this.phoneNumber = phoneNumber;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.passWord = passWord;
     }
 
@@ -34,14 +34,14 @@ public class AccountInformation {
     }
 
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -53,15 +53,15 @@ public class AccountInformation {
         this.name = name;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
