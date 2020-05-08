@@ -3,7 +3,9 @@ package View.Menus;
 import Controller.Controller;
 import View.Requests.UserRequest;
 
-public class MainMenu {
+import java.util.ArrayList;
+
+public class MainMenu extends Menu{
     private UserRequest userRequest;
     Controller controller;
 
@@ -12,11 +14,24 @@ public class MainMenu {
     }
 
     public void run(){
-        //TODO
+        String input;
+        while(true){
+            input = Menu.getInputFromUser();
+            getRequestType(input.trim().toLowerCase());
+            callAppropriateFunction( input );
+        }
     }
 
-    private void getRequestType(){
-        //TODO
+    private void callAppropriateFunction( String input ){
+        if ( userRequest.equals(UserRequest.CREAT_ACCOUNT) ){
+            new CreatAccountMenu(this).run(input.split(" "));
+        }
+    }
+
+    private void getRequestType( String input ){
+        if ( input.startsWith("creat account")){
+            userRequest = UserRequest.CREAT_ACCOUNT;
+        }
     }
 
     private void help(){

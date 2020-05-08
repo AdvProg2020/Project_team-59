@@ -15,10 +15,6 @@ public class Menu {
     }
 
     public static String getInputFromUser(){
-        return scanner.nextLine();
-    }
-
-    public static String getCommandFromUser(){
-        return scanner.nextLine().trim().toLowerCase();
+        return scanner.nextLine().trim();
     }
 }

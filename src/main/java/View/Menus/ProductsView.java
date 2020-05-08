@@ -2,18 +2,33 @@ package View.Menus;
 
 import View.Requests.UserRequest;
 
-public class ProductsView {
+public class ProductsView extends Menu{
     private UserRequest userRequest;
 
-    public ProductsView() {
+    public ProductsView(Menu menu) {
+        this.headMenu = menu;
     }
 
     public void run(){
-        //TODO
+        String input;
+        while(true){
+            input = Menu.getInputFromUser();
+            getRequestType(input.trim().toLowerCase());
+            callAppropriateUserFunction(input);
+
+        }
     }
 
-    private void getRequestType(){
-        //TODO
+    private void callAppropriateUserFunction( String input ){
+        if ( userRequest.equals(UserRequest.CREAT_ACCOUNT) ){
+            new CreatAccountMenu(this).run(input.split(" "));
+        }
+    }
+
+    private void getRequestType( String input ){
+        if ( input.startsWith("creat account")){
+            userRequest = UserRequest.CREAT_ACCOUNT;
+        }
     }
 
     private void help(){

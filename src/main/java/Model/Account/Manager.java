@@ -20,6 +20,15 @@ public class Manager extends Account{
         accountList.add(this);
     }
 
+    public Account getAccountByUsername(String username){
+        for (Account account : accountList) {
+            if (account.getAccountInformation().getUsername().equals(username)){
+                return account;
+            }
+        }
+        return null;
+    }
+
     public Good getGoodById(String productId){
         for (Good good : allGoodsList) {
             if ( good.getProductId().equals(productId) ){
@@ -55,6 +64,10 @@ public class Manager extends Account{
         }
         //TODO throw exception instead of down return statement
         return null;
+    }
+
+    public void addApplication( Application application ){
+        applications.add( application );
     }
 
 }

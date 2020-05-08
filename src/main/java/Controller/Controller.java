@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.Account.Account;
-import Model.Account.AccountInformation;
-import Model.Account.Manager;
-import Model.Account.Role;
+import Model.Account.*;
 import Model.Good.Characteristic;
 import View.Menus.CreatAccountMenu;
 
@@ -23,8 +20,15 @@ public class Controller {
     }
 
     public static void creatAdmin( AccountInformation accountInformation ){
-
         coreManager = new Manager( accountInformation , Role.MANAGER );
+    }
+
+    public static void sendCreatAccountApplication( ArrayList<String> input ){
+        coreManager.addApplication(new Application( input , ApplicationType.CREAT_ACCOUNT ));
+    }
+
+    public static boolean usernameExists(String username){
+        return coreManager.getAccountByUsername(username) != null;
     }
 
     public static void terminator(){

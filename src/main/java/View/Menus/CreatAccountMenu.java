@@ -4,6 +4,8 @@ import Controller.Controller;
 import Model.Account.AccountInformation;
 import Model.Account.Role;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 
@@ -19,14 +21,35 @@ public class CreatAccountMenu extends Menu{
         this.headMenu = menu;
     }
 
-    @Override
-    public void run(){
-
+    public void run(String [] input){
+        String type = input[2].toLowerCase();
+        if ( !type.equals("seller") && !type.equals("buyer") ){
+            System.out.println("no such role is available");
+            headMenu.run();
+        }
+        else if ( Controller.usernameExists(input[3])){
+            System.out.println("user with this username already exists");
+            headMenu.run();
+        }
+        else{
+            this.username = input[2];
+            getUserInformation();
+            Controller.sendCreatAccountApplication(new ArrayList<>(Arrays.asList(this.username, name, lastName, email, phoneNumber, passWord, input[2])));
+        }
     }
 
     public void creatAdmin(){
         getAdminInformation();
         Controller.creatAdmin( new AccountInformation( this.username , this.name , this.lastName , this.email , this.phoneNumber , this.passWord ) );
+    }
+
+    public void getUserInformation(){
+
+        getUserPassword();
+        getUserName();
+        getUserLastName();
+        getUserEmail();
+        getUserPhoneNumber();
     }
 
     public void getAdminInformation(){
