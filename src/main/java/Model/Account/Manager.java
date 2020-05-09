@@ -20,7 +20,7 @@ public class Manager extends Account{
         accountList.add(this);
     }
 
-    public Account getAccountByUsername(String username){
+    public static Account getAccountByUsername(String username){
         for (Account account : accountList) {
             if (account.getAccountInformation().getUsername().equals(username)){
                 return account;

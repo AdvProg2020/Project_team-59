@@ -29,6 +29,9 @@ public class Productmenu extends Menu{
         if ( userRequest.equals(UserRequest.CREAT_ACCOUNT) ){
             new CreatAccountMenu(this).run(input.split(" "));
         }
+        if ( userRequest.equals(UserRequest.LOG_IN) ){
+            new LogInView(this).run(input.split(" "));
+        }
     }
 
     private void callAppropriateBuyerFunction(){
@@ -36,8 +39,12 @@ public class Productmenu extends Menu{
     }
 
     private void getRequestType( String input ){
-        if ( input.startsWith("creat account")){
+        String command = input.toLowerCase().trim();
+        if ( command.startsWith("creat account")){
             userRequest = UserRequest.CREAT_ACCOUNT;
+        }
+        else if ( command.startsWith("login")){
+            userRequest = UserRequest.LOG_IN;
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Controller {
     private static Manager coreManager;
-    private Account currentAccount;
+    private static Account currentAccount;
     private boolean filteringIsPossible;//not sure
     private boolean hasDigestHappened;//not sure
 
@@ -27,8 +27,12 @@ public class Controller {
         coreManager.addApplication(new Application( input , ApplicationType.CREAT_ACCOUNT ));
     }
 
+    public static void setCurrentAccount(Account account) {
+        currentAccount = account;
+    }
+
     public static boolean usernameExists(String username){
-        return coreManager.getAccountByUsername(username) != null;
+        return Manager.getAccountByUsername(username) != null;
     }
 
     public static void terminator(){

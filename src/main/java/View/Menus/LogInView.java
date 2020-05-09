@@ -1,5 +1,8 @@
 package View.Menus;
 
+import Controller.Controller;
+import Model.Account.Account;
+import Model.Account.Manager;
 import View.Requests.UserRequest;
 
 public class LogInView extends Menu{
@@ -9,26 +12,21 @@ public class LogInView extends Menu{
         this.headMenu = menu;
     }
 
-    public void run(){
-        String input;
-        while(true){
-            input = Menu.getInputFromUser();
-            getRequestType(input.trim().toLowerCase());
-            callAppropriateUserFunction(input);
-
+    public void run( String[] splitInput ){
+        if ( !Controller.usernameExists(splitInput[1]) ){
+            System.out.println("no user with such username exists");
+            this.headMenu.run();
         }
-    }
-
-    private void callAppropriateUserFunction( String input ){
-        if ( userRequest.equals(UserRequest.CREAT_ACCOUNT) ){
-            new CreatAccountMenu(this).run(input.split(" "));
+        System.out.println("please enter your password: ");
+        Account account = Manager.getAccountByUsername(splitInput[1]);
+        String input = Menu.getInputFromUser();
+        if ( account.passwordIsCorrect(input) ){
+            Controller.setCurrentAccount(account);
         }
-    }
-
-    private void getRequestType( String input ){
-        if ( input.startsWith("creat account")){
-            userRequest = UserRequest.CREAT_ACCOUNT;
+        else{
+            System.out.println("password is incorrect");
         }
+        this.headMenu.run();
     }
 
     private void help(){

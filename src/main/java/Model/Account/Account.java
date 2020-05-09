@@ -16,6 +16,10 @@ public abstract class Account {
         this.balance = 0;
     }
 
+    public boolean passwordIsCorrect( String password ){
+        return this.accountInformation.getPassWord().equals(password);
+    }
+
     public void giveOffTicket( OffTicket offTicket ){
         this.offTickets.add(offTicket);
     }
