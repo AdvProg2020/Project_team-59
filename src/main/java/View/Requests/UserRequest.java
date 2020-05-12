@@ -24,6 +24,7 @@ public enum UserRequest {
     SHOW_ATTRIBUTES,
     COMPARE,
     ADD_COMMENT,
+    OPEN_ACCOUNTS_PAGE,
     VIEW_ACCOUNT_INFO,
     EDIT_ACCOUNT_INFO,
     HELP

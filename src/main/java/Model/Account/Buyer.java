@@ -62,4 +62,8 @@ public class Buyer extends Account {
         //TODO throw exception instead of down return statement
         return null;
     }
+
+    public void addItemsToCart(HashMap<Good , Integer> cartItems){
+        this.cart.putAll(cartItems);
+    }
 }

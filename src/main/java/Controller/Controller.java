@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Controller {
     private static Manager coreManager;
     private static Account currentAccount;
+    private static User currentUser;
     private boolean filteringIsPossible;//not sure
     private boolean hasDigestHappened;//not sure
 
@@ -17,13 +18,19 @@ public class Controller {
 
     public static void initializer(){
         //TODO initializes core manager
+        //TODO sets up current user
     }
 
     public static void creatAdmin( AccountInformation accountInformation ){
         coreManager = new Manager( accountInformation , Role.MANAGER );
+        currentUser = new User();
     }
 
-    public static void sendCreatAccountApplication( ArrayList<String> input ){
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void sendCreatAccountApplication(ArrayList<String> input ){
         coreManager.addApplication(new Application( input , ApplicationType.CREAT_ACCOUNT ));
     }
 

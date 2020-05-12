@@ -2,7 +2,9 @@ package View.Menus;
 
 import Controller.Controller;
 import Model.Account.Account;
+import Model.Account.Buyer;
 import Model.Account.Manager;
+import Model.Account.Seller;
 import View.Requests.UserRequest;
 
 public class LogInView extends Menu{
@@ -21,12 +23,31 @@ public class LogInView extends Menu{
         Account account = Manager.getAccountByUsername(splitInput[1]);
         String input = Menu.getInputFromUser();
         if ( account.passwordIsCorrect(input) ){
-            Controller.setCurrentAccount(account);
+            goToAccountsPage(account);
         }
         else{
             System.out.println("password is incorrect");
+            this.headMenu.run();
         }
-        this.headMenu.run();
+    }
+
+    private void goToAccountsPage(Account account){
+        Controller.setCurrentAccount(account);
+        if ( account instanceof Buyer ){
+            addUserCartToAccount( account );
+            new BuyerView( this.headMenu ).run();
+        }
+        else if ( account instanceof Seller){
+            new SellerView( this.headMenu ).run();
+        }
+        else {
+            new ManagerView( this.headMenu ).run();
+        }
+    }
+
+    private void addUserCartToAccount(Account account){
+        Buyer buyer = (Buyer)account;
+        buyer.addItemsToCart(Controller.getCurrentUser().getCart());
     }
 
     private void help(){

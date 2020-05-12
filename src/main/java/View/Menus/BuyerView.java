@@ -3,12 +3,13 @@ package View.Menus;
 import View.Requests.BuyerRequest;
 import View.Requests.UserRequest;
 
-public class BuyerView {
+public class BuyerView extends Menu {
     private BuyerRequest buyerRequest;
     private UserRequest userRequest;
 
 
-    public BuyerView() {
+    public BuyerView( Menu menu ) {
+        this.headMenu = menu;
     }
 
     public void run(){
