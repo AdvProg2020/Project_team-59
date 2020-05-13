@@ -29,6 +29,10 @@ public class Manager extends Account{
         return null;
     }
 
+    public static ArrayList<Category> getCategoryList() {
+        return categoryList;
+    }
+
     public Good getGoodById(String productId){
         for (Good good : allGoodsList) {
             if ( good.getProductId().equals(productId) ){
@@ -57,17 +61,44 @@ public class Manager extends Account{
         return null;
     }
 
-    public Category getCategoryBuName( String categoryName ){
+    public static Category getCategoryBuName( String categoryName ){
         for (Category category : categoryList) {
             if(category.getCategoryName().equals(categoryName))
                 return category;
         }
-        //TODO throw exception instead of down return statement
         return null;
+    }
+
+    public static Category getCategoryOfSubCategoryByName(String name){
+        for (Category category : categoryList) {
+            for (Category subCategory : category.getSubCategories()) {
+                if ( subCategory.getCategoryName().equals(name)){
+                    return category;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static void removeSubCategory(String subCategoryName) throws Exception {
+        Category category = getCategoryOfSubCategoryByName(subCategoryName);
+        category.getSubCategories().removeIf(subCategory -> subCategory.getCategoryName().equals(subCategoryName));
+        throw new Exception("no category with such name");
     }
 
     public void addApplication( Application application ){
         applications.add( application );
+    }
+
+    public static void removeCategory(String categoryName) throws Exception {
+        Category category = getCategoryBuName(categoryName);
+        if ( category != null ){
+            categoryList.remove(category);
+        }
+        else{
+            removeSubCategory(categoryName);
+        }
+
     }
 
 }
