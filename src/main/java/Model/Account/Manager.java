@@ -2,6 +2,7 @@ package Model.Account;
 
 import Model.Discount.OffTicket;
 import Model.Good.Category;
+import Model.Good.Characteristic;
 import Model.Good.Good;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class Manager extends Account{
         return categoryList;
     }
 
-    public Good getGoodById(String productId){
+    public static Good getGoodById(String productId){
         for (Good good : allGoodsList) {
             if ( good.getProductId().equals(productId) ){
                 return good;
@@ -99,6 +100,19 @@ public class Manager extends Account{
             removeSubCategory(categoryName);
         }
 
+    }
+
+    public static boolean categoryExists(String categoryName){
+        for (Category category : categoryList) {
+            if ( category.getCategoryName().equals(categoryName) ){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void creatCategory(String categoryName, ArrayList<Characteristic> characteristics , ArrayList<Good> goodsInCategory){
+        categoryList.add( new Category(categoryName , characteristics , goodsInCategory) );
     }
 
 }
