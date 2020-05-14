@@ -34,23 +34,21 @@ public class Manager extends Account{
         return categoryList;
     }
 
-    public static Good getGoodById(String productId){
+    public static Good getGoodById(String productId) throws Exception{
         for (Good good : allGoodsList) {
             if ( good.getProductId().equals(productId) ){
                 return good;
             }
         }
-        //TODO throw exception instead of down return statement
-        return null;
+        throw new Exception("product not found");
     }
 
-    public Account getSellerById(String sellerUsername){
+    public Account getSellerById(String sellerUsername) throws Exception{
         for (Account account : accountList) {
             if( account.getAccountInformation().getUsername().equals(sellerUsername) && account instanceof Seller )
                 return account;
         }
-        //TODO throw exception instead of down return statement
-        return null;
+        throw new Exception("seller not found");
     }
 
     public OffTicket getOffTicketById( String offTicketId ){
@@ -62,12 +60,18 @@ public class Manager extends Account{
         return null;
     }
 
-    public static Category getCategoryBuName( String categoryName ){
+    public static Category getCategoryByName(String categoryName) throws Exception{
         for (Category category : categoryList) {
-            if(category.getCategoryName().equals(categoryName))
+            if(category.getCategoryName().equals(categoryName)){
                 return category;
+            }
+            for (Category subCategory : category.getSubCategories()) {
+                if(subCategory.getCategoryName().equals(categoryName)){
+                    return subCategory;
+                }
+            }
         }
-        return null;
+        throw new Exception("category not found");
     }
 
     public static Category getCategoryOfSubCategoryByName(String name){
@@ -81,25 +85,8 @@ public class Manager extends Account{
         return null;
     }
 
-    private static void removeSubCategory(String subCategoryName) throws Exception {
-        Category category = getCategoryOfSubCategoryByName(subCategoryName);
-        category.getSubCategories().removeIf(subCategory -> subCategory.getCategoryName().equals(subCategoryName));
-        throw new Exception("no category with such name");
-    }
-
     public void addApplication( Application application ){
         applications.add( application );
-    }
-
-    public static void removeCategory(String categoryName) throws Exception {
-        Category category = getCategoryBuName(categoryName);
-        if ( category != null ){
-            categoryList.remove(category);
-        }
-        else{
-            removeSubCategory(categoryName);
-        }
-
     }
 
     public static boolean categoryExists(String categoryName){
@@ -114,5 +101,6 @@ public class Manager extends Account{
     public static void creatCategory(String categoryName, ArrayList<Characteristic> characteristics , ArrayList<Good> goodsInCategory){
         categoryList.add( new Category(categoryName , characteristics , goodsInCategory) );
     }
+
 
 }

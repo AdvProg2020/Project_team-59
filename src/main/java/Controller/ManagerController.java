@@ -96,7 +96,43 @@ public class ManagerController extends AccountController{
         //TODO manager creat's new category
     }
 
-    public void removeCategory( String categoryName ){
-        //TODO manager deletes category
+    public static void removeCategory(String categoryName) throws Exception {
+        Category category = Manager.getCategoryByName(categoryName);
+        if ( category != null ){
+            Manager.getCategoryList().remove(category);
+        }
+        else{
+            removeSubCategory(categoryName);
+        }
+    }
+
+    private static void removeSubCategory(String subCategoryName) throws Exception {
+        Category category = Manager.getCategoryOfSubCategoryByName(subCategoryName);
+        category.getSubCategories().removeIf(subCategory -> subCategory.getCategoryName().equals(subCategoryName));
+        throw new Exception("no category with such name");
+    }
+
+    public static void addCharacteristicToCategory(Category category , Characteristic characteristic){
+        category.addCharacteristics(characteristic);
+    }
+
+    public static void removeCharacteristicFromCategory(Category category , String characteristicTitle){
+        for (Characteristic characteristic : new ArrayList<>(category.getCharacteristics())) {
+            if(characteristic.getCharacteristicName().equals(characteristicTitle)){
+                category.removeCharacteristics(characteristic);
+            }
+        }
+    }
+
+    public static void changeCategoryName(Category category , String newName){
+        category.setCategoryName(newName);
+    }
+
+    public static void addProductToCategory(Category category , Good good){
+        category.addGood(good);
+    }
+
+    public static void removeProductFromCategory(Category category , Good good){
+        category.removeGood(good);
     }
 }

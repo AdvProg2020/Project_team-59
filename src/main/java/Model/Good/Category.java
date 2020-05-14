@@ -14,6 +14,10 @@ public class Category {
         this.goodsInCategory = goodsInCategory;
     }
 
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     public void addSubCategory(Category category){
         this.subCategories.add(category);
     }

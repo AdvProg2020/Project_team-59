@@ -1,5 +1,6 @@
 package View.Menus;
 
+import Controller.ManagerController;
 import Model.Account.Manager;
 import Model.Good.Category;
 import Model.Good.Characteristic;
@@ -7,7 +8,6 @@ import Model.Good.Good;
 import View.Requests.ManagerRequest;
 import View.Requests.UserRequest;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ManagerView extends Menu{
@@ -40,7 +40,7 @@ public class ManagerView extends Menu{
         String[] inputSplit = input.split(" ");
         if (managerRequest.equals(ManagerRequest.REMOVE_CATEGORY)){
             try {
-                Manager.removeCategory(inputSplit[1]);
+                ManagerController.removeCategory(inputSplit[1]);
             }
             catch(Exception e){
                 System.out.println(e.getMessage());
@@ -49,7 +49,119 @@ public class ManagerView extends Menu{
         else if(managerRequest.equals(ManagerRequest.ADD_CATEGORY)){
             creatCategory(inputSplit[1]);
         }
+        else if (managerRequest.equals(ManagerRequest.EDIT_CATEGORY)){
+            editCategory(inputSplit[1]);
+        }
 
+    }
+
+    private void editCategory(String categoryName){
+        String input;
+        Category category;
+        try {
+            category = Manager.getCategoryByName(categoryName);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return;
+        }
+        do{
+            printCategoryInfo(category);
+            System.out.println("please enter an edit command, you can delete|add a characteristic, delete|add a product or change the name of category");
+            input = Menu.getInputFromUser();
+            getEditCommandType(input);
+            callEditCategoryFunction(category , input);
+            System.out.println("if you want to continue, press 'y', any other input counts as no");
+        }while(!input.trim().toLowerCase().equals("y"));
+    }
+
+    private void callEditCategoryFunction(Category category , String input){
+        String[] inputSplit = input.trim().split(" ");
+        if(managerRequest.equals(ManagerRequest.ADD_CHARACTERISTIC)){
+            Characteristic characteristic = getCharacteristicFromUser();
+            ManagerController.addCharacteristicToCategory(category , characteristic );
+        }
+        else if (managerRequest.equals(ManagerRequest.REMOVE_CHARACTERISTIC)){
+            ManagerController.removeCharacteristicFromCategory(category , inputSplit[2]);
+        }
+        else if (managerRequest.equals(ManagerRequest.CHANGE_CATEGORY_NAME)){
+            ManagerController.changeCategoryName(category , inputSplit[3]);
+        }
+        else if ( managerRequest.equals(ManagerRequest.ADD_PRODUCT_TO_CATEGORY)){
+            addProductToCategory(category, inputSplit[2]);
+        }
+        else if ( managerRequest.equals(ManagerRequest.REMOVE_PRODUCT_FROM_CATEGORY)){
+            removeProductFromCategory(category , inputSplit[2]);
+        }
+        else{
+            manageCategoryHelp();
+        }
+    }
+
+    private void manageCategoryHelp(){
+        System.out.println("add characteristic\n"+ "remove characteristic\n" + "add product [productId]\n" + "remove product [productId]\n" + "change name to [new name]");
+    }
+
+    private void addProductToCategory(Category category , String productId){
+        try {
+            ManagerController.addProductToCategory(category , Manager.getGoodById(productId));
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void removeProductFromCategory(Category category , String productId){
+        try {
+            ManagerController.removeProductFromCategory(category , Manager.getGoodById(productId));
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private Characteristic getCharacteristicFromUser(){
+        String title;
+        String description;
+        System.out.println("please enter title of characteristic");
+        title = Menu.getInputFromUser();
+        System.out.println("please enter description of characteristic");
+        description = Menu.getInputFromUser();
+        return new Characteristic(title , description);
+    }
+
+    private void printCategoryInfo(Category category){
+        System.out.println(category.getCategoryName());
+        System.out.println("Characteristics : *******");
+        for (Characteristic characteristic : category.getCharacteristics()) {
+            System.out.println(characteristic.getCharacteristicName());
+        }
+        System.out.println("Goods : *******");
+        for (Good good : category.getGoodsInCategory()) {
+            System.out.println(good.getProductName());
+        }
+    }
+
+    private void getEditCommandType( String input ){
+        String command = input.trim().toLowerCase();
+        if ( command.startsWith("delete characteristic")){
+            managerRequest = ManagerRequest.REMOVE_CHARACTERISTIC;
+        }
+        else if ( command.startsWith("add characteristic")){
+            managerRequest = ManagerRequest.ADD_CHARACTERISTIC;
+        }
+        else if ( command.startsWith("change name")){
+            managerRequest = ManagerRequest.CHANGE_CATEGORY_NAME;
+        }
+        else if ( command.startsWith("delete product")){
+            managerRequest = ManagerRequest.REMOVE_CHARACTERISTIC;
+        }
+        else if ( command.startsWith("add product")){
+            managerRequest = ManagerRequest.ADD_CHARACTERISTIC;
+        }
+        else{
+            managerRequest = ManagerRequest.MANAGE_CATEGORY_HELP;
+        }
     }
 
     private void creatCategory(String categoryName){
@@ -68,13 +180,13 @@ public class ManagerView extends Menu{
         do{
             System.out.println("please enter goods Id");
             productId = Menu.getInputFromUser().trim();
-            if ( Manager.getGoodById(productId) != null ){
-                categoryGoods.add(Manager.getGoodById(productId));
+            try {
+                Good good = Manager.getGoodById(productId);
             }
-            else{
-                System.out.println("no product exists with this Id");
+            catch(Exception e){
+                System.out.println(e.getMessage());
             }
-            System.out.println("if you want to add another one, enter Y or y, any other input ends this part");
+            System.out.println("if you want to add another product, enter Y or y, any other input ends this part");
             productId = Menu.getInputFromUser();
         }while(productId.trim().equalsIgnoreCase("y"));
         return categoryGoods;
@@ -85,11 +197,7 @@ public class ManagerView extends Menu{
         String title;
         String description;
         do{
-            System.out.println("please enter title of characteristic");
-            title = Menu.getInputFromUser();
-            System.out.println("please enter description of characteristic");
-            description = Menu.getInputFromUser();
-            categoryCharacteristics.add(new Characteristic(title,description));
+            categoryCharacteristics.add(getCharacteristicFromUser());
             System.out.println("if you want to add another one, enter Y or y, any other input ends this part");
             title = Menu.getInputFromUser();
         }while(title.trim().equalsIgnoreCase("y"));
