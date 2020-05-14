@@ -76,9 +76,11 @@ public class Manager extends Account{
 
     public static Category getCategoryOfSubCategoryByName(String name){
         for (Category category : categoryList) {
-            for (Category subCategory : category.getSubCategories()) {
-                if ( subCategory.getCategoryName().equals(name)){
-                    return category;
+            if ( category.getSubCategories().size() != 0) {
+                for (Category subCategory : category.getSubCategories()) {
+                    if (subCategory.getCategoryName().equals(name)) {
+                        return category;
+                    }
                 }
             }
         }
