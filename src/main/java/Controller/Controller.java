@@ -1,8 +1,10 @@
 package Controller;
 
 import Model.Account.*;
+import Model.Application.Application;
+import Model.Application.ApplicationType;
+import Model.Application.CreatAccountApplication;
 import Model.Good.Characteristic;
-import View.Menus.CreatAccountMenu;
 
 import java.util.ArrayList;
 
@@ -30,8 +32,8 @@ public class Controller {
         return currentUser;
     }
 
-    public static void sendCreatAccountApplication(ArrayList<String> input ){
-        coreManager.addApplication(new Application( input , ApplicationType.CREAT_ACCOUNT ));
+    public static void sendCreatAccountApplication(String userName , String name , String lastName , String email , String phoneNumber , String password , Role role ){
+        Manager.addApplication(new CreatAccountApplication( ApplicationType.CREAT_ACCOUNT , userName, name, lastName, email, phoneNumber, password, role ));
     }
 
     public static void setCurrentAccount(Account account) {

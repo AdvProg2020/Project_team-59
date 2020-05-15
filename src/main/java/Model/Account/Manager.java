@@ -1,5 +1,6 @@
 package Model.Account;
 
+import Model.Application.Application;
 import Model.Discount.OffTicket;
 import Model.Good.Category;
 import Model.Good.Characteristic;
@@ -96,7 +97,7 @@ public class Manager extends Account{
         return null;
     }
 
-    public void addApplication( Application application ){
+    public static void addApplication( Application application ){
         applications.add( application );
     }
 

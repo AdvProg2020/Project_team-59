@@ -6,23 +6,24 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Sale {
-    private String saleId;
+    private static int idCounter = 0;
+    private int saleId;
     private ArrayList<Good> inSaleGoods;
     private SaleState saleState;
     private Date startingDate;
     private Date endingDate;
     private double offPercent;
 
-    public Sale(String saleId, ArrayList<Good> inSaleGoods, SaleState saleState, Date startingDate, Date endingDate, double offPercent) {
-        this.saleId = saleId;
+    public Sale( ArrayList<Good> inSaleGoods , Date startingDate, Date endingDate, double offPercent) {
+        this.saleId = idCounter++;
         this.inSaleGoods = inSaleGoods;
-        this.saleState = saleState;
+        this.saleState = SaleState.PENDING;
         this.startingDate = startingDate;
         this.endingDate = endingDate;
         this.offPercent = offPercent;
     }
 
-    public String getSaleId() {
+    public int getSaleId() {
         return saleId;
     }
 

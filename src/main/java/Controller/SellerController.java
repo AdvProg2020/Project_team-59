@@ -1,6 +1,12 @@
 package Controller;
 
+import Model.Application.Application;
+import Model.Application.ApplicationType;
+import Model.Account.Manager;
 import Model.Account.Seller;
+import Model.Application.CreatAccountApplication;
+import Model.Application.CreatSaleApplication;
+import Model.Discount.Sale;
 import Model.Discount.SaleState;
 import Model.Good.Category;
 import Model.Good.Characteristic;
@@ -25,16 +31,12 @@ public class SellerController extends AccountController {
         return loggedInSeller;
     }
 
-    public void addSale(String saleId, ArrayList<Good> inSaleGoods, SaleState saleState, Date startingDate, Date endingDate, double offPercent ){
-        //TODO sends new application to manager
+    public static void sendCreatSaleApplication(ArrayList<Good> inSaleGoods, SaleState saleState, Date startingDate, Date endingDate, double offPercent ){
+        Manager.addApplication(new CreatSaleApplication( ApplicationType.CREAT_SALE , inSaleGoods , SaleState.PENDING , startingDate , endingDate , offPercent ));
     }
 
     public void editSale(){
         //TODO sends application to manager for editing sale
-    }
-
-    public void viewSales(){
-        //TODO shows all sales
     }
 
     public void removeProduct(){
@@ -53,8 +55,17 @@ public class SellerController extends AccountController {
         //TODO prints all buyers of a product
     }
 
-    public void viewSellersSales(){
-        //TODO prints all sellers sales
+    public static ArrayList<Sale> getSellersSales(Seller seller){
+        return seller.getSaleList();
+    }
+
+    public static Sale getSellersSale(Seller seller , String saleId) throws Exception{
+        for (Sale sale : seller.getSaleList()) {
+            if(Integer.toString(sale.getSaleId()).equals(saleId)){
+                return sale;
+            }
+        }
+        throw new Exception("this sale either does not exist, or is not this sellers sale");
     }
 
     public void viewSalesHistory(){

@@ -1,8 +1,8 @@
-package Model.Account;
+package Model.Application;
 
 import java.util.ArrayList;
 
-public class Application {
+public abstract class Application {
     private static int requestNumber = 0;
     private int requestId;
     private ArrayList<String> requestDescription;
@@ -17,19 +17,14 @@ public class Application {
         return applicationType;
     }
 
-    public Application( ArrayList<String> requestDescription , ApplicationType applicationType) {
+    public Application( ApplicationType applicationType) {
         this.requestId = requestNumber++;
-        this.requestDescription = requestDescription;
         this.applicationState = ApplicationState.TO_BE_APPROVED;
         this.applicationType = applicationType;
     }
 
     public int getRequestId() {
         return requestId;
-    }
-
-    public ArrayList<String> getRequestDescription() {
-        return requestDescription;
     }
 
     public ApplicationState getApplicationState() {

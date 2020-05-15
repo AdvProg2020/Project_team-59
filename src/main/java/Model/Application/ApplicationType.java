@@ -1,5 +1,6 @@
-package Model.Account;
+package Model.Application;
 
 public enum ApplicationType {
     CREAT_ACCOUNT,
+    CREAT_SALE
 }

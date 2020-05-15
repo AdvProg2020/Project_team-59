@@ -16,6 +16,7 @@ public class CreatAccountMenu extends Menu{
     private String email;
     private String phoneNumber;
     private String passWord;
+    private Role role;
 
     public CreatAccountMenu(Menu menu) {
         this.headMenu = menu;
@@ -32,9 +33,9 @@ public class CreatAccountMenu extends Menu{
             headMenu.run();
         }
         else{
-            this.username = input[2];
-            getUserInformation();
-            Controller.sendCreatAccountApplication(new ArrayList<>(Arrays.asList(this.username, name, lastName, email, phoneNumber, passWord, input[2])));
+            this.username = input[3];
+            getUserInformation(input[2]);
+            Controller.sendCreatAccountApplication(this.username, name, lastName, email, phoneNumber, passWord, this.role );
         }
     }
 
@@ -43,8 +44,13 @@ public class CreatAccountMenu extends Menu{
         Controller.creatAdmin( new AccountInformation( this.username , this.name , this.lastName , this.email , this.phoneNumber , this.passWord ) );
     }
 
-    public void getUserInformation(){
-
+    public void getUserInformation(String roleType){
+        if(roleType.toLowerCase().equals("buyer")){
+            this.role = Role.BUYER;
+        }
+        else{
+            this.role = Role.SELLER;
+        }
         getUserPassword();
         getUserName();
         getUserLastName();
