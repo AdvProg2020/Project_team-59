@@ -53,4 +53,13 @@ public class Category {
     public ArrayList<Good> getGoodsInCategory() {
         return goodsInCategory;
     }
+
+    public Characteristic getCategoryCharacteristicByTitle(String characteristicTitle) throws Exception{
+        for (Characteristic characteristic : this.characteristics) {
+            if(characteristic.getCharacteristicName().equals(characteristicTitle)){
+                return characteristic;
+            }
+        }
+        throw new Exception("characteristic with this title does not exist");
+    }
 }

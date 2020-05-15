@@ -30,6 +30,15 @@ public class Manager extends Account{
         return null;
     }
 
+    public static Good getGoodByName(String productName) throws Exception{
+        for (Good good : allGoodsList) {
+            if(good.getProductName().equals(productName)){
+                return good;
+            }
+        }
+        throw new Exception("no good exists with this name");
+    }
+
     public static ArrayList<Category> getCategoryList() {
         return categoryList;
     }
@@ -104,5 +113,11 @@ public class Manager extends Account{
         categoryList.add( new Category(categoryName , characteristics , goodsInCategory) );
     }
 
+    public static boolean goodExistsInCategory(Category category , Good good) throws Exception{
+        if(category.getGoodsInCategory().contains(good)){
+            return true;
+        }
+        throw new Exception("good does not exist in parent category");
+    }
 
 }

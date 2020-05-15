@@ -84,31 +84,20 @@ public class ManagerController extends AccountController{
         //TODO
     }
 
-    public void manageCategories(){
-        //TODO check if account is manager then allow it to use methods
-    }
-
-    public void editCategory( String categoryName ){
-        //TODO enables manager to edit category
-    }
-
-    public void addCategory(String categoryName, ArrayList<Characteristic> characteristics, Category parentCategory, ArrayList<Good> goodsInCategory ){
-        //TODO manager creat's new category
+    public static void addSubCategory(String categoryName, ArrayList<Characteristic> characteristics, Category parentCategory, ArrayList<Good> goodsInCategory ){
+        parentCategory.getSubCategories().add(new Category(categoryName , characteristics , goodsInCategory));
     }
 
     public static void removeCategory(String categoryName) throws Exception {
         Category category = Manager.getCategoryByName(categoryName);
-        if ( category != null ){
-            Manager.getCategoryList().remove(category);
-        }
-        else{
-            removeSubCategory(categoryName);
-        }
+        Manager.getCategoryList().remove(category);
     }
 
-    private static void removeSubCategory(String subCategoryName) throws Exception {
+    public static void removeSubCategory(String subCategoryName) throws Exception {
         Category category = Manager.getCategoryOfSubCategoryByName(subCategoryName);
-        category.getSubCategories().removeIf(subCategory -> subCategory.getCategoryName().equals(subCategoryName));
+        if (category != null) {
+            category.getSubCategories().removeIf(subCategory -> subCategory.getCategoryName().equals(subCategoryName));
+        }
         throw new Exception("no category with such name");
     }
 

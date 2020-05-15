@@ -93,13 +93,80 @@ public class ManagerView extends Menu{
         else if ( managerRequest.equals(ManagerRequest.REMOVE_PRODUCT_FROM_CATEGORY)){
             removeProductFromCategory(category , inputSplit[2]);
         }
+        else if ( managerRequest.equals(ManagerRequest.ADD_SUBCATEGORY)){
+            addSubCategory( category , inputSplit[2]);
+        }
+        else if ( managerRequest.equals(ManagerRequest.REMOVE_SUBCATEGORY)){
+            removeSubCategory(inputSplit[2]);
+        }
         else{
             manageCategoryHelp();
         }
     }
 
+    private void removeSubCategory(String subcategoryName){
+        try{
+            ManagerController.removeSubCategory(subcategoryName);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    private void addSubCategory(Category parentCategory , String subCategoryName){
+        if (Manager.categoryExists(subCategoryName)){
+            System.out.println("category already exists with this name.");
+            return;
+        }
+        ArrayList<Characteristic> categoryCharacteristics = getSubCategoryCharacteristics(parentCategory);
+        ArrayList<Good> categoryGoods = getSubCategoryGoods(parentCategory);
+        ManagerController.addSubCategory(subCategoryName , categoryCharacteristics , parentCategory , categoryGoods );
+    }
+    public ArrayList<Good> getSubCategoryGoods(Category category){
+        ArrayList<Good> categoryGoods = new ArrayList<>();
+        String goodsName;
+        do{
+            System.out.println("please enter goods name from parent category");
+            goodsName = Menu.getInputFromUser().trim();
+            try {
+                if (Manager.goodExistsInCategory(category, Manager.getGoodByName(goodsName))){
+                    categoryGoods.add((Manager.getGoodByName(goodsName)));
+                }
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            System.out.println("if you want to add another product, enter Y or y, any other input ends this part");
+            goodsName = Menu.getInputFromUser();
+        }while(goodsName.trim().equalsIgnoreCase("y"));
+        return categoryGoods;
+    }
+
+    public ArrayList<Characteristic> getSubCategoryCharacteristics(Category category){
+        ArrayList<Characteristic> categoryCharacteristics = new ArrayList<>();
+        String title;
+        do{
+            try {
+                category.addCharacteristics(getSubCategoryCharacteristicFromUser(category));
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+            System.out.println("if you want to add another one, enter Y or y, any other input ends this part");
+            title = Menu.getInputFromUser();
+        }while(title.trim().equalsIgnoreCase("y"));
+        return categoryCharacteristics;
+    }
+
+    private Characteristic getSubCategoryCharacteristicFromUser(Category category) throws Exception{
+        System.out.println("enter parentCategory characteristic title");
+        String title = Menu.getInputFromUser().trim();
+        return category.getCategoryCharacteristicByTitle(title);
+    }
+
     private void manageCategoryHelp(){
-        System.out.println("add characteristic\n"+ "remove characteristic\n" + "add product [productId]\n" + "remove product [productId]\n" + "change name to [new name]");
+        System.out.println("add characteristic\n"+ "remove characteristic\n" + "add product [productId]\n" + "remove product [productId]\n" + "change name to [new name]" + "add subcategory [subcategory name]" + "remove subcategory [subcategory name]");
     }
 
     private void addProductToCategory(Category category , String productId){
@@ -158,6 +225,9 @@ public class ManagerView extends Menu{
         }
         else if ( command.startsWith("add product")){
             managerRequest = ManagerRequest.ADD_CHARACTERISTIC;
+        }
+        else if ( command.startsWith("add subcategory")){
+            managerRequest = ManagerRequest.ADD_SUBCATEGORY;
         }
         else{
             managerRequest = ManagerRequest.MANAGE_CATEGORY_HELP;
