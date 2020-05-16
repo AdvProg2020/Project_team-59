@@ -1,5 +1,6 @@
 package Model.Discount;
 
+import Model.Account.Seller;
 import Model.Good.Good;
 
 import java.util.ArrayList;
@@ -13,14 +14,16 @@ public class Sale {
     private Date startingDate;
     private Date endingDate;
     private double offPercent;
+    private Seller seller;
 
-    public Sale( ArrayList<Good> inSaleGoods , Date startingDate, Date endingDate, double offPercent) {
+    public Sale( ArrayList<Good> inSaleGoods , Date startingDate, Date endingDate, double offPercent , Seller seller ) {
         this.saleId = idCounter++;
         this.inSaleGoods = inSaleGoods;
         this.saleState = SaleState.PENDING;
         this.startingDate = startingDate;
         this.endingDate = endingDate;
         this.offPercent = offPercent;
+        this.seller = seller;
     }
 
     public int getSaleId() {

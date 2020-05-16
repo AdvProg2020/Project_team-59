@@ -12,17 +12,20 @@ import View.Requests.UserRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class SellerView extends Menu{
     private Seller seller;
     private SellerRequest sellerRequest;
     private UserRequest userRequest;
+    private SellerController sellerController;
 
 
-    public SellerView(Menu menu , Seller seller) {
+    public SellerView(Menu menu , Seller seller , SellerController sellerController) {
         this.headMenu = menu;
         this.seller = seller;
+        this.sellerController = sellerController;
     }
 
     public void run(){
@@ -48,12 +51,16 @@ public class SellerView extends Menu{
         String input;
         do{
             input = Menu.getInputFromUser();
-            getViewSalesRequestType(input.trim().toLowerCase());
-            callViewSalesFunctionAccordingToRequestType(input.trim());
+            try {
+                getViewSalesRequestType(input.trim().toLowerCase());
+                callViewSalesFunctionAccordingToRequestType(input.trim());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }while(!input.trim().equalsIgnoreCase("back"));
     }
 
-    private void getViewSalesRequestType(String command){
+    private void getViewSalesRequestType(String command) throws Exception{
         if( command.startsWith("view")){
             sellerRequest = SellerRequest.VIEW_SALE;
         }
@@ -63,8 +70,14 @@ public class SellerView extends Menu{
         else if ( command.equals("add off")){
             sellerRequest = SellerRequest.ADD_SALE;
         }
-        else{
+        else if ( command.equals("help")){
             sellerRequest = SellerRequest.VIEW_SALE_HELP;
+        }
+        else if (command.equals("back") ){
+            sellerRequest = SellerRequest.GO_BACK;
+        }
+        else{
+            throw new Exception("command not found");
         }
     }
 
@@ -76,6 +89,128 @@ public class SellerView extends Menu{
         else if ( sellerRequest.equals(SellerRequest.ADD_SALE)){
             addSaleWithExceptionHandler();
         }
+        else if ( sellerRequest.equals(SellerRequest.GO_BACK)){
+            goBack();
+        }
+        else if ( sellerRequest.equals(SellerRequest.VIEW_SALE_HELP)){
+            viewSaleHelp();
+        }
+        else if ( sellerRequest.equals((SellerRequest.EDIT_SALE))){
+            getEditSaleInformation(inputSplit[1]);
+        }
+    }
+
+    private void goBack(){
+
+    }
+
+    private void getEditSaleInformation(String saleId){
+        String input;
+        try {
+            Sale sale = Manager.getSaleByID(saleId);
+            do{
+                input = Menu.getInputFromUser().trim();
+                getEditSaleRequestType(input.toLowerCase());
+                callEditSaleFunctionAccordingToRequestType(input , sale);
+            }while (!input.toLowerCase().equals("back"));
+        }
+        catch (Exception e){
+            System.out.println("sale not found");
+        }
+    }
+
+    private void getEditSaleRequestType(String command){
+        if(command.equals("help")){
+            sellerRequest = SellerRequest.EDIT_SALE_HELP;
+        }
+        else if (command.startsWith("starting date")){
+            sellerRequest = SellerRequest.EDIT_STARTING_DATE;
+        }
+        else if(command.startsWith("off percent")){
+            sellerRequest = SellerRequest.EDIT_SALES_OFF_PERCENT;
+        }
+        else if (command.startsWith("add products")){
+            sellerRequest = SellerRequest.ADD_PRODUCTS_TO_OFF;
+        }
+        else if (command.startsWith("remove products")){
+            sellerRequest = SellerRequest.REMOVE_PRODUCTS_FROM_OFF;
+        }
+    }
+
+    private void callEditSaleFunctionAccordingToRequestType(String input , Sale sale){
+        String[] inputSplit = input.split(" ");
+        if ( sellerRequest.equals(SellerRequest.EDIT_SALE_HELP)){
+            editSaleHelp();
+        }
+        else if ( sellerRequest.equals(SellerRequest.EDIT_STARTING_DATE)){
+            editStartingDate(inputSplit[2] , sale);
+        }
+        else if ( sellerRequest.equals(SellerRequest.EDIT_ENDING_DATE)){
+            editEndingDate(inputSplit[2] , sale);
+        }
+        else if ( sellerRequest.equals(SellerRequest.EDIT_SALES_OFF_PERCENT)){
+            editSalesOffPercent(inputSplit[2] );
+        }
+        else if ( sellerRequest.equals(SellerRequest.ADD_PRODUCTS_TO_OFF)){
+            addProductsToSale(new ArrayList<>(Arrays.asList(inputSplit)) , sale);
+        }
+        else if ( sellerRequest.equals(SellerRequest.REMOVE_PRODUCTS_FROM_OFF)){
+            removeProductsFromOff(new ArrayList<>(Arrays.asList(inputSplit)) , sale);
+        }
+    }
+
+    private void removeProductsFromOff(ArrayList<String> productIds , Sale sale){
+        productIds.remove(0);
+        productIds.remove(0);
+        try {
+            this.sellerController.removeGoodsFromSaleApplication(productIds , sale);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void addProductsToSale(ArrayList<String> productIds , Sale sale){
+        productIds.remove(0);
+        productIds.remove(0);
+        try {
+            this.sellerController.addGoodsToSaleApplication(productIds , sale);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void editSalesOffPercent(String newOffPercent ){
+        try {
+            this.sellerController.setNewOffPercent(newOffPercent );
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void editEndingDate(String newDate , Sale sale){
+        try{
+            this.sellerController.setNewEndingDate(newDate , sale);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void editStartingDate(String newDate , Sale sale){
+        try{
+            this.sellerController.setNewStartingDate(newDate , sale);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void editSaleHelp(){
+        System.out.println("first type the field you want to edit, then enter whats needed :\n" + "starting date [new starting date]\n" + "ending date [new ending date\n" + "off percent [new off percent\n" + "add products [productId1] [productId2] ...\n" + "remove products [productId1] ...");
+    }
+
+    private void viewSaleHelp(){
+        System.out.println("view [offId]\n" + "edit [offId]\n" + "add off");
     }
 
     public void addSaleWithExceptionHandler(){
@@ -93,7 +228,7 @@ public class SellerView extends Menu{
 
         //TODO check local date and compare it to system date
 
-        if( startingDate.compareTo(endingDate) < 0 || startingDate.compareTo(endingDate)== 0 ){
+        if( (startingDate.compareTo(endingDate) < 0 || startingDate.compareTo(endingDate)== 0) && (startingDate.compareTo(new Date())) < 0 && (endingDate.compareTo(new Date()) > 0) ){
             throw new Exception("this sale would never happen, please try again from beginning");
         }
         ArrayList<Good> inSaleGoods = getInSaleGoods();

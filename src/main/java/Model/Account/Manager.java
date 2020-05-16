@@ -2,6 +2,7 @@ package Model.Account;
 
 import Model.Application.Application;
 import Model.Discount.OffTicket;
+import Model.Discount.Sale;
 import Model.Good.Category;
 import Model.Good.Characteristic;
 import Model.Good.Good;
@@ -15,6 +16,7 @@ public class Manager extends Account{
     private static ArrayList<Good> allGoodsList = new ArrayList<>();
     private static ArrayList<Application> applications = new ArrayList<>();
     private static ArrayList<Manager> allManagers = new ArrayList<>();
+    private static ArrayList<Sale> allSales = new ArrayList<>();
 
     public Manager(AccountInformation accountInformation, Role role) {
         super(accountInformation, Role.MANAGER);
@@ -95,6 +97,26 @@ public class Manager extends Account{
             }
         }
         return null;
+    }
+
+    public static void addSale(Sale sale){
+        allSales.add(sale);
+    }
+
+    public static Sale getSaleByID(String idAsString) throws Exception{
+        int id;
+        try {
+            id = Integer.parseInt(idAsString);
+        }
+        catch (Exception e){
+            throw new Exception("id has invalid format");
+        }
+        for (Sale sale : allSales) {
+            if(sale.getSaleId() == id){
+                return sale;
+            }
+        }
+        throw new Exception("sale not fount with this id");
     }
 
     public static void addApplication( Application application ){
