@@ -14,8 +14,7 @@ public class OffTicket {
     private int timesCanBeUsed;
     private ArrayList<Account> accountsInvolved;
 
-    public OffTicket(String offTicketId, Date startingDate, Date endingDate, double offPercent, double offAmount, int timesCanBeUsed, ArrayList<Account> accountsInvolved) {
-        this.offTicketId = offTicketId;
+    public OffTicket( Date startingDate, Date endingDate, double offPercent, double offAmount, int timesCanBeUsed, ArrayList<Account> accountsInvolved) {
         this.startingDate = startingDate;
         this.endingDate = endingDate;
         this.offPercent = offPercent;
