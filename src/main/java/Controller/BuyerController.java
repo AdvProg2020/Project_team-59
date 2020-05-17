@@ -57,8 +57,8 @@ public class BuyerController extends AccountController{
         //TODO shows buyer's cart goods // not sure
     }
 
-    public void purchase(){
-        //TODO buyer purchases...
+    public static void purchase( Buyer buyer , double totalPrice){
+        buyer.setBalance(buyer.getBalance() - totalPrice);
     }
 
     public void showTotalPrice(){

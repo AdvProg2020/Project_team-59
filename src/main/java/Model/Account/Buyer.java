@@ -24,6 +24,14 @@ public class Buyer extends Account {
         return buyLog;
     }
 
+    public double getCartValue(){
+        double totalPrice = 0;
+        for (Good good : cart.keySet()) {
+            totalPrice += good.getPrice()*cart.get(good);
+        }
+        return totalPrice;
+    }
+
     public void addProduct(Good good){
         cart.put(good , 1);
     }

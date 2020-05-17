@@ -109,7 +109,7 @@ public class CreatAccountMenu extends Menu{
         int flag = 0;
         do {
             if( flag == 1 ){
-                System.out.println("in with galaxy, phone numbers have characters you said?");
+                System.out.println("in which galaxy, phone numbers have characters you said?");
             }
             flag = 1;
             System.out.println("please enter your phone number");

@@ -1,12 +1,13 @@
 package Controller;
 
 import Model.Account.*;
-import Model.Application.Application;
 import Model.Application.ApplicationType;
 import Model.Application.CreatAccountApplication;
+import Model.Discount.OffTicket;
 import Model.Good.Characteristic;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Controller {
     private static Manager coreManager;
@@ -34,6 +35,33 @@ public class Controller {
 
     public static void sendCreatAccountApplication(String userName , String name , String lastName , String email , String phoneNumber , String password , Role role ){
         Manager.addApplication(new CreatAccountApplication( ApplicationType.CREAT_ACCOUNT , userName, name, lastName, email, phoneNumber, password, role ));
+    }
+
+    public static double useOffTicket(String offTicketId , Buyer buyer)throws Exception{
+        OffTicket offTicket;
+        for (OffTicket temporaryOffTicket : buyer.getOffTickets()) {
+            if(temporaryOffTicket.getOffTicketId().equals(offTicketId)){
+                offTicket = temporaryOffTicket;
+                return useOffThicketIfPossible(buyer , offTicket);
+            }
+            else{
+                throw new Exception("you dont owe such off ticket");
+            }
+        }
+        return buyer.getCartValue();
+    }
+
+    public static double useOffThicketIfPossible(Buyer buyer , OffTicket offTicket) throws Exception{
+        if(offTicket.getEndingDate().compareTo(new Date()) < 0){
+            throw new Exception("off ticket is expired");
+        }
+        else if(offTicket.getTimesCanBeUsed() < 1){
+            throw new Exception("no more usages are available for this off ticket");
+        }
+        else {
+            offTicket.setTimesCanBeUsed(offTicket.getTimesCanBeUsed()-1);
+            return (1 - (offTicket.getOffAmount() / 100)) * buyer.getCartValue();
+        }
     }
 
     public static void setCurrentAccount(Account account) {
