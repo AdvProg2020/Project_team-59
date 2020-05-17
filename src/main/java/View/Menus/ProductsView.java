@@ -1,5 +1,6 @@
 package View.Menus;
 
+import Controller.Controller;
 import View.Requests.UserRequest;
 
 public class ProductsView extends Menu{
@@ -11,20 +12,33 @@ public class ProductsView extends Menu{
 
     public void run(){
         String input;
-        while(true){
+        do{
             input = Menu.getInputFromUser();
             getRequestType(input.trim().toLowerCase());
             callAppropriateUserFunction(input);
 
-        }
+        }while(!input.trim().equalsIgnoreCase("back"));
     }
 
     private void callAppropriateUserFunction( String input ){
         if ( userRequest.equals(UserRequest.CREAT_ACCOUNT) ){
             new CreatAccountMenu(this).run(input.split(" "));
         }
-        if ( userRequest.equals(UserRequest.LOG_IN) ){
-            new LogInView(this).run(input.split(" "));
+       else if ( userRequest.equals(UserRequest.LOG_IN) ){
+            new LogInView(this , true).run(input.split(" "));
+        }
+       else if ( userRequest.equals(UserRequest.PURCHASE)){
+            purchase();
+        }
+    }
+
+    private void purchase(){
+        try {
+            Controller.purchase();
+        }
+        catch ( Exception e ){
+            System.out.println(e.getMessage());
+            new LogInView(this , true);
         }
     }
 
@@ -35,6 +49,9 @@ public class ProductsView extends Menu{
         }
         else if ( command.startsWith("login")){
             userRequest = UserRequest.LOG_IN;
+        }
+        else if ( command.equals("purchase")){
+            userRequest = UserRequest.PURCHASE;
         }
     }
 

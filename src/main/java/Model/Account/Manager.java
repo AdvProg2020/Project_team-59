@@ -24,13 +24,13 @@ public class Manager extends Account{
         accountList.add(this);
     }
 
-    public static Account getAccountByUsername(String username){
+    public static Account getAccountByUsername(String username) throws Exception{
         for (Account account : accountList) {
             if (account.getAccountInformation().getUsername().equals(username)){
                 return account;
             }
         }
-        return null;
+        throw new Exception("user not found with this username");
     }
 
     public static Good getGoodByName(String productName) throws Exception{

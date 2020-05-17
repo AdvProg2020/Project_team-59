@@ -22,10 +22,10 @@ public class SellerView extends Menu{
     private SellerController sellerController;
 
 
-    public SellerView(Menu menu , Seller seller , SellerController sellerController) {
+    public SellerView(Menu menu , Seller seller ) {
         this.headMenu = menu;
         this.seller = seller;
-        this.sellerController = sellerController;
+        this.sellerController = new SellerController(seller);
     }
 
     public void run(){

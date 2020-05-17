@@ -5,6 +5,8 @@ import Model.Application.ApplicationType;
 import Model.Application.CreatAccountApplication;
 import Model.Discount.OffTicket;
 import Model.Good.Characteristic;
+import View.Menus.BuyerView;
+import View.Menus.LogInView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +29,18 @@ public class Controller {
     public static void creatAdmin( AccountInformation accountInformation ){
         coreManager = new Manager( accountInformation , Role.MANAGER );
         currentUser = new User();
+    }
+
+    public static void purchase() throws Exception{
+        if(currentAccount == null){
+            throw new Exception("you must log in first in order to purchase");
+        }
+        if(!(currentAccount instanceof Buyer)){
+            throw new Exception("only buyer accounts can purchase");
+        }
+        else {
+            new BuyerView(null, (Buyer) currentAccount);
+        }
     }
 
     public static User getCurrentUser() {
@@ -69,7 +83,7 @@ public class Controller {
     }
 
     public static boolean usernameExists(String username){
-        return Manager.getAccountByUsername(username) != null;
+        return true;
     }
 
     public static void terminator(){

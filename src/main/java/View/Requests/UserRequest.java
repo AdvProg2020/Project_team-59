@@ -27,5 +27,6 @@ public enum UserRequest {
     OPEN_ACCOUNTS_PAGE,
     VIEW_ACCOUNT_INFO,
     EDIT_ACCOUNT_INFO,
+    PURCHASE,
     HELP
     }

@@ -9,25 +9,31 @@ import View.Requests.UserRequest;
 
 public class LogInView extends Menu{
     private UserRequest userRequest;
+    private boolean purchaseIsHappening;
 
-    public LogInView(Menu menu) {
+    public LogInView(Menu menu , boolean purchaseIsHappening) {
         this.headMenu = menu;
+        this.purchaseIsHappening = purchaseIsHappening;
     }
 
     public void run( String[] splitInput ){
+        try {
         if ( !Controller.usernameExists(splitInput[1]) ){
             System.out.println("no user with such username exists");
             this.headMenu.run();
         }
         System.out.println("please enter your password: ");
-        Account account = Manager.getAccountByUsername(splitInput[1]);
         String input = Menu.getInputFromUser();
-        if ( account.passwordIsCorrect(input) ){
-            goToAccountsPage(account);
+            Account account = Manager.getAccountByUsername(splitInput[1]);
+            if (account.passwordIsCorrect(input)) {
+                goToAccountsPage(account);
+            } else {
+                System.out.println("password is incorrect");
+                this.headMenu.run();
+            }
         }
-        else{
-            System.out.println("password is incorrect");
-            this.headMenu.run();
+        catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -35,10 +41,13 @@ public class LogInView extends Menu{
         Controller.setCurrentAccount(account);
         if ( account instanceof Buyer ){
             addUserCartToAccount( account );
-            new BuyerView( this.headMenu ).run();
+            if(!purchaseIsHappening){
+                new BuyerView(this.headMenu , (Buyer)account).run();
+            }
+            purchaseIsHappening = false;
         }
         else if ( account instanceof Seller){
-            new SellerView( this.headMenu ).run();
+            new SellerView( this.headMenu , (Seller) account ).run();
         }
         else {
             new ManagerView( this.headMenu ).run();
