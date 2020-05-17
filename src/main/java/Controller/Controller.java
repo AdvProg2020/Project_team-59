@@ -74,7 +74,11 @@ public class Controller {
         }
         else {
             offTicket.setTimesCanBeUsed(offTicket.getTimesCanBeUsed()-1);
-            return (1 - (offTicket.getOffAmount() / 100)) * buyer.getCartValue();
+            double totalValue = (1 - (offTicket.getOffAmount() / 100)) * buyer.getCartValue();
+            if(offTicket.getOffAmount() >= (offTicket.getOffAmount() / 100) * buyer.getCartValue()){
+                return totalValue;
+            }
+            return buyer.getCartValue()-offTicket.getOffAmount();
         }
     }
 
