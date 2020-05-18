@@ -88,6 +88,33 @@ public class ProductMenu extends Menu{
         else if (userRequest.equals(UserRequest.SHOW_COMMENTS)){
             showComments();
         }
+        else if (userRequest.equals(UserRequest.COMPARE)){
+            compare(inputSplit[1]);
+        }
+    }
+
+    private void compare(String goodID){
+        try {
+            Good goodToBEComparedWith = Manager.getGoodByIdForComparison(goodToBeShown, goodID);
+            int attributes = Math.min(goodToBeShown.getCharacteristics().size() , goodToBEComparedWith.getCharacteristics().size());
+            System.out.printf("%10s : %20s , %10s : %20s\n" , goodToBeShown.getProductName() + "attributes title" , goodToBeShown.getProductName() + "attributes explanation" , goodToBEComparedWith.getProductName() + "attributes title" , goodToBEComparedWith.getProductName() + "attributes explanation" );
+            for( int i = 0 ; i < attributes ; i++ ){
+                System.out.format("%10s : %20s , %10s : %20s\n" , goodToBeShown.getCharacteristics().get(i).getCharacteristicName() , goodToBeShown.getCharacteristics().get(i).getCharacteristicExplanation() , goodToBEComparedWith.getCharacteristics().get(i).getCharacteristicName() , goodToBEComparedWith.getCharacteristics().get(i).getCharacteristicExplanation());
+            }
+            if(goodToBeShown.getCharacteristics().size() == attributes){
+                for(int i = 0 ; i < goodToBEComparedWith.getCharacteristics().size() ; i++ ){
+                    System.out.printf("%10s : %20s , %10s : %20s\n" , "" , "" , goodToBEComparedWith.getCharacteristics().get(i).getCharacteristicName() , goodToBEComparedWith.getCharacteristics().get(i).getCharacteristicExplanation());
+                }
+            }
+            else{
+                for(int i = 0 ; i < goodToBeShown.getCharacteristics().size() ; i++ ){
+                    System.out.printf("%10s : %20s , %10s : %20s\n" , goodToBeShown.getCharacteristics().get(i).getCharacteristicName() , goodToBeShown.getCharacteristics().get(i).getCharacteristicExplanation() ,"" , "" );
+                }
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     private void showComments(){

@@ -15,11 +15,11 @@ public class MainMenu extends Menu{
 
     public void run(){
         String input;
-        while(true){
+        do{
             input = Menu.getInputFromUser();
             getRequestType(input.trim().toLowerCase());
             callAppropriateFunction( input );
-        }
+        }while(!input.trim().toLowerCase().equals("back"));
     }
 
     private void callAppropriateFunction( String input ){
@@ -27,7 +27,7 @@ public class MainMenu extends Menu{
             new CreatAccountMenu(this).run(input.split(" "));
         }
         if ( userRequest.equals(UserRequest.LOG_IN) ){
-            new LogInView(this).run(input.split(" "));
+            new LogInView(this , false).run(input.split(" "));
         }
     }
 

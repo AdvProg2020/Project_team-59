@@ -24,6 +24,15 @@ public class Manager extends Account{
         accountList.add(this);
     }
 
+    public static Good getGoodByIdForComparison(Good goodThatWeWantToCompareOtherGoodWith , String goodId) throws Exception{
+        for (Good good : goodThatWeWantToCompareOtherGoodWith.getCategory().getGoodsInCategory()) {
+            if(getGoodById(goodId).equals(good)){
+                return good;
+            }
+        }
+        throw new Exception("two products must be in same category");
+    }
+
     public static Account getAccountByUsername(String username) throws Exception{
         for (Account account : accountList) {
             if (account.getAccountInformation().getUsername().equals(username)){
