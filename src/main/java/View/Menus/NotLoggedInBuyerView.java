@@ -18,7 +18,7 @@ public class NotLoggedInBuyerView extends Menu{
             input = Menu.getInputFromUser();
             getRequestType(input.trim().toLowerCase());
             callAppropriateFunction( input );
-        }while(!input.trim().toLowerCase().equals("back"))
+        }while(!input.trim().toLowerCase().equals("back"));
     }
 
     private void callAppropriateFunction( String input ){
