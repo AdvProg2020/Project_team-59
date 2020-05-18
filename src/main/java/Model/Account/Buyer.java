@@ -57,6 +57,10 @@ public class Buyer extends Account {
         }
     }
 
+    public void addItemsToCart(HashMap<Good , Integer> inCartGoods){
+        cart.putAll(inCartGoods);
+    }
+
     public void decreaseGoodInCart( Good wantedGood ){
         for (Good good : cart.keySet()) {
             if ( wantedGood.equals(good) ){
@@ -74,7 +78,7 @@ public class Buyer extends Account {
         return null;
     }
 
-    public void addItemsToCart(Good good , int goodAmount){
+    public void addItemToCart(Good good , int goodAmount){
         this.cart.put(good , goodAmount);
     }
 }

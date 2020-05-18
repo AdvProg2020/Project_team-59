@@ -1,10 +1,10 @@
 package View.Menus;
 
 import Controller.BuyerController;
-import Model.Account.Account;
-import Model.Account.Buyer;
-import Model.Account.Manager;
-import Model.Account.Seller;
+import Controller.Controller;
+import Model.Account.*;
+import Model.Good.Characteristic;
+import Model.Good.Comment;
 import Model.Good.Good;
 import View.Requests.BuyerRequest;
 import View.Requests.UserRequest;
@@ -67,6 +67,12 @@ public class ProductMenu extends Menu{
         else if (command.startsWith("select seller")){
             userRequest = UserRequest.SELECT_SELLER;
         }
+        else if (command.equals("attributes")){
+            userRequest = UserRequest.SHOW_ATTRIBUTES;
+        }
+        else if (command.equals("Comments")){
+            userRequest = UserRequest.SHOW_COMMENTS;
+        }
     }
 
     private void callDigestAppropriateFunction(String[] inputSplit){
@@ -75,6 +81,66 @@ public class ProductMenu extends Menu{
         }
         else if (userRequest.equals(UserRequest.SELECT_SELLER)){
             selectSeller(inputSplit[2]);
+        }
+        else if (userRequest.equals(UserRequest.SHOW_ATTRIBUTES)){
+            printGoodAttributes();
+        }
+        else if (userRequest.equals(UserRequest.SHOW_COMMENTS)){
+            showComments();
+        }
+    }
+
+    private void showComments(){
+        for (Comment comment : goodToBeShown.getComments()) {
+            if(comment.hasBought(loggedInAccount , goodToBeShown)){
+                System.out.println( "title : " + comment.getTitle() + "verified purchase" + "\u2713" );
+            }
+            else{
+                System.out.println( "title : " + comment.getTitle() );
+            }
+            System.out.println( "content : " + comment.getContent());
+        }
+        String input;
+        do{
+            input = Menu.getInputFromUser();
+            getCommentRequest(input.trim().toLowerCase());
+            callCommentFunctionRequest();
+        }while(!input.equalsIgnoreCase("back"));
+    }
+
+    private void getCommentRequest(String command){
+        if(command.equals("Add comment")){
+            userRequest = UserRequest.ADD_COMMENT;
+        }
+        else if(!command.equals("back")){
+            userRequest = UserRequest.COMMENT_HELP;
+        }
+    }
+
+    private void callCommentFunctionRequest(){
+        if(userRequest.equals(UserRequest.ADD_COMMENT)){
+            addComment();
+        }
+    }
+
+    private void addComment(){
+        String title;
+        String content;
+        System.out.println("Please enter a title : ");
+        title = Menu.getInputFromUser();
+        System.out.println("Please enter the comment content : ");
+        content = Menu.getInputFromUser();
+        goodToBeShown.addComment(new Comment(goodToBeShown , loggedInAccount , title , content));
+    }
+
+    private void printGoodAttributes(){
+        System.out.println("category attributes : ");
+        for (Characteristic characteristic : goodToBeShown.getCategory().getCharacteristics()) {
+            System.out.println(characteristic.getCharacteristicName() + " , " + characteristic.getCharacteristicExplanation());
+        }
+        System.out.println("good attributes : ");
+        for (Characteristic characteristic : goodToBeShown.getCharacteristics()) {
+            System.out.println(characteristic.getCharacteristicName() + " , " + characteristic.getCharacteristicExplanation());
         }
     }
 

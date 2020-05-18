@@ -1,17 +1,21 @@
 package Model.Good;
 
+import Model.Account.Account;
 import Model.Account.Buyer;
+import Model.log.BuyLog;
 
 public class Comment {
-    private Buyer buyer;
+    private Account account;
     private Good good;
+    private String title;
+    private String content;
     private CommentState commentState;
-    private boolean hasBought;
 
-    public Comment( Good good, boolean hasBought , Buyer buyer ) {
-        this.buyer = buyer;
+    public Comment( Good good , Account account , String title , String content ) {
+        this.account = account;
         this.good = good;
-        this.hasBought = hasBought;
+        this.content = content;
+        this.title = title;
         commentState = CommentState.TO_BE_APPROVED;
     }
 
@@ -19,12 +23,16 @@ public class Comment {
         this.commentState = commentState;
     }
 
-    public void setHasBought(boolean hasBought) {
-        this.hasBought = hasBought;
+    public String getTitle() {
+        return title;
     }
 
-    public Buyer getBuyer() {
-        return buyer;
+    public String getContent() {
+        return content;
+    }
+
+    public Account getBuyer() {
+        return account;
     }
 
     public Good getGood() {
@@ -35,7 +43,17 @@ public class Comment {
         return commentState;
     }
 
-    public boolean isHasBought() {
-        return hasBought;
+    public boolean hasBought(Account account , Good good) {
+        if(account instanceof Buyer){
+            Buyer buyer = (Buyer) account;
+            for (BuyLog buyLog : buyer.getBuyLog()) {
+                for (Good boughtGood : buyLog.getGoodsExchanged()) {
+                    if(boughtGood.equals(good)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

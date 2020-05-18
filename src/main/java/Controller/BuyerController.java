@@ -34,7 +34,7 @@ public class BuyerController extends AccountController{
                 throw new Exception("you must select a seller from this products seller");
             }
             ((Buyer) account).addProduct(good , seller);
-            ((Buyer) account).addItemsToCart(good , amount);
+            ((Buyer) account).addItemToCart(good , amount);
         }
     }
 
