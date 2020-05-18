@@ -5,8 +5,7 @@ import Model.Application.ApplicationType;
 import Model.Application.CreatAccountApplication;
 import Model.Discount.OffTicket;
 import Model.Good.Characteristic;
-import View.Menus.BuyerView;
-import View.Menus.LogInView;
+import View.Menus.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,6 +44,23 @@ public class Controller {
 
     public static User getCurrentUser() {
         return currentUser;
+    }
+
+    public static void openAccountsPage(Menu menu) throws Exception{
+        if(currentAccount == null){
+            throw new Exception("you must first log in to an account");
+        }
+        else if(currentAccount instanceof Seller){
+            Seller seller = (Seller) currentAccount;
+            new SellerView(menu , seller);
+        }
+        else if(currentAccount instanceof Manager){
+            new ManagerView(menu);
+        }
+        else if(currentAccount instanceof Buyer){
+            Buyer buyer = (Buyer)currentAccount;
+            new BuyerView(menu , buyer);
+        }
     }
 
     public static void sendCreatAccountApplication(String userName , String name , String lastName , String email , String phoneNumber , String password , Role role ){
