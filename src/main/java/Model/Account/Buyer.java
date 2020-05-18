@@ -8,12 +8,14 @@ import java.util.HashMap;
 
 public class Buyer extends Account {
     private HashMap<Good , Integer> cart;
+    private HashMap<Good , Seller> cartSellers;
     private ArrayList<BuyLog> buyLog;
 
     public Buyer(AccountInformation accountInformation, Role role ) {
         super(accountInformation, role);
         this.cart = new HashMap<>();
         this.buyLog = new ArrayList<>();
+        this.cartSellers = new HashMap<>();
     }
 
     public HashMap<Good , Integer> getCart() {
@@ -32,8 +34,9 @@ public class Buyer extends Account {
         return totalPrice;
     }
 
-    public void addProduct(Good good){
+    public void addProduct(Good good , Seller seller){
         cart.put(good , 1);
+        cartSellers.put(good , seller);
     }
 
     public void removeProduct(Good wantedGood){
@@ -71,7 +74,7 @@ public class Buyer extends Account {
         return null;
     }
 
-    public void addItemsToCart(HashMap<Good , Integer> cartItems){
-        this.cart.putAll(cartItems);
+    public void addItemsToCart(Good good , int goodAmount){
+        this.cart.put(good , goodAmount);
     }
 }

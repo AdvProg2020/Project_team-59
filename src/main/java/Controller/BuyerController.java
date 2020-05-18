@@ -25,12 +25,17 @@ public class BuyerController extends AccountController{
         this.loggedInBuyer = loggedInBuyer;
     }
 
-    public void digest(Good good ){
-        //TODO prints good's related information and enables ability to add to cart and select seller
-    }
-
-    public void addToCart(Good good , Seller seller , int amount ){
-        //TODO adds to user/buyers cart with seller and amount
+    public static void addToCart(Account account , Good good , Seller seller , int amount )throws Exception{
+        if(account instanceof Buyer){
+            if(good.hasOtherSellersAvailable() && seller==null ){
+                throw new Exception("you must select a seller first");
+            }
+            else if ( good.sellerSellsThisGood(seller)){
+                throw new Exception("you must select a seller from this products seller");
+            }
+            ((Buyer) account).addProduct(good , seller);
+            ((Buyer) account).addItemsToCart(good , amount);
+        }
     }
 
     public void selectSeller( Good good ){

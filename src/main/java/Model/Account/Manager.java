@@ -33,6 +33,17 @@ public class Manager extends Account{
         throw new Exception("user not found with this username");
     }
 
+    public static Seller getSellerByUsername(String sellerUsername) throws Exception{
+        for (Account account : accountList) {
+            if(account instanceof Seller){
+                if(account.getAccountInformation().getUsername().equals(sellerUsername)){
+                    return (Seller)account;
+                }
+            }
+        }
+        throw new Exception("account this username either does not exist, or is not a seller");
+    }
+
     public static Good getGoodByName(String productName) throws Exception{
         for (Good good : allGoodsList) {
             if(good.getProductName().equals(productName)){
