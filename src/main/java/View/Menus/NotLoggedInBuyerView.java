@@ -14,11 +14,11 @@ public class NotLoggedInBuyerView extends Menu{
 
     public void run(){
         String input;
-        do{
+        while(true){
             input = Menu.getInputFromUser();
             getRequestType(input.trim().toLowerCase());
             callAppropriateFunction( input );
-        }while(!input.trim().toLowerCase().equals("back"));
+        }
     }
 
     private void callAppropriateFunction( String input ){
@@ -26,7 +26,8 @@ public class NotLoggedInBuyerView extends Menu{
             new CreatAccountMenu(this).run(input.split(" "));
         }
         if ( userRequest.equals(UserRequest.LOG_IN) ){
-            new LogInView(this , false).run(input.split(" "));
+            //eror dare
+           // new LogInView(this).run(input.split(" "));
         }
     }
 

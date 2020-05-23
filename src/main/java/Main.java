@@ -1,7 +1,6 @@
 import Controller.Controller;
 import Controller.ManagerController;
-import View.Menus.CreatAccountMenu;
-import View.Menus.MainMenu;
+import View.Menus.*;
 
 import java.io.File;
 
@@ -10,6 +9,7 @@ public class Main {
         Controller controller = new Controller();
         startProgram();
         new MainMenu( controller ).run();
+
     }
 
     public static void startProgram(){

@@ -2,6 +2,7 @@ package Controller;
 
 import Model.Account.AccountInformation;
 import Model.Account.Manager;
+import Model.Application.Application;
 import Model.Good.Category;
 import Model.Good.Characteristic;
 import Model.Good.Good;
@@ -23,6 +24,7 @@ public class ManagerController extends AccountController{
     public void setLoggedInManager(Manager loggedInManager) {
         this.loggedInManager = loggedInManager;
     }
+
 
     public void manageUsers(){
         //TODO check if account is manager then allow it to use methods
@@ -84,9 +86,9 @@ public class ManagerController extends AccountController{
         //TODO
     }
 
-    public static void addSubCategory(String categoryName, ArrayList<Characteristic> characteristics, Category parentCategory, ArrayList<Good> goodsInCategory ){
+    /*public static void addSubCategory(String categoryName, ArrayList<Characteristic> characteristics, Category parentCategory, ArrayList<Good> goodsInCategory ){
         parentCategory.getSubCategories().add(new Category(categoryName , characteristics , goodsInCategory));
-    }
+    }*/
 
     public static void removeCategory(String categoryName) throws Exception {
         Category category = Manager.getCategoryByName(categoryName);
@@ -101,17 +103,17 @@ public class ManagerController extends AccountController{
         throw new Exception("no category with such name");
     }
 
-    public static void addCharacteristicToCategory(Category category , Characteristic characteristic){
+    /*public static void addCharacteristicToCategory(Category category , Characteristic characteristic){
         category.addCharacteristics(characteristic);
-    }
+    }*/
 
-    public static void removeCharacteristicFromCategory(Category category , String characteristicTitle){
+    /*public static void removeCharacteristicFromCategory(Category category , String characteristicTitle){
         for (Characteristic characteristic : new ArrayList<>(category.getCharacteristics())) {
             if(characteristic.getCharacteristicName().equals(characteristicTitle)){
                 category.removeCharacteristics(characteristic);
             }
         }
-    }
+    }*/
 
     public static void changeCategoryName(Category category , String newName){
         category.setCategoryName(newName);

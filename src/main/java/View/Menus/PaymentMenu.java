@@ -1,11 +1,17 @@
 package View.Menus;
 
 import Controller.BuyerController;
+import Controller.Controller;
 import Model.Account.Buyer;
+import Model.Good.Good;
+
+import java.util.Collection;
 
 public class PaymentMenu extends Menu {
+    private static final Controller controller = Controller.getInstance();
     public PaymentMenu(Menu headMenu) {
         this.headMenu = headMenu;
+
     }
 
     public void run(double totalValue , Buyer buyer){

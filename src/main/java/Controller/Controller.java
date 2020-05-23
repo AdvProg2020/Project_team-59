@@ -1,14 +1,18 @@
 package Controller;
 
 import Model.Account.*;
+import Model.Application.Application;
 import Model.Application.ApplicationType;
 import Model.Application.CreatAccountApplication;
 import Model.Discount.OffTicket;
+import Model.Good.Category;
 import Model.Good.Characteristic;
-import View.Menus.*;
+import Model.Good.Comment;
+import Model.Good.Good;
+import View.Menus.BuyerView;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 
 public class Controller {
     private static Manager coreManager;
@@ -16,28 +20,34 @@ public class Controller {
     private static User currentUser;
     private boolean filteringIsPossible;//not sure
     private boolean hasDigestHappened;//not sure
+    private Application application;
+    private static Controller instance = new Controller();
 
     public Controller() {
+        application = Application.getInstance();
     }
 
-    public static void initializer(){
+    public static Controller getInstance() {
+        return instance;
+    }
+
+    public static void initializer() {
         //TODO initializes core manager
         //TODO sets up current user
     }
 
-    public static void creatAdmin( AccountInformation accountInformation ){
-        coreManager = new Manager( accountInformation , Role.MANAGER );
+    public static void creatAdmin(AccountInformation accountInformation) {
+        coreManager = new Manager(accountInformation, Role.MANAGER);
         currentUser = new User();
     }
 
-    public static void purchase() throws Exception{
-        if(currentAccount == null){
+    public static void purchase() throws Exception {
+        if (currentAccount == null) {
             throw new Exception("you must log in first in order to purchase");
         }
-        if(!(currentAccount instanceof Buyer)){
+        if (!(currentAccount instanceof Buyer)) {
             throw new Exception("only buyer accounts can purchase");
-        }
-        else {
+        } else {
             new BuyerView(null, (Buyer) currentAccount);
         }
     }
@@ -46,131 +56,309 @@ public class Controller {
         return currentUser;
     }
 
-    public static void openAccountsPage(Menu menu) throws Exception{
-        if(currentAccount == null){
-            throw new Exception("you must first log in to an account");
-        }
-        else if(currentAccount instanceof Seller){
-            Seller seller = (Seller) currentAccount;
-            new SellerView(menu , seller);
-        }
-        else if(currentAccount instanceof Manager){
-            new ManagerView(menu);
-        }
-        else if(currentAccount instanceof Buyer){
-            Buyer buyer = (Buyer)currentAccount;
-            new BuyerView(menu , buyer);
-        }
+    public static void sendCreatAccountApplication(String userName, String name, String lastName, String email, String phoneNumber, String password, Role role) {
+        Manager.addApplication(new CreatAccountApplication(ApplicationType.CREAT_ACCOUNT, userName, name, lastName, email, phoneNumber, password, role));
     }
 
-    public static void sendCreatAccountApplication(String userName , String name , String lastName , String email , String phoneNumber , String password , Role role ){
-        Manager.addApplication(new CreatAccountApplication( ApplicationType.CREAT_ACCOUNT , userName, name, lastName, email, phoneNumber, password, role ));
-    }
-
-    public static double useOffTicket(String offTicketId , Buyer buyer)throws Exception{
+    public static double useOffTicket(String offTicketId, Buyer buyer) throws Exception {
         OffTicket offTicket;
         for (OffTicket temporaryOffTicket : buyer.getOffTickets()) {
-            if(temporaryOffTicket.getOffTicketId().equals(offTicketId)){
+            if (temporaryOffTicket.getOffTicketId().equalsIgnoreCase(offTicketId)) {
                 offTicket = temporaryOffTicket;
-                return useOffThicketIfPossible(buyer , offTicket);
-            }
-            else{
+                return useOffThicketIfPossible(buyer, offTicket);
+            } else {
                 throw new Exception("you dont owe such off ticket");
             }
         }
         return buyer.getCartValue();
     }
 
-    public static double useOffThicketIfPossible(Buyer buyer , OffTicket offTicket) throws Exception{
-        if(offTicket.getEndingDate().compareTo(new Date()) < 0){
+    public static double useOffThicketIfPossible(Buyer buyer, OffTicket offTicket) throws Exception {
+        if (offTicket.getEndingDate().compareTo(new String()) < 0) {
             throw new Exception("off ticket is expired");
-        }
-        else if(offTicket.getTimesCanBeUsed() < 1){
+        } else if (offTicket.getTimesCanBeUsed() < 1) {
             throw new Exception("no more usages are available for this off ticket");
-        }
-        else {
-            offTicket.setTimesCanBeUsed(offTicket.getTimesCanBeUsed()-1);
+        } else {
+            offTicket.setTimesCanBeUsed(offTicket.getTimesCanBeUsed() - 1);
             double totalValue = (1 - (offTicket.getOffAmount() / 100)) * buyer.getCartValue();
-            if(offTicket.getOffAmount() >= (offTicket.getOffAmount() / 100) * buyer.getCartValue()){
+            if (offTicket.getOffAmount() >= (offTicket.getOffAmount() / 100) * buyer.getCartValue()) {
                 return totalValue;
             }
-            return buyer.getCartValue()-offTicket.getOffAmount();
+            return buyer.getCartValue() - offTicket.getOffAmount();
         }
+    }
+
+    public static Account getCurrentAccount() {
+        return currentAccount;
     }
 
     public static void setCurrentAccount(Account account) {
         currentAccount = account;
     }
 
-    public static boolean usernameExists(String username){
+    public static boolean usernameExists(String username) {
         return true;
     }
 
-    public static void terminator(){
+    public static void terminator() {
         //TODO terminates program by saving all data
     }
 
-    public void goToOffsPage(){
+    public void goToOffsPage() {
         //TODO opens offs page
     }
 
-    public void goToProductPage(){
+    public void goToProductPage() {
         //TODO opens products page
     }
 
-    public void showCategories(){
+    public void showCategories() {
         //TODO prints categories
     }
 
-    public void showProduct( String productId ){
+    public void showProduct(String productId) {
         //TODO opens products page and increase goods times visited
     }
 
-    public void showCurrentFilters(){
+    public void showCurrentFilters() {
         //TODO prints current filters
     }
 
-    public void filtering(){
+    public void filtering() {
         //TODO ?
     }
 
-    public void showAvailableFilters(){
+    public void showAvailableFilters() {
         //TODO prints possible filters
     }
 
-    public void filter(Characteristic characteristic){
+    public void filter(Characteristic characteristic) {
         //TODO filters by characteristic and adds it to filters
     }
 
-    public void disableFilter( Characteristic characteristic ){
+    public void disableFilter(Characteristic characteristic) {
         //TODO disables filter
     }
 
-    public void showCurrentSorts(){
+    public void showCurrentSorts() {
         //TODO prints currentSorts
     }
 
-    public void sorting(){
+    public void sorting() {
         //TODO ?
     }
 
-    public void showAvailableSorts(){
+    public void showAvailableSorts() {
         //TODO prints possible sorts
     }
 
-    public void sorter(Characteristic characteristic){
+    public void sorter(Characteristic characteristic) {
         //TODO sorts by characteristic
     }
 
-    public void disableSort( Characteristic characteristic ){
+    public void disableSort(Characteristic characteristic) {
         //TODO disables sort and resets it to "times visited"
     }
 
-    public void showProducts( ArrayList<Characteristic> filters , Characteristic sort ){
+    public void showProducts(ArrayList<Characteristic> filters, Characteristic sort) {
         //TODO filters then sorts then prints products
     }
 
-    public void viewProduct( String productId ){
+    public Collection<OffTicket> getoffTickets() {
+        return application.getOffTickets().values();
+    }
+
+    public Collection<Good> getgoods() {
+        return application.getGoods().values();
+    }
+
+
+    public void removeDiscount(String offTicketId) {
+        OffTicket offTicket = application.getOffTickets().get(offTicketId);
+        application.getOffTickets().remove(offTicket);
+    }
+
+    public Collection<ManagerRequest> getRequests() {
+        return application.getRequests().values();
+    }
+
+    public Collection<Category> getCategories() {
+        return application.getCategoories().values();
+    }
+
+    public Collection<User> getUsers() {
+        return application.getUsers().values();
+    }
+
+    public Collection<Account> getAccounts() {
+        return application.getAccounts().values();
+    }
+
+    public ManagerRequest viewRequest(String requestId) {
+        ManagerRequest managerRequest = application.getRequests().get(requestId);
+        return managerRequest;
+    }
+
+    public Collection<Comment> getcomments() {
+        return application.getComments().values();
+    }
+
+    public Good viewProduct(String productId) {
+        Good good = application.getGoods().get(productId);
+        return good;
         //TODO show product
     }
-}
+
+    public void removeProduct(Good product) {
+        application.getGoods().remove(product);
+
+    }
+
+    public void removeUser(Account account) {
+        application.getAccounts().remove(account);
+    }
+
+    public void removeCategory(Category category) {
+        application.getCategoories().remove(category);
+    }
+
+    public Category getCategory(String name) {
+        Category category = application.getCategoories().get(name);
+        return category;
+    }
+
+    public User getUser(String username) {
+        User user = application.getUsers().get(username);
+        return user;
+    }
+
+    public Account getAccount(String username) {
+        Account account = application.getAccounts().get(username);
+        return account;
+
+    }
+
+    public void addGood(Good good) {
+        application.getGoods().put(good.getProductId(), good);
+    }
+
+    public void addOffticket(OffTicket offTicket) {
+        application.getOffTickets().put(offTicket.getOffTicketId(), offTicket);
+    }
+
+    public void addComment(Comment comment, Good product) {
+        application.getComments().put(product, comment);
+    }
+
+    public void addAccounts(Account account) {
+        application.getAccounts().put(account.getAccountInformation().getUsername(), account);
+
+    }
+
+    public void addcategory(Category category) {
+        application.getCategoories().put(category.getCategoryName(), category);
+
+    }
+
+    public Good getGood(String productId) {
+        Good good = application.getGoods().get(productId);
+        return good;
+    }
+
+    public OffTicket getOffticket(String offticketId) {
+        OffTicket offTicket = application.getOffTickets().get(offticketId);
+        return offTicket;
+    }
+
+    public boolean checkNoDiscountCode(OffTicket offTicket) {
+        String offticketId = offTicket.getOffTicketId();
+        OffTicket offTicket1 = application.getOffTickets().get(offticketId);
+        if (offTicket1 == null)
+            return true;
+        else
+            return false;
+    }
+
+    public Collection<Good> sortbyPrice(Collection<Good> goods) {
+        ArrayList<Good> sorted=new ArrayList<>();
+        double max = 0;
+        while (true) {
+            max = 0;
+            if (goods.size()==0)
+                return sorted;
+            else {
+                for (Good product : goods) {
+                    if (product.getPrice() > max)
+                        max = product.getPrice();
+
+                }
+                for (Good product : goods) {
+                    if (product.getPrice() == max) {
+                        sorted.add(product);
+                        goods.remove(product);
+                    }
+
+                }
+            }
+
+
+        }
+
+    }
+    public Collection<Good>sortbyVisit(Collection<Good>goods){
+        ArrayList<Good> sorted=new ArrayList<>();
+        double max = 0;
+        while (true) {
+            max = 0;
+            if (goods.size()==0)
+                return sorted;
+            else {
+                for (Good product : goods) {
+                    if (product.getPrice() > max)
+                        max = product.getTimesVisited();
+
+                }
+                for (Good product : goods) {
+                    if (product.getTimesVisited() == max) {
+                        sorted.add(product);
+                        goods.remove(product);
+                    }
+
+                }
+            }
+
+
+        }
+    }
+    public Collection<Good> sortbypriceIn(Collection<Good> goods) {
+        ArrayList<Good> sorted=new ArrayList<>();
+        double min;
+        while (true) {
+            min = Double.MAX_VALUE;
+            if (goods.size()==0)
+                return sorted;
+            else {
+                for (Good product : goods) {
+                    if (product.getPrice() <min)
+                        min = product.getPrice();
+
+                }
+                for (Good good:goods) {
+                    if (good.getPrice() == min) {
+                        sorted.add(good);
+                        goods.remove(good);
+                    }
+
+                }
+            }
+
+
+        }
+    }
+
+}/*public boolean createDiscountCode(OffTicket offTicket){
+    String offticketId=offTicket.getOffTicketId();
+
+    application.getOffTickets().put(offticketId,offTicket);
+
+}*/

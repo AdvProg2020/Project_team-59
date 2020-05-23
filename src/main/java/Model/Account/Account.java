@@ -9,6 +9,11 @@ public abstract class Account {
     private Role role;
     private ArrayList<OffTicket> offTickets;
     private double balance;
+    private boolean isLogin;
+
+    public boolean isLogin() {
+        return isLogin;
+    }
 
     public Account(AccountInformation accountInformation, Role role) {
         this.accountInformation = accountInformation;
@@ -16,7 +21,11 @@ public abstract class Account {
         this.balance = 0;
     }
 
-    public boolean passwordIsCorrect( String password ){
+    public void setAccountInformation(AccountInformation accountInformation) {
+        this.accountInformation = accountInformation;
+    }
+
+    public boolean passwordIsCorrect(String password ){
         return this.accountInformation.getPassWord().equals(password);
     }
 

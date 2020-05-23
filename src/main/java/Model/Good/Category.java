@@ -4,14 +4,34 @@ import java.util.ArrayList;
 
 public class Category {
     private String categoryName;
-    private ArrayList<Characteristic> characteristics;
+    private String characteristics;
     private ArrayList<Category> subCategories;
     private ArrayList<Good> goodsInCategory;
+    private Category parentCategory;
 
-    public Category(String categoryName, ArrayList<Characteristic> characteristics , ArrayList<Good> goodsInCategory) {
+    public Category getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setSubCategories(ArrayList<Category> subCategories) {
+        this.subCategories = subCategories;
+    }
+
+    public void setGoodsInCategory(ArrayList<Good> goodsInCategory) {
+        this.goodsInCategory = goodsInCategory;
+    }
+
+    public void setParentCategory(Category parentCategory) {
+        this.parentCategory = parentCategory;
+    }
+
+    public Category(String categoryName, String characteristics, ArrayList<Category>subCategories , ArrayList<Good> goodsInCategory, Category parentCategory) {
         this.categoryName = categoryName;
         this.characteristics = characteristics;
         this.goodsInCategory = goodsInCategory;
+        this.subCategories=subCategories;
+        this.parentCategory=parentCategory;
+
     }
 
     public void setCategoryName(String categoryName) {
@@ -26,12 +46,9 @@ public class Category {
         return subCategories;
     }
 
-    public void addCharacteristics(Characteristic characteristic) {
-        this.characteristics.add(characteristic);
-    }
 
-    public void removeCharacteristics(Characteristic characteristic) {
-        this.characteristics.remove(characteristic);
+    public void setCharacteristics(String characteristics) {
+        this.characteristics = characteristics;
     }
 
     public void addGood(Good good) {
@@ -46,7 +63,7 @@ public class Category {
         return categoryName;
     }
 
-    public ArrayList<Characteristic> getCharacteristics() {
+    public String getCharacteristics() {
         return characteristics;
     }
 
@@ -54,12 +71,12 @@ public class Category {
         return goodsInCategory;
     }
 
-    public Characteristic getCategoryCharacteristicByTitle(String characteristicTitle) throws Exception{
+    /*public Characteristic getCategoryCharacteristicByTitle(String characteristicTitle) throws Exception{
         for (Characteristic characteristic : this.characteristics) {
             if(characteristic.getCharacteristicName().equals(characteristicTitle)){
                 return characteristic;
             }
         }
         throw new Exception("characteristic with this title does not exist");
-    }
+    }*/
 }
