@@ -3,11 +3,11 @@ package View.Menus;
 import View.Requests.BuyerRequest;
 import View.Requests.UserRequest;
 
-public class Productmenu extends Menu{
+public class ProductMenu extends Menu{
     private BuyerRequest buyerRequest;
     private UserRequest userRequest;
 
-    public Productmenu(Menu menu) {
+    public ProductMenu(Menu menu) {
         this.headMenu = menu;
     }
 
