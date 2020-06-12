@@ -6,32 +6,38 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class OffTicket {
+    private static int idCounter=0;
     private String offTicketId;
-    private Date startingDate;
-    private Date endingDate;
+    private String startingDate;
+    private String endingDate;
     private double offPercent;
     private double offAmount;
     private int timesCanBeUsed;
-    private ArrayList<Account> accountsInvolved;
+    private ArrayList<String> accountIdsInvolved;
 
-    public OffTicket( Date startingDate, Date endingDate, double offPercent, double offAmount, int timesCanBeUsed, ArrayList<Account> accountsInvolved) {
+    public OffTicket( String startingDate, String endingDate, double offPercent, double offAmount, int timesCanBeUsed, ArrayList<String> accountsInvolved) {
+        this.offTicketId=""+idCounter++;
         this.startingDate = startingDate;
         this.endingDate = endingDate;
         this.offPercent = offPercent;
         this.offAmount = offAmount;
         this.timesCanBeUsed = timesCanBeUsed;
-        this.accountsInvolved = accountsInvolved;
+        this.accountIdsInvolved = accountsInvolved;
     }
 
     public String getOffTicketId() {
         return offTicketId;
     }
 
-    public Date getStartingDate() {
+    public String getStartingDate() {
         return startingDate;
     }
 
-    public Date getEndingDate() {
+    public void setAccountIdsInvolved(ArrayList<String> accountIdsInvolved) {
+        this.accountIdsInvolved = accountIdsInvolved;
+    }
+
+    public String getEndingDate() {
         return endingDate;
     }
 
@@ -47,15 +53,15 @@ public class OffTicket {
         return timesCanBeUsed;
     }
 
-    public ArrayList<Account> getAccountsInvolved() {
-        return accountsInvolved;
+    public ArrayList<String> getAccountIdsInvolved() {
+        return accountIdsInvolved;
     }
 
-    public void setStartingDate(Date startingDate) {
+    public void setStartingDate(String startingDate) {
         this.startingDate = startingDate;
     }
 
-    public void setEndingDate(Date endingDate) {
+    public void setEndingDate(String endingDate) {
         this.endingDate = endingDate;
     }
 
@@ -71,11 +77,11 @@ public class OffTicket {
         this.timesCanBeUsed = timesCanBeUsed;
     }
 
-    public void addAccountInvolved(Account accountInvolved) {
-        this.accountsInvolved.add(accountInvolved);
+    public void addAccountInvolved(String accountInvolved) {
+        this.accountIdsInvolved.add(accountInvolved);
     }
 
-    public void removeAccountInvolved(Account accountInvolved) {
-        this.accountsInvolved.remove(accountInvolved);
+    public void removeAccountInvolved(String accountInvolved) {
+        this.accountIdsInvolved.remove(accountInvolved);
     }
 }

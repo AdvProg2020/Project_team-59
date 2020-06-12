@@ -3,6 +3,7 @@ package View.Menus;
 import Controller.Controller;
 import View.Requests.UserRequest;
 
+import java.util.ArrayList;
 
 public class MainMenu extends Menu{
     private UserRequest userRequest;
@@ -14,34 +15,20 @@ public class MainMenu extends Menu{
 
     public void run(){
         String input;
-        do{
+        while(true){
             input = Menu.getInputFromUser();
             getRequestType(input.trim().toLowerCase());
             callAppropriateFunction( input );
-        }while(!input.trim().toLowerCase().equals("back"));
+        }
     }
 
     private void callAppropriateFunction( String input ){
-        if (userRequest.equals(UserRequest.CREAT_ACCOUNT) ){
+        if ( userRequest.equals(UserRequest.CREAT_ACCOUNT) ){
             new CreatAccountMenu(this).run(input.split(" "));
         }
-        else if (userRequest.equals(UserRequest.LOG_IN) ){
-            new LogInView(this , false).run(input.split(" "));
-        }
-        else if (userRequest.equals(UserRequest.GO_TO_OFFS)){
-            new OffsView(this ).run();
-        }
-        else if (userRequest.equals(UserRequest.OPEN_ACCOUNTS_PAGE)){
-            openAccountsPage();
-        }
-    }
-
-    public void openAccountsPage(){
-        try {
-            Controller.openAccountsPage(this);
-        }
-        catch (Exception e){
-            new LogInView(this , false);
+        if ( userRequest.equals(UserRequest.LOG_IN) ){
+            //eror dare
+            //new LogInView(this).run(input.split(" "));
         }
     }
 
@@ -52,12 +39,6 @@ public class MainMenu extends Menu{
         }
         else if ( command.startsWith("login")){
             userRequest = UserRequest.LOG_IN;
-        }
-        else if ( command.equals("offs")){
-            userRequest = UserRequest.GO_TO_OFFS;
-        }
-        else if ( command.equals("go to accounts page")){
-            userRequest = UserRequest.OPEN_ACCOUNTS_PAGE;
         }
     }
 

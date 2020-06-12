@@ -6,6 +6,7 @@ import Model.Discount.Sale;
 import Model.Good.Category;
 import Model.Good.Characteristic;
 import Model.Good.Good;
+import View.Requests.ManagerRequest;
 
 import java.util.ArrayList;
 
@@ -14,23 +15,16 @@ public class Manager extends Account{
     private static  ArrayList<Account> accountList = new ArrayList<>();
     private static ArrayList<Category> categoryList = new ArrayList<>();
     private static ArrayList<Good> allGoodsList = new ArrayList<>();
+
     private static ArrayList<Application> applications = new ArrayList<>();
     private static ArrayList<Manager> allManagers = new ArrayList<>();
     private static ArrayList<Sale> allSales = new ArrayList<>();
+
 
     public Manager(AccountInformation accountInformation, Role role) {
         super(accountInformation, Role.MANAGER);
         allManagers.add(this);
         accountList.add(this);
-    }
-
-    public static Good getGoodByIdForComparison(Good goodThatWeWantToCompareOtherGoodWith , String goodId) throws Exception{
-        for (Good good : goodThatWeWantToCompareOtherGoodWith.getCategory().getGoodsInCategory()) {
-            if(getGoodById(goodId).equals(good)){
-                return good;
-            }
-        }
-        throw new Exception("two products must be in same category");
     }
 
     public static Account getAccountByUsername(String username) throws Exception{
@@ -40,17 +34,6 @@ public class Manager extends Account{
             }
         }
         throw new Exception("user not found with this username");
-    }
-
-    public static Seller getSellerByUsername(String sellerUsername) throws Exception{
-        for (Account account : accountList) {
-            if(account instanceof Seller){
-                if(account.getAccountInformation().getUsername().equals(sellerUsername)){
-                    return (Seller)account;
-                }
-            }
-        }
-        throw new Exception("account this username either does not exist, or is not a seller");
     }
 
     public static Good getGoodByName(String productName) throws Exception{
@@ -68,7 +51,7 @@ public class Manager extends Account{
 
     public static Good getGoodById(String productId) throws Exception{
         for (Good good : allGoodsList) {
-            if ( good.getProductId().equals(productId) ){
+            if ( good.getProductId().equalsIgnoreCase(productId) ){
                 return good;
             }
         }
@@ -85,7 +68,7 @@ public class Manager extends Account{
 
     public OffTicket getOffTicketById( String offTicketId ){
         for (OffTicket offTicket : offTicketList) {
-            if ( offTicket.getOffTicketId().equals(offTicketId) )
+            if ( offTicket.getOffTicketId().equalsIgnoreCase(offTicketId) )
                 return offTicket;
         }
         //TODO throw exception instead of down return statement
@@ -152,9 +135,9 @@ public class Manager extends Account{
         return false;
     }
 
-    public static void creatCategory(String categoryName, ArrayList<Characteristic> characteristics , ArrayList<Good> goodsInCategory){
+    /*public static void creatCategory(String categoryName, ArrayList<Characteristic> characteristics , ArrayList<Good> goodsInCategory){
         categoryList.add( new Category(categoryName , characteristics , goodsInCategory) );
-    }
+    }*/
 
     public static boolean goodExistsInCategory(Category category , Good good) throws Exception{
         if(category.getGoodsInCategory().contains(good)){

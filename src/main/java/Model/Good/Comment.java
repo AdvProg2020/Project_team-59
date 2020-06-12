@@ -1,59 +1,71 @@
 package Model.Good;
 
-import Model.Account.Account;
 import Model.Account.Buyer;
-import Model.log.BuyLog;
 
 public class Comment {
-    private Account account;
-    private Good good;
-    private String title;
     private String content;
-    private CommentState commentState;
+    private  String title;
 
-    public Comment( Good good , Account account , String title , String content ) {
-        this.account = account;
+    private Buyer buyer;
+    private Good good;
+    private CommentState commentState;
+    private boolean hasBought;
+
+    public Comment( Good good, boolean hasBought , Buyer buyer ) {
+        this.buyer = buyer;
         this.good = good;
-        this.content = content;
-        this.title = title;
+        this.hasBought = hasBought;
         commentState = CommentState.TO_BE_APPROVED;
     }
-
+    public Comment(String title,String content){
+        this.title=title;
+        this.content=content;
+    }
     public void setCommentState(CommentState commentState) {
         this.commentState = commentState;
     }
 
-    public String getTitle() {
-        return title;
+    public void setHasBought(boolean hasBought) {
+        this.hasBought = hasBought;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public Account getBuyer() {
-        return account;
+    public Buyer getBuyer() {
+        return buyer;
     }
 
     public Good getGood() {
         return good;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setBuyer(Buyer buyer) {
+        this.buyer = buyer;
+    }
+
+    public void setGood(Good good) {
+        this.good = good;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     public CommentState getCommentState() {
         return commentState;
     }
 
-    public boolean hasBought(Account account , Good good) {
-        if(account instanceof Buyer){
-            Buyer buyer = (Buyer) account;
-            for (BuyLog buyLog : buyer.getBuyLog()) {
-                for (Good boughtGood : buyLog.getGoodsExchanged()) {
-                    if(boughtGood.equals(good)){
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    public boolean isHasBought() {
+        return hasBought;
     }
 }

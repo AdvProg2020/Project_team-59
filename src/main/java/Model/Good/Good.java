@@ -4,54 +4,40 @@ import Model.Account.Seller;
 
 import java.util.ArrayList;
 
-
 public class Good {
+    private static int idCounter=0;
+
     private String productId;
+
     private ProductState productState;
     private boolean isAvailable;
     private ArrayList<Seller> sellers;
     private double price;
     private String productName;
     private Category category;
-    private Category subCategory;
-    private String goodDescription;
-    private ArrayList<Characteristic> characteristics;
+    private double averageRate;
+    private String characteristics;
     private ArrayList<Rating> ratings;
     private ArrayList<Comment> comments;
     private int timesVisited;
+    private double offpercent;
 
-    public Good(String productId, String productName, String goodDescription , Category category, Category subCategory, ArrayList<Characteristic> characteristics) {
-        this.productId = productId;
+    public Good( String productName,double price, String characteristics , ArrayList<Seller>sellers ,ArrayList<Comment>comments) {
+        this.productId = ""+idCounter++;
         this.productName = productName;
-        this.goodDescription = goodDescription;
-        this.category = category;
-        this.subCategory = subCategory;
+        this.price=price;
         this.characteristics = characteristics;
         this.timesVisited = 0;
+        this.isAvailable=true;
+        this.productState=ProductState.TO_BE_CREATED;
+        this.averageRate=0;
+        this.sellers=sellers;
+        this.comments=new ArrayList<>();
+        this.comments=comments;
     }
 
-    public double getAverageRating(){
-        double scoreSum = 0;
-        for (Rating rating : this.ratings) {
-            scoreSum += rating.getRating();
-        }
-        return  Math.floor((scoreSum/ratings.size()) * 100) / 100;
-    }
-
-    public boolean hasOtherSellersAvailable(){
-        return sellers.size() >= 2;
-    }
-
-    public boolean sellerSellsThisGood(Seller seller){
-        return this.sellers.contains(seller);
-    }
-
-    public String getGoodDescription() {
-        return goodDescription;
-    }
-
-    public int getTimesVisited() {
-        return timesVisited;
+    public void setOffpercent(double offpercent) {
+        this.offpercent = offpercent;
     }
 
     public void setPrice(double price) {
@@ -66,12 +52,17 @@ public class Good {
         this.ratings.add(rating);
     }
 
-    public void addComment(Comment comment){
-        this.comments.add(comment);
+
+    public int getTimesVisited() {
+        return timesVisited;
     }
 
-    public void addCharacteristic(Characteristic characteristic){
-        this.characteristics.add(characteristic);
+    public double getAverageRate() {
+        return averageRate;
+    }
+
+    public double getOffpercent() {
+        return offpercent;
     }
 
     public String getProductId() {
@@ -102,11 +93,9 @@ public class Good {
         return category;
     }
 
-    public Category getSubCategory() {
-        return subCategory;
-    }
 
-    public ArrayList<Characteristic> getCharacteristics() {
+
+    public String getCharacteristics() {
         return characteristics;
     }
 
