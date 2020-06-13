@@ -1,9 +1,9 @@
 package Controller;
 
 import Model.Account.*;
-import Model.Application.Application;
+import Model.Application.Request;
 import Model.Application.ApplicationType;
-import Model.Application.CreatAccountApplication;
+import Model.Application.CreatAccountRequest;
 import Model.Discount.OffTicket;
 import Model.Good.Category;
 import Model.Good.Characteristic;
@@ -11,8 +11,10 @@ import Model.Good.Comment;
 import Model.Good.Good;
 import View.Menus.BuyerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class Controller {
     private static Manager coreManager;
@@ -20,11 +22,11 @@ public class Controller {
     private static User currentUser;
     private boolean filteringIsPossible;//not sure
     private boolean hasDigestHappened;//not sure
-    private Application application;
+    private Request request;
     private static Controller instance = new Controller();
 
     public Controller() {
-        application = Application.getInstance();
+        request = Request.getInstance();
     }
 
     public static Controller getInstance() {
@@ -57,7 +59,7 @@ public class Controller {
     }
 
     public static void sendCreatAccountApplication(String userName, String name, String lastName, String email, String phoneNumber, String password, Role role) {
-        Manager.addApplication(new CreatAccountApplication(ApplicationType.CREAT_ACCOUNT, userName, name, lastName, email, phoneNumber, password, role));
+        Manager.addApplication(new CreatAccountRequest(ApplicationType.CREAT_ACCOUNT, userName, name, lastName, email, phoneNumber, password, role));
     }
 
     public static double useOffTicket(String offTicketId, Buyer buyer) throws Exception {
@@ -74,7 +76,9 @@ public class Controller {
     }
 
     public static double useOffThicketIfPossible(Buyer buyer, OffTicket offTicket) throws Exception {
-        if (offTicket.getEndingDate().compareTo(new String()) < 0) {
+        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date1 = sdformat.parse(offTicket.getEndingDate());
+        if (date1.compareTo(new Date()) < 0) {
             throw new Exception("off ticket is expired");
         } else if (offTicket.getTimesCanBeUsed() < 1) {
             throw new Exception("no more usages are available for this off ticket");
@@ -165,123 +169,113 @@ public class Controller {
     }
 
     public Collection<OffTicket> getoffTickets() {
-        return application.getOffTickets().values();
+        return request.getOffTickets().values();
     }
 
     public Collection<Good> getgoods() {
-        return application.getGoods().values();
+        return request.getGoods().values();
     }
 
 
     public void removeDiscount(String offTicketId) {
-        OffTicket offTicket = application.getOffTickets().get(offTicketId);
-        application.getOffTickets().remove(offTicket);
+        OffTicket offTicket = request.getOffTickets().get(offTicketId);
+        request.getOffTickets().remove(offTicket);
     }
 
     public Collection<ManagerRequest> getRequests() {
-        return application.getRequests().values();
+        return request.getRequests().values();
     }
 
     public Collection<Category> getCategories() {
-        return application.getCategoories().values();
+        return request.getCategoories().values();
     }
 
     public Collection<User> getUsers() {
-        return application.getUsers().values();
+        return request.getUsers().values();
     }
 
     public Collection<Account> getAccounts() {
-        return application.getAccounts().values();
+        return request.getAccounts().values();
     }
 
     public ManagerRequest viewRequest(String requestId) {
-        ManagerRequest managerRequest = application.getRequests().get(requestId);
-        return managerRequest;
+        return request.getRequests().get(requestId);
     }
 
     public Collection<Comment> getcomments() {
-        return application.getComments().values();
+        return request.getComments().values();
     }
 
     public Good viewProduct(String productId) {
-        Good good = application.getGoods().get(productId);
-        return good;
+        return request.getGoods().get(productId);
         //TODO show product
     }
 
     public void removeProduct(Good product) {
-        application.getGoods().remove(product);
+        request.getGoods().remove(product);
 
     }
 
     public void removeUser(Account account) {
-        application.getAccounts().remove(account);
+        request.getAccounts().remove(account);
     }
 
     public void removeCategory(Category category) {
-        application.getCategoories().remove(category);
+        request.getCategoories().remove(category);
     }
 
     public Category getCategory(String name) {
-        Category category = application.getCategoories().get(name);
-        return category;
+        return request.getCategoories().get(name);
     }
 
     public User getUser(String username) {
-        User user = application.getUsers().get(username);
-        return user;
+        return request.getUsers().get(username);
     }
 
     public Account getAccount(String username) {
-        Account account = application.getAccounts().get(username);
-        return account;
+        return request.getAccounts().get(username);
 
     }
 
     public void addGood(Good good) {
-        application.getGoods().put(good.getProductId(), good);
+        request.getGoods().put(good.getProductId(), good);
     }
 
     public void addOffticket(OffTicket offTicket) {
-        application.getOffTickets().put(offTicket.getOffTicketId(), offTicket);
+        request.getOffTickets().put(offTicket.getOffTicketId(), offTicket);
     }
 
     public void addComment(Comment comment, Good product) {
-        application.getComments().put(product, comment);
+        request.getComments().put(product, comment);
     }
 
     public void addAccounts(Account account) {
-        application.getAccounts().put(account.getAccountInformation().getUsername(), account);
+        request.getAccounts().put(account.getAccountInformation().getUsername(), account);
 
     }
 
     public void addcategory(Category category) {
-        application.getCategoories().put(category.getCategoryName(), category);
+        request.getCategoories().put(category.getCategoryName(), category);
 
     }
 
     public Good getGood(String productId) {
-        Good good = application.getGoods().get(productId);
-        return good;
+        return request.getGoods().get(productId);
     }
 
     public OffTicket getOffticket(String offticketId) {
-        OffTicket offTicket = application.getOffTickets().get(offticketId);
-        return offTicket;
+        return request.getOffTickets().get(offticketId);
     }
 
     public boolean checkNoDiscountCode(OffTicket offTicket) {
         String offticketId = offTicket.getOffTicketId();
-        OffTicket offTicket1 = application.getOffTickets().get(offticketId);
-        if (offTicket1 == null)
-            return true;
-        else
-            return false;
+        OffTicket offTicket1 = request.getOffTickets().get(offticketId);
+        return offTicket1 == null;
     }
 
     public Collection<Good> sortbyPrice(Collection<Good> goods) {
         ArrayList<Good> sorted=new ArrayList<>();
-        double max = 0;
+        double max;
         while (true) {
             max = 0;
             if (goods.size()==0)
@@ -307,7 +301,7 @@ public class Controller {
     }
     public Collection<Good>sortbyVisit(Collection<Good>goods){
         ArrayList<Good> sorted=new ArrayList<>();
-        double max = 0;
+        double max;
         while (true) {
             max = 0;
             if (goods.size()==0)

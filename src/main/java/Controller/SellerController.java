@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class SellerController extends AccountController {
     private Seller loggedInSeller;
-    private Application application;
+    private Request request;
 
     public SellerController(Seller loggedInSeller) {
         super(loggedInSeller);
@@ -32,11 +32,11 @@ public class SellerController extends AccountController {
     }
 
     public static void sendCreatSaleApplication(ArrayList<Good> inSaleGoods, SaleState saleState, Date startingDate, Date endingDate, double offPercent ){
-        Manager.addApplication(new CreatSaleApplication( ApplicationType.CREAT_SALE , inSaleGoods , SaleState.PENDING , startingDate , endingDate , offPercent ));
+        Manager.addApplication(new CreatSaleRequest( ApplicationType.CREAT_SALE , inSaleGoods , SaleState.PENDING , startingDate , endingDate , offPercent ));
     }
 
     public void editSale( String saleId )throws Exception{
-        this.application = new EditSaleApplication(Manager.getSaleByID(saleId));
+        this.request = new EditSaleRequest(Manager.getSaleByID(saleId));
     }
 
     public void setNewStartingDate(String newStartingDateAsString , Sale sale) throws Exception {
@@ -51,7 +51,7 @@ public class SellerController extends AccountController {
                 throw new Exception("starting date must be after current date");
             }
             else {
-                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
+                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
                 editSaleApplication.setNewStartingDate(newStartingDate);
             }
         } catch (ParseException e) {
@@ -71,7 +71,7 @@ public class SellerController extends AccountController {
                 throw new Exception("ending date must happen after current starting date");
             }
             else{
-                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
+                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
                 editSaleApplication.setNewEndingDate(newEndingDate);
             }
         } catch (ParseException e) {
@@ -84,7 +84,7 @@ public class SellerController extends AccountController {
         try {
             newOffPercent = Double.parseDouble(newOffPercentAsString);
             if(newOffPercent > 0 && newOffPercent < 100){
-                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
+                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
                 editSaleApplication.setNewOffPercent(newOffPercent);
             }
         } catch (NumberFormatException ignore) {
@@ -103,7 +103,7 @@ public class SellerController extends AccountController {
                 throw new Exception("sale already contains this good aka : " + good.getProductName() );
             }
             else{
-                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
+                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
                 editSaleApplication.getGoodsToBeAdded().add(good);
             }
         }
@@ -117,7 +117,7 @@ public class SellerController extends AccountController {
                 throw new Exception("sale already does not contain this good aka : " + good.getProductName() );
             }
             else{
-                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
+                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
                 editSaleApplication.getGoodsToBeRemoved().add(good);
             }
         }

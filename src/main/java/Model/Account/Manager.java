@@ -1,12 +1,10 @@
 package Model.Account;
 
-import Model.Application.Application;
+import Model.Application.Request;
 import Model.Discount.OffTicket;
 import Model.Discount.Sale;
 import Model.Good.Category;
-import Model.Good.Characteristic;
 import Model.Good.Good;
-import View.Requests.ManagerRequest;
 
 import java.util.ArrayList;
 
@@ -16,7 +14,7 @@ public class Manager extends Account{
     private static ArrayList<Category> categoryList = new ArrayList<>();
     private static ArrayList<Good> allGoodsList = new ArrayList<>();
 
-    private static ArrayList<Application> applications = new ArrayList<>();
+    private static ArrayList<Request> requests = new ArrayList<>();
     private static ArrayList<Manager> allManagers = new ArrayList<>();
     private static ArrayList<Sale> allSales = new ArrayList<>();
 
@@ -122,8 +120,8 @@ public class Manager extends Account{
         throw new Exception("sale not fount with this id");
     }
 
-    public static void addApplication( Application application ){
-        applications.add( application );
+    public static void addApplication( Request request){
+        requests.add(request);
     }
 
     public static boolean categoryExists(String categoryName){
