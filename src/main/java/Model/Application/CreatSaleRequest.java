@@ -6,14 +6,14 @@ import Model.Good.Good;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CreatSaleApplication extends Application{
+public class CreatSaleRequest extends Request {
     private ArrayList<Good> inSaleGoods;
     private SaleState saleState;
     private Date startingDate;
     private Date endingDate;
     private double offPercent;
 
-    public CreatSaleApplication(ApplicationType applicationType, ArrayList<Good> inSaleGoods, SaleState saleState, Date startingDate, Date endingDate, double offPercent) {
+    public CreatSaleRequest(ApplicationType applicationType, ArrayList<Good> inSaleGoods, SaleState saleState, Date startingDate, Date endingDate, double offPercent) {
         super(applicationType);
         this.inSaleGoods = inSaleGoods;
         this.saleState = saleState;

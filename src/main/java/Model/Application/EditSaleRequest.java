@@ -6,7 +6,7 @@ import Model.Good.Good;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class EditSaleApplication extends Application{
+public class EditSaleRequest extends Request {
     private Sale sale;
     private Date newStartingDate;
     private Date newEndingDate;
@@ -14,7 +14,7 @@ public class EditSaleApplication extends Application{
     private ArrayList<Good> goodsToBeAdded;
     private double newOffPercent;
 
-    public EditSaleApplication(Sale sale) {
+    public EditSaleRequest(Sale sale) {
         super(ApplicationType.EDIT_OFF);
         this.sale = sale;
         goodsToBeAdded = new ArrayList<>();
