@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import View.Menus.CreatAccountMenu;
+
 public class ManagerView extends Menu {
     private ManagerRequest managerRequest;
     private UserRequest userRequest;
@@ -343,11 +344,7 @@ public class ManagerView extends Menu {
     private static void printpersonalInfo(){
         Account account=controller.getCurrentAccount();
 
-        System.out.print("+-----------+----------+-------+------+-----------+--------------+\n");
-        System.out.print("| user name | password | email | name | last name | phone number |\n");
-        System.out.print("+-----------+----------+-------+------+-----------+--------------+\n");
-        System.out.format("| %-10s | %-8s | %-5s | %-4s | %-9s | %-12s | ", account.getAccountInformation().getUsername(), account.getAccountInformation().getPassWord(),account.getAccountInformation().getEmail(),account.getAccountInformation().getName(),account.getAccountInformation().getLastname(),account.getAccountInformation().getPhoneNumber());
-        System.out.println("+-----------+----------+-------+------+-----------+--------------+");
+        PrintStatus(account);
 
     }
 
@@ -384,14 +381,19 @@ public class ManagerView extends Menu {
         if (account==null)
             System.out.println("this username is invalid");
         else {
-            System.out.print("+-----------+----------+-------+------+-----------+--------------+\n");
-            System.out.print("| user name | password | email | name | last name | phone number |\n");
-            System.out.print("+-----------+----------+-------+------+-----------+--------------+\n");
-            System.out.format("| %-10s | %-8s | %-5s | %-4s | %-9s | %-12s | ", account.getAccountInformation().getUsername(), account.getAccountInformation().getPassWord(),account.getAccountInformation().getEmail(),account.getAccountInformation().getName(),account.getAccountInformation().getLastname(),account.getAccountInformation().getPhoneNumber());
-            System.out.println("+-----------+----------+-------+------+-----------+--------------+");
+            PrintStatus(account);
         }
 
     }
+
+    private static void PrintStatus(Account account) {
+        System.out.print("+-----------+----------+-------+------+-----------+--------------+\n");
+        System.out.print("| user name | password | email | name | last name | phone number |\n");
+        System.out.print("+-----------+----------+-------+------+-----------+--------------+\n");
+        System.out.format("| %-10s | %-8s | %-5s | %-4s | %-9s | %-12s | ", account.getAccountInformation().getUsername(), account.getAccountInformation().getPassWord(),account.getAccountInformation().getEmail(),account.getAccountInformation().getName(),account.getAccountInformation().getLastname(),account.getAccountInformation().getPhoneNumber());
+        System.out.println("+-----------+----------+-------+------+-----------+--------------+");
+    }
+
     private static void editField(String field){
 
 
@@ -641,8 +643,7 @@ public class ManagerView extends Menu {
                 System.out.print("+---------------+------------+------------+-------------+------------+------------------+\n");
                 System.out.print("| Off Ticket Id |  starting  |   ending   | off percent | off amount | times Can Be use |\n");
                 System.out.print("+---------------+------------+------------+-------------+------------+------------------+\n");
-                System.out.format("| %-13s | %-10s | %-10s | %-11.2f | %-10.2f | %-16d | ", offTicket.getOffTicketId(), offTicket.getStartingDate(), offTicket.getEndingDate(), offTicket.getOffPercent(), offTicket.getOffAmount(), offTicket.getTimesCanBeUsed());
-                System.out.println("");
+                System.out.format("| %-13s | %-10s | %-10s | %-11.2f | %-10.2f | %-16d | \n", offTicket.getOffTicketId(), offTicket.getStartingDate(), offTicket.getEndingDate(), offTicket.getOffPercent(), offTicket.getOffAmount(), offTicket.getTimesCanBeUsed() );
                 System.out.println("+---------------+------------+------------+-------------+------------+------------------+");
                 break;
             }
@@ -664,7 +665,7 @@ public class ManagerView extends Menu {
         double offamount = scanner.nextDouble();
         System.out.print("times can be use : ");
         int times = scanner.nextInt();
-        ArrayList<String> accountIds = new ArrayList<String>();
+        ArrayList<String> accountIds = new ArrayList<>();
         Account account;
         System.out.println("enter accountId that can use this off,when finish press \"ok\"");
         String accountId="" ;
@@ -707,6 +708,7 @@ public class ManagerView extends Menu {
         offTickets.remove(offTicket);
         System.out.println("REMOVE DONE");
     }
+
     public static void acceptRequest(String requestId){
         Model.Account.ManagerRequest request = controller.viewRequest(requestId);
         if (request==null)
