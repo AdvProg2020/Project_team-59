@@ -1,5 +1,7 @@
 package View.GUIMenu;
 
+import Controller.Controller;
+import Model.Account.Manager;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,15 +16,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.lang.invoke.VarHandle;
 import java.net.URL;
 
-public class LoginAndSignUp extends MenuGUI {
+public class RegistraitionMenuGUI extends MenuGUI {
 
     //private URL cssFile = getClass().getResource("/Users/imanalipour/Documents/programming/java/AP-Project2020-team-59-git/src/main/resources/CssFiles/LoginMenu.css");
 
-    public LoginAndSignUp(Stage window, MenuGUI menu) {
+    public RegistraitionMenuGUI(Stage window, MenuGUI menu) {
         super(window);
-        window.setTitle("Login");
+        window.setTitle("Register");
 
         BorderPane bp = new BorderPane();
         bp.setPadding(new Insets(10,50,50,50));
@@ -39,19 +42,77 @@ public class LoginAndSignUp extends MenuGUI {
         final TextField txtUserName = new TextField();
         Label lblPassword = new Label("Password");
         final PasswordField pf = new PasswordField();
-        Button btnLogin = new Button("Login");
+
+        Label name = new Label("Name");
+        final TextField txtName = new TextField();
+        Label lastName = new Label("Last name");
+        final TextField txtLastName = new TextField();
+        Label companyInformation = new Label("Company Information");
+        final TextField txtCompanyInformation = new TextField();
+
+        Label email = new Label("Email");
+        final TextField txtEmail = new TextField();
+        Label lblNumber = new Label("PhoneNumber");
+        final TextField txtNumber = new TextField();
+
+        Label role = new Label("Role");
+        ComboBox<String> choiceBox = new ComboBox<>();
+        choiceBox.getItems().addAll("Buyer", "Seller");
+        choiceBox.setValue("Buyer");
+        if(Controller.getCurrentAccount() instanceof Manager){
+            choiceBox.setValue("Admin");
+            choiceBox.setDisable(true);
+        }
+
+        Button btnLogin = new Button("Register");
         final Label lblMessage = new Label();
-        Hyperlink linkToRegistrationMenu = new Hyperlink("Or Register");
-        linkToRegistrationMenu.setOnAction(e -> new RegistraitionMenuGUI(window, menu).display());
+        Hyperlink linkToRegistrationMenu = new Hyperlink("Or Login");
+        linkToRegistrationMenu.setOnAction(e -> new LoginAndSignUp(window, menu).display());
 
         gridPane.add(lblUserName, 0, 0);
         gridPane.add(txtUserName, 1, 0);
         gridPane.add(lblPassword, 0, 1);
         gridPane.add(pf, 1, 1);
-        gridPane.add(btnLogin, 2, 1);
-        gridPane.add(lblMessage, 1, 2);
-        gridPane.add(linkToRegistrationMenu, 2, 2);
 
+        gridPane.add(name, 0, 2);
+        gridPane.add(txtName, 1, 2);
+        gridPane.add(lastName, 0, 3);
+        gridPane.add(txtLastName, 1, 3);
+
+        gridPane.add(email, 0, 4);
+        gridPane.add(txtEmail, 1, 4);
+        gridPane.add(lblNumber, 0, 5);
+        gridPane.add(txtNumber, 1, 5);
+
+        gridPane.add(btnLogin, 2, 7);
+        gridPane.add(lblMessage, 1, 8);
+        gridPane.add(linkToRegistrationMenu, 2, 8);
+
+        choiceBox.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            if(newValue.equals("Seller")){
+
+                gridPane.getChildren().remove(linkToRegistrationMenu);
+                gridPane.getChildren().remove(btnLogin);
+
+                gridPane.add(companyInformation, 0, 7);
+                gridPane.add(txtCompanyInformation, 1, 7);
+
+                gridPane.add(btnLogin, 2, 8);
+                gridPane.add(linkToRegistrationMenu, 2, 9);
+
+            }
+            else if (!newValue.equals("Seller")){
+                gridPane.getChildren().remove(companyInformation);
+                gridPane.getChildren().remove(txtCompanyInformation);
+                gridPane.getChildren().remove(linkToRegistrationMenu);
+                gridPane.getChildren().remove(btnLogin);
+
+                gridPane.add(btnLogin, 2, 7);
+                gridPane.add(linkToRegistrationMenu, 2, 8);
+            }
+        });
+
+        gridPane.add(choiceBox, 0, 6);
 
         Reflection r = new Reflection();
         r.setFraction(0.7f);
@@ -61,7 +122,7 @@ public class LoginAndSignUp extends MenuGUI {
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        Text text = new Text("Login page");
+        Text text = new Text("Registration page");
         text.setFont(Font.font("Courier New", FontWeight.BOLD, 28));
         text.setEffect(dropShadow);
 
@@ -85,7 +146,7 @@ public class LoginAndSignUp extends MenuGUI {
         bp.setTop(hb);
         bp.setCenter(gridPane);
 
-        scene = new Scene(bp);
+        scene = new Scene(bp, 500, 500);
         //scene.getStylesheets().add(cssFile.toExternalForm());
 
 
