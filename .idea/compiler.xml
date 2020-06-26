@@ -16,7 +16,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="AP-Project2020-team-59-git" options="--add-exports javafx.graphics/com.sun.javafx.stage=AP.Project.team" />
+      <module name="AP-Project2020-team-59-git" options="" />
     </option>
   </component>
 </project>
