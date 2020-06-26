@@ -35,9 +35,8 @@ public class Main extends Application {
         Buyer buyer = new Buyer(new AccountInformation("iman", "iman", "alipour", "asdasd@asd.ads", "2131231", "a"), Role.BUYER);
         buyer.addItemsToCart(cart);
 
-        //new ShoppingCartGUI(stage, null,cart).display();
+        new ShoppingCartGUI(stage, null, buyer).display();
 
-        new PurchasePageGUI(stage, null, buyer).display();
     }
 
     public static void startProgram(){

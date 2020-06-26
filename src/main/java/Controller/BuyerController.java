@@ -70,6 +70,7 @@ public class BuyerController extends AccountController{
             throw new Exception("insufficient funds");
         }
         buyer.setBalance(buyer.getBalance() - totalPrice);
+        buyer.getCart().clear();
         if(totalPrice > 1000000){
             //buyer.getOffTickets().add(new OffTicket(new Date() , addDaysToADate(new Date()) ,  generateRandomNumber(0 , 90) , generateRandomNumber(5000 , 1000000) , generateRandomNumber(1,5) , new ArrayList<Buyer>(Arrays.asList(buyer))));
         }

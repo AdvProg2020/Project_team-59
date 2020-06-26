@@ -22,9 +22,11 @@ import Controller.BuyerController;
 public class PurchasePageGUI extends MenuGUI {
 
     private Double finalPrice;
+    private Buyer buyer;
 
     public PurchasePageGUI(Stage window, MenuGUI menu, Buyer buyer) {
         super(window, menu);
+        this.buyer = buyer;
         window.setTitle("Purchase");
 
         BorderPane bp = new BorderPane();
@@ -67,7 +69,7 @@ public class PurchasePageGUI extends MenuGUI {
         dropShadow.setOffsetX(5);
         dropShadow.setOffsetY(5);
 
-        Text text = new Text("Login page");
+        Text text = new Text("Purchase");
         text.setFont(Font.font("Courier New", FontWeight.BOLD, 28));
         text.setEffect(dropShadow);
 

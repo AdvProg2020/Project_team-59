@@ -1,6 +1,8 @@
 package View.GUIMenu;
 
+import Controller.Controller;
 import Model.Account.Buyer;
+import Model.Account.User;
 import Model.Good.Good;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -23,16 +25,16 @@ import java.util.Map;
 public class ShoppingCartGUI extends MenuGUI{
 
     private TableView<Map.Entry<Good, Integer>> cart;
-    private HashMap<Good, Integer> cartmap;
+    //private HashMap<Good, Integer> cartmap;
     private Button addButton;
     private Button reduceButton;
-    private Button purchase;
+    private Button purchase, view;
     private Buyer buyer;
 
-    public ShoppingCartGUI(Stage window, MenuGUI menu, HashMap<Good, Integer> cartmap) {
+    public ShoppingCartGUI(Stage window, MenuGUI menu, Buyer buyer) {
         super(window, menu);
 
-        this.cartmap = cartmap;
+        this.buyer = buyer;
 
         //Number
 
@@ -60,13 +62,80 @@ public class ShoppingCartGUI extends MenuGUI{
         quantityColumn.setCellValueFactory(p -> new SimpleObjectProperty((p.getValue().getValue()) * (p.getValue().getKey().getPrice())));
          */
 
-        ObservableList<Map.Entry<Good, Integer>> items = FXCollections.observableArrayList(cartmap.entrySet());
+        ObservableList<Map.Entry<Good, Integer>> items = FXCollections.observableArrayList(buyer.getCart().entrySet());
         cart = new TableView<>();
         cart.setItems(items);
         cart.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
 
         VBox vBox = new VBox();
-        vBox.getChildren().add(cart);
+
+        HBox hBox = new HBox();
+        hBox.setPadding(new Insets(20, 20, 20, 20));
+        hBox.setSpacing(10);
+
+        HBox hBox2 = new HBox();
+        hBox2.setPadding(new Insets(20, 20, 20, 20));
+        hBox2.setSpacing(10);
+
+        addButton = new Button("Add");
+        reduceButton = new Button("Reduce");
+        purchase = new Button("Purchase");
+        view = new Button("View selected product");
+
+        hBox.getChildren().addAll(addButton, reduceButton, purchase, view);
+
+        vBox.getChildren().addAll(hBox2, cart, hBox);
+
+        addButtonFunctions();
+
+        scene = new Scene(vBox, 500, 500);
+
+        window.setOnCloseRequest(e -> {
+            window.close();
+            menu.display();
+        });
+
+    }
+
+    public ShoppingCartGUI(Stage window, MenuGUI menu, User buyer) {
+        super(window, menu);
+
+        //Number
+
+
+        //Name column
+        TableColumn<Map.Entry<Good, Integer>, String> nameColumn = new TableColumn<>("Product Name");
+        nameColumn.setMaxWidth(200);
+        nameColumn.setCellValueFactory(p -> new SimpleObjectProperty(p.getValue().getKey().getProductName()));
+
+
+        //Price column
+        TableColumn<Map.Entry<Good, Integer>, Double> priceColumn = new TableColumn<>("Price");
+        priceColumn.setMaxWidth(200);
+        priceColumn.setCellValueFactory(p -> new SimpleObjectProperty(p.getValue().getKey().getPrice()));
+
+        //Quantity column
+        TableColumn<Map.Entry<Good, Integer>, Double> quantityColumn = new TableColumn<>("Quantity");
+        quantityColumn.setMaxWidth(200);
+        quantityColumn.setCellValueFactory(p -> new SimpleObjectProperty(p.getValue().getValue()));
+
+        //Total Amount of each products column
+        /*
+        TableColumn<Map.Entry<Good, Integer>, Double> amountColumn = new TableColumn<>("Total amount");
+        amountColumn.setMaxWidth(200);
+        quantityColumn.setCellValueFactory(p -> new SimpleObjectProperty((p.getValue().getValue()) * (p.getValue().getKey().getPrice())));
+         */
+
+        ObservableList<Map.Entry<Good, Integer>> items = FXCollections.observableArrayList(buyer.getCart().entrySet());
+        cart = new TableView<>();
+        cart.setItems(items);
+        cart.getColumns().addAll(nameColumn, priceColumn, quantityColumn);
+
+        VBox vBox = new VBox();
+
+        HBox hBox2 = new HBox();
+        hBox2.setPadding(new Insets(20, 20, 20, 20));
+        hBox2.setSpacing(10);
 
         HBox hBox = new HBox();
         hBox.setPadding(new Insets(20, 20, 20, 20));
@@ -75,12 +144,13 @@ public class ShoppingCartGUI extends MenuGUI{
         addButton = new Button("Add");
         reduceButton = new Button("Reduce");
         purchase = new Button("Purchase");
+        view = new Button("View product");
 
-        hBox.getChildren().addAll(addButton, reduceButton, purchase);
+        hBox.getChildren().addAll(addButton, reduceButton, purchase, view);
 
-        vBox.getChildren().add(hBox);
+        vBox.getChildren().addAll(hBox2, cart, hBox);
 
-        addButtonFunctions();
+        addButtonFunctions2();
 
         scene = new Scene(vBox, 500, 500);
 
@@ -99,10 +169,72 @@ public class ShoppingCartGUI extends MenuGUI{
         selectedProducts = cart.getSelectionModel().getSelectedItems();
 
         addButton.setOnAction(e -> {
+            selectedProducts.forEach(p -> buyer.increaseGoodInCart(p.getKey()));
+            selectedProducts.forEach(p -> {
+                cart.getItems().remove(p);
+                cart.getItems().add(p);
+
+            } );
+        });
+
+        reduceButton.setOnAction(e -> {
+            selectedProducts.forEach(p -> buyer.decreaseGoodInCart(p.getKey()));
+            selectedProducts.forEach(p -> {
+                cart.getItems().remove(p);
+                if(p.getValue() != 0 )
+                    cart.getItems().add(p); // it does not work on last column
+            } );
         });
 
         purchase.setOnAction(e -> {
-            new PurchasePageGUI(window, this.menu, buyer);
+            window.close();
+            new PurchasePageGUI(window, this.menu, buyer).display();
+        });
+
+        view.setOnAction(e -> {
+            if(cart.getSelectionModel().isEmpty()){
+                AlertBox.display("Error", "You must select a product first.");
+            }
+        });
+    }
+
+    private void addButtonFunctions2(){
+        ObservableList<Map.Entry<Good, Integer>> products,selectedProducts;
+        selectedProducts = cart.getSelectionModel().getSelectedItems();
+
+        addButton.setOnAction(e -> {
+            selectedProducts.forEach(p -> buyer.increaseGoodInCart(p.getKey()));
+            selectedProducts.forEach(p -> {
+                cart.getItems().remove(p);
+                cart.getItems().add(p);
+
+            } );
+        });
+
+        reduceButton.setOnAction(e -> {
+            selectedProducts.forEach(p -> buyer.decreaseGoodInCart(p.getKey()));
+            selectedProducts.forEach(p -> {
+                cart.getItems().remove(p);
+                if(p.getValue() != 0 )
+                    cart.getItems().add(p); // it does not work on last column
+            } );
+        });
+
+        purchase.setOnAction(e -> {
+            new LoginAndSignUp(window, this);
+            if(Controller.getCurrentAccount() instanceof Buyer) {
+                window.close();
+                new PurchasePageGUI(window, this.menu, (Buyer) Controller.getCurrentAccount());
+            }else {
+                window.close();
+                menu.display();
+            }
+        });
+
+        view.setOnAction(e -> {
+            if(cart.getSelectionModel().isEmpty()){
+                AlertBox.display("Error", "You must select a product first.");
+            }
         });
     }
 
