@@ -140,4 +140,6 @@ public class Good {
     public ArrayList<Comment> getComments() {
         return comments;
     }
+
+
 }

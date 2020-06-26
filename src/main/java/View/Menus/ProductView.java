@@ -27,6 +27,7 @@ public class ProductView extends Menu {
     public void run() {
         while (true) {
             System.out.println("**** product view ****");
+            Scanner scanner=new Scanner(System.in);
             command = scanner.nextLine().trim();
             if (ConsoleCommandProduct.BACK.getStringMatcher(command).matches()) {
                 break;
@@ -176,6 +177,7 @@ public class ProductView extends Menu {
         System.out.println("+----------+----------+-------------+--------------+--------------+----------------------------------------------------------------+");
     }
     public void addComment(){
+        Scanner scanner=new Scanner(System.in);
         System.out.println("Title : ");
         String title=scanner.nextLine();
         System.out.println("Content : ");

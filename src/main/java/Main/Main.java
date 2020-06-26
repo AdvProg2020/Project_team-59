@@ -29,10 +29,10 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
 
         HashMap<Good, Integer> cart = new HashMap<>();
-        cart.put(new Good(20.0, "bnana"), 5);
-        cart.put(new Good(20.0, "orange"), 1);
-        cart.put(new Good(15.0, "sad"), 10);
-        cart.put(new Good(0.9, "asdasd"), 12);
+        cart.put(new Good("",null,20.0, "bnana",null,null,null), 5);
+        cart.put(new Good(null,null,20.0, "orange",null,null,null), 1);
+        cart.put(new Good(null,null,15.0, "sad",null,null,null), 10);
+        cart.put(new Good(null,null,0.9, "asdasd",null,null,null), 12);
 
         Buyer buyer = new Buyer(new AccountInformation("iman", "iman", "alipour", "asdasd@asd.ads", "2131231", "a"), Role.BUYER);
         buyer.addItemsToCart(cart);

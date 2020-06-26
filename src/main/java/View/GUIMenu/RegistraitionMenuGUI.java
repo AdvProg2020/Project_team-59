@@ -192,7 +192,7 @@ public class RegistraitionMenuGUI {
             if(choiceBox.getValue().equals("Buyer")){
                 Controller.sendCreatAccountApplication(username, name, lastName, email, phoneNumber, passWord, Role.BUYER);
             }else if ( choiceBox.getValue().equals("Seller")){
-                Controller.sendCreatAccountApplication(username, name, lastName, email, phoneNumber, passWord, Role.BUYER, txtCompanyInformation.getText());
+                Controller.sendCreatAccountApplication(username, name, lastName, email, phoneNumber, passWord, Role.BUYER);
             }else if (choiceBox.getValue().equals("Admin")){
                 new Manager(new AccountInformation(username, name, lastName, email, phoneNumber, passWord), Role.MANAGER);
             }

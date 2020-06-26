@@ -7,6 +7,7 @@ import View.Requests.ConsoleCommandOff;
 import View.Requests.UserRequest;
 
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 
 public class OffsView extends Menu{
@@ -21,6 +22,7 @@ public class OffsView extends Menu{
 
         while (true){
             System.out.println("**** Off view ****");
+            Scanner scanner=new Scanner(System.in);
             command=scanner.nextLine().trim();
             if (ConsoleCommandOff.BACK.getStringMatcher(command).matches()){
                 break;
