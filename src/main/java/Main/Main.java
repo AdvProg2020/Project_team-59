@@ -4,17 +4,19 @@ import Controller.Controller;
 import Model.Account.AccountInformation;
 import Model.Account.Buyer;
 import Model.Account.Role;
+import Model.Discount.OffTicket;
 import Model.Good.Good;
-import View.GUIMenu.LoginAndSignUp;
-import View.GUIMenu.PurchasePageGUI;
-import View.GUIMenu.RegistraitionMenuGUI;
-import View.GUIMenu.ShoppingCartGUI;
+import View.GUIMenu.*;
 import View.Menus.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Main extends Application {
@@ -35,13 +37,22 @@ public class Main extends Application {
         Buyer buyer = new Buyer(new AccountInformation("iman", "iman", "alipour", "asdasd@asd.ads", "2131231", "a"), Role.BUYER);
         buyer.addItemsToCart(cart);
 
-        new ShoppingCartGUI(stage, null, buyer).display();
+        ArrayList<String> bu = new ArrayList<>();
+        bu.add("iman");
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        buyer.getOffTickets().add(new OffTicket(dateFormat.format(new Date()), dateFormat.format(new Date()), 10, 20, 2, bu));
+        buyer.getOffTickets().add(new OffTicket(dateFormat.format(new Date()), dateFormat.format(new Date()), 10, 20, 2, bu));
+        buyer.getOffTickets().add(new OffTicket(dateFormat.format(new Date()), dateFormat.format(new Date()), 10, 20, 2, bu));
+
+
+        new BuyerMenuGUI(stage, null, buyer).display();
 
     }
 
     public static void startProgram(Stage window){
         Controller controller = new Controller();
-        if ( !new File("database.ifs").exists() ){
+          if ( !new File("database.ifs").exists() ){
             new RegistraitionMenuGUI(window, null, true); //todo convert into main menu
         }
         else{

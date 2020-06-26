@@ -30,9 +30,11 @@ public class ShoppingCartGUI extends MenuGUI{
     private Button reduceButton;
     private Button purchase, view;
     private Buyer buyer;
+    private Stage window2;
 
-    public ShoppingCartGUI(Stage window, MenuGUI menu, Buyer buyer) {
-        super(window, menu);
+    public ShoppingCartGUI(Stage window, Scene headScene, Buyer buyer) {
+        super(window, headScene);
+        window2 = new Stage();
 
         this.buyer = buyer;
 
@@ -91,14 +93,14 @@ public class ShoppingCartGUI extends MenuGUI{
         scene = new Scene(vBox, 500, 500);
 
         window.setOnCloseRequest(e -> {
-            window.close();
-            menu.display();
+            window.setScene(headScene);
+            window.show();
         });
 
     }
 
-    public ShoppingCartGUI(Stage window, MenuGUI menu, User buyer) {
-        super(window, menu);
+    public ShoppingCartGUI(Stage window, Scene headScene, User buyer) {
+        super(window, headScene);
 
         //Number
 
@@ -155,8 +157,8 @@ public class ShoppingCartGUI extends MenuGUI{
         scene = new Scene(vBox, 500, 500);
 
         window.setOnCloseRequest(e -> {
-            window.close();
-            menu.display();
+            window.setScene(headScene);
+            window.show();
         });
 
     }
@@ -188,7 +190,7 @@ public class ShoppingCartGUI extends MenuGUI{
 
         purchase.setOnAction(e -> {
             window.close();
-            new PurchasePageGUI(window, this.menu, buyer).display();
+            new PurchasePageGUI(window, this.scene, buyer).display();
         });
 
         view.setOnAction(e -> {
@@ -221,13 +223,13 @@ public class ShoppingCartGUI extends MenuGUI{
         });
 
         purchase.setOnAction(e -> {
-            new LoginAndSignUp(window, this);
+            new LoginAndSignUp(window, headScene);
             if(Controller.getCurrentAccount() instanceof Buyer) {
                 window.close();
-                new PurchasePageGUI(window, this.menu, (Buyer) Controller.getCurrentAccount());
+                new PurchasePageGUI(window, headScene, (Buyer) Controller.getCurrentAccount());
             }else {
-                window.close();
-                menu.display();
+                window.setScene(headScene);
+                window.show();
             }
         });
 

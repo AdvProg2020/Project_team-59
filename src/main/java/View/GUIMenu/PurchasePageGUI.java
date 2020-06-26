@@ -24,8 +24,8 @@ public class PurchasePageGUI extends MenuGUI {
     private Double finalPrice;
     private Buyer buyer;
 
-    public PurchasePageGUI(Stage window, MenuGUI menu, Buyer buyer) {
-        super(window, menu);
+    public PurchasePageGUI(Stage window, Scene headScene, Buyer buyer) {
+        super(window, headScene);
         this.buyer = buyer;
         window.setTitle("Purchase");
 
@@ -94,8 +94,8 @@ public class PurchasePageGUI extends MenuGUI {
                     finalPrice = Controller.useOffTicket(offTicketField.getText(), buyer);
                     try {
                         BuyerController.purchase(buyer, finalPrice);
-                        window.close();
-                        menu.display();
+                        window.setScene(headScene);
+                        window.show();
                         AlertBox.display("Congrats", "Purchase was successful!");
                     } catch (Exception ex) {
                         AlertBox.display("Error", ex.getMessage());
@@ -107,15 +107,15 @@ public class PurchasePageGUI extends MenuGUI {
                 finalPrice = buyer.getCartValue();
                 try {
                     BuyerController.purchase(buyer, finalPrice);
-                    window.close();
-                    menu.display();
+                    window.setScene(headScene);
+                    window.show();
                     AlertBox.display("Congrats", "Purchase was successful!");
                 } catch (Exception ex) {
                     AlertBox.display("Error", ex.getMessage());
                 }
             }
-            window.close();
-            menu.display();
+            window.setScene(headScene);
+            window.show();
         });
 
         bp.setTop(hb);
@@ -126,8 +126,8 @@ public class PurchasePageGUI extends MenuGUI {
 
 
         window.setOnCloseRequest(e -> {
-            window.close();
-            menu.display();
+            window.setScene(headScene);
+            window.show();
         });
 
     }

@@ -46,8 +46,8 @@ public class RegistraitionMenuGUI extends MenuGUI {
 
     private ComboBox<String> choiceBox;
 
-    public RegistraitionMenuGUI(Stage window, MenuGUI menu, boolean adminInNeed) {
-        super(window, menu);
+    public RegistraitionMenuGUI(Stage window, Scene headScene, boolean adminInNeed) {
+        super(window, headScene);
         window.setTitle("Register");
 
         BorderPane bp = new BorderPane();
@@ -91,7 +91,7 @@ public class RegistraitionMenuGUI extends MenuGUI {
         Button btnLogin = new Button("Register");
         final Label lblMessage = new Label();
         Hyperlink linkToRegistrationMenu = new Hyperlink("Or Login");
-        linkToRegistrationMenu.setOnAction(e -> new LoginAndSignUp(window, menu).display());
+        linkToRegistrationMenu.setOnAction(e -> new LoginAndSignUp(window, this.headScene).display());
 
         gridPane.add(lblUserName, 0, 0);
         gridPane.add(txtUserName, 1, 0);
@@ -175,7 +175,8 @@ public class RegistraitionMenuGUI extends MenuGUI {
 
         window.setOnCloseRequest(e -> {
             window.close();
-            menu.display();
+            window.setScene(headScene);
+            window.show();
         });
 
     }
@@ -218,7 +219,7 @@ public class RegistraitionMenuGUI extends MenuGUI {
 
     public void getUserPassword()throws Exception{
         this.passWord = pf.getText();
-        if(pf.equals("")){
+        if(pf.getText().equals("")){
             throw new Exception("You must complete password field");
         }
     }

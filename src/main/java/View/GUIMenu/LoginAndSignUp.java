@@ -32,8 +32,8 @@ public class LoginAndSignUp extends MenuGUI {
     final TextField txtUserName;
     final TextField pf;
 
-    public LoginAndSignUp(Stage window, MenuGUI menu) {
-        super(window, menu);
+    public LoginAndSignUp(Stage window, Scene headScene) {
+        super(window, headScene);
         window.setTitle("Login");
 
         BorderPane bp = new BorderPane();
@@ -54,7 +54,7 @@ public class LoginAndSignUp extends MenuGUI {
         Button btnLogin = new Button("Login");
         final Label lblMessage = new Label();
         Hyperlink linkToRegistrationMenu = new Hyperlink("Or Register");
-        linkToRegistrationMenu.setOnAction(e -> new RegistraitionMenuGUI(window, menu).display());
+        linkToRegistrationMenu.setOnAction(e -> new RegistraitionMenuGUI(window, headScene, false).display());
 
         gridPane.add(lblUserName, 0, 0);
         gridPane.add(txtUserName, 1, 0);
@@ -101,7 +101,8 @@ public class LoginAndSignUp extends MenuGUI {
 
         window.setOnCloseRequest(e -> {
             window.close();
-            menu.display();
+            window.setScene(headScene);
+            window.show();
         });
 
     }
@@ -115,7 +116,8 @@ public class LoginAndSignUp extends MenuGUI {
             if (account.passwordIsCorrect(pf.getText())) {
                 goToAccountsPage(account);
                 window.close();
-                menu.display();
+                window.setScene(headScene);
+                window.show();
             } else {
                 throw new Exception("password is incorrect");
             }

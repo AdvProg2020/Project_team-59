@@ -8,11 +8,11 @@ import javafx.stage.Stage;
 public abstract class MenuGUI {
     protected Stage window;
     protected Scene scene;
-    protected MenuGUI menu;
+    protected Scene headScene;
 
-    public MenuGUI(Stage window, MenuGUI menu) {
+    public MenuGUI(Stage window, Scene headScene) {
         this.window = window;
-        this.menu = menu;
+        this.headScene = headScene;
     }
 
     public void display(){
