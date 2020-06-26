@@ -1,5 +1,14 @@
 package View.GUIMenu;
 
+import Controller.Controller;
+import Model.Account.Account;
+import Model.Account.Buyer;
+import Model.Account.Manager;
+import Model.Account.Seller;
+import View.Menus.BuyerView;
+import View.Menus.ManagerView;
+import View.Menus.Menu;
+import View.Menus.SellerView;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -20,6 +29,9 @@ public class LoginAndSignUp extends MenuGUI {
 
     //private URL cssFile = getClass().getResource("/Users/imanalipour/Documents/programming/java/AP-Project2020-team-59-git/src/main/resources/CssFiles/LoginMenu.css");
 
+    final TextField txtUserName;
+    final TextField pf;
+
     public LoginAndSignUp(Stage window, MenuGUI menu) {
         super(window, menu);
         window.setTitle("Login");
@@ -36,9 +48,9 @@ public class LoginAndSignUp extends MenuGUI {
         gridPane.setVgap(5);
 
         Label lblUserName = new Label("Username");
-        final TextField txtUserName = new TextField();
+        txtUserName = new TextField();
         Label lblPassword = new Label("Password");
-        final PasswordField pf = new PasswordField();
+        pf = new PasswordField();
         Button btnLogin = new Button("Login");
         final Label lblMessage = new Label();
         Hyperlink linkToRegistrationMenu = new Hyperlink("Or Register");
@@ -79,14 +91,12 @@ public class LoginAndSignUp extends MenuGUI {
         linkToRegistrationMenu.setStyle("-fx-color: white;");
         linkToRegistrationMenu.setFont(Font.font("Verdana", FontPosture.ITALIC, 10));
 
-        //Action for btnLogin
-        //btnLogin.setOnAction();
+        btnLogin.setOnAction(e -> run());
 
         bp.setTop(hb);
         bp.setCenter(gridPane);
 
         scene = new Scene(bp);
-        //scene.getStylesheets().add(cssFile.toExternalForm());
 
 
         window.setOnCloseRequest(e -> {
@@ -94,6 +104,37 @@ public class LoginAndSignUp extends MenuGUI {
             menu.display();
         });
 
+    }
+
+    public void run(){
+        try {
+            if ( !Controller.usernameExists(txtUserName.getText()) ){
+                throw new Exception("no user with such username exists");
+            }
+            Account account = Manager.getAccountByUsername(txtUserName.getText());
+            if (account.passwordIsCorrect(pf.getText())) {
+                goToAccountsPage(account);
+                window.close();
+                menu.display();
+            } else {
+                throw new Exception("password is incorrect");
+            }
+        }
+        catch (Exception e){
+            AlertBox.display("Error", e.getMessage());
+        }
+    }
+
+    private void goToAccountsPage(Account account){
+        Controller.setCurrentAccount(account);
+        if ( account instanceof Buyer){
+            addUserCartToAccount(account);
+        }
+    }
+
+    private void addUserCartToAccount(Account account){
+        Buyer buyer = (Buyer)account;
+        buyer.addItemsToCart(Controller.getCurrentUser().getCart());
     }
 
     @Override
