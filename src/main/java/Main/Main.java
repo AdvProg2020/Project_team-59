@@ -53,7 +53,7 @@ public class Main extends Application {
     public static void startProgram(Stage window){
         Controller controller = new Controller();
           if ( !new File("database.ifs").exists() ){
-            new RegistraitionMenuGUI(true); //todo convert into main menu
+            new RegistraitionMenuGUI(true); // todo convert into main menu
         }
         else{
             Controller.initializer();

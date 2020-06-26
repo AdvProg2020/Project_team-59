@@ -6,6 +6,7 @@ import Model.Account.Manager;
 import Model.Account.Role;
 import Model.Good.Category;
 import Model.Good.Good;
+import View.GUIMenu.RegistraitionMenuGUI;
 import javafx.application.Application;
 import javafx.css.Size;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -39,6 +41,7 @@ public class App extends Application {
     Scene mainscene,signScene,goodScene,offScene,productScene,createManager;
     @Override
     public void start(Stage stage) throws FileNotFoundException {
+        startProgram();
         final Controller controller = Controller.getInstance();
         Text text=new Text("Digi Kala");
         text.setFont(new Font("Helvetica" ,20));
@@ -254,6 +257,13 @@ public class App extends Application {
         alert.setContentText(message);
         alert.initOwner(owner);
         alert.show();
+    }
+
+    public static void startProgram(){
+        Controller controller = new Controller();
+        if ( !new File("database.ifs").exists() ){
+            new RegistraitionMenuGUI(true);
+        }
     }
 
 
