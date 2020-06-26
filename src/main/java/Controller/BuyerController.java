@@ -5,6 +5,9 @@ import Model.Account.Buyer;
 import Model.Account.Seller;
 import Model.Discount.OffTicket;
 import Model.Good.Good;
+import Model.Good.Rating;
+import Model.log.BuyLog;
+import Model.log.ShipmentState;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -51,6 +54,23 @@ public class BuyerController extends AccountController{
 
     public void rateProduct( String productId , int rating ){
         //TODO check if account is a buyer and has bought and then send application to manager
+        ArrayList<BuyLog> buyLogs =loggedInBuyer.getBuyLog() ;
+        for (BuyLog buyLog : buyLogs)
+        {
+            ArrayList<Good> goods ;
+            goods = buyLog.getGoodsExchanged();
+            for (Good good : goods)
+            {
+                if (good.getProductId().equals(productId))
+                {
+                    Rating rating1 = new Rating(loggedInBuyer , rating , good) ;
+                    good.addRating (rating1) ;
+                    return ;
+                }
+            }
+        }
+        System.out.println("you must buy a product then you can rate it.") ;
+
     }
 
     public void viewCart(){
@@ -94,9 +114,38 @@ public class BuyerController extends AccountController{
 
     public void viewOrders(){
         //TODO prints buyers buyLogs
+        ArrayList<BuyLog> buyLogs =loggedInBuyer.getBuyLog() ;
+        for (BuyLog buyLog : buyLogs)
+        {
+            System.out.println("Date :" + buyLog.getDate () +"logId :" + buyLog.getLogId());
+        }
     }
 
     public void viewOrder( String orderId ){
         //TODO prints order
+        BuyLog buyLog = loggedInBuyer.getBuyLogById (orderId) ;
+        System.out.println("Date :" + buyLog.getDate());
+        System.out.println("Paid money :"+ buyLog.getMoneyExchanged());
+        System.out.println("Discount amount :" + buyLog.getDiscountAmount());
+        System.out.println("Buyed goods :");
+        ArrayList<Good> buyedGoods = buyLog.getGoodsExchanged () ;
+        for (Good good : buyedGoods) {
+            System.out.print("     " + good.getProductName());
+
+        }
+        System.out.println("Shipment state :");
+        ShipmentState shipmentState = buyLog.getShipmentState () ;
+        if (shipmentState.equals(ShipmentState.PAID))
+            System.out.println("Paid");
+        else if (shipmentState.equals(ShipmentState.READY_TO_BE_SENT))
+            System.out.println("Ready to be sent");
+        else if (shipmentState.equals(ShipmentState.SENT))
+            System.out.println("Sent");
+        else if (shipmentState.equals(ShipmentState.ARRIVED_TO_COUMER))
+            System.out.println("Arrived");
+        System.out.println("Seller name :" + buyLog.getSellerName());
+
+
+
     }
 }
