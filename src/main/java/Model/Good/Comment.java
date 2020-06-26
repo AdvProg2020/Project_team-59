@@ -20,6 +20,11 @@ public class Comment {
     public Comment(String title,String content){
         this.title=title;
         this.content=content;
+
+    }
+    public Comment(Buyer buyer,String content){
+        this.buyer=buyer;
+        this.content=content;
     }
     public void setCommentState(CommentState commentState) {
         this.commentState = commentState;

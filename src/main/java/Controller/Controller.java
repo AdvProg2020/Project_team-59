@@ -1,20 +1,20 @@
 package Controller;
 
 import Model.Account.*;
-import Model.Application.Request;
+import Model.Application.Application;
 import Model.Application.ApplicationType;
-import Model.Application.CreatAccountRequest;
+import Model.Application.CreatAccountApplication;
 import Model.Discount.OffTicket;
 import Model.Good.Category;
 import Model.Good.Characteristic;
 import Model.Good.Comment;
 import Model.Good.Good;
-import View.Menus.BuyerView;
+import Model.log.BuyLog;
+//import View.Menus.BuyerView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
+import java.util.Map;
 
 public class Controller {
     private static Manager coreManager;
@@ -22,11 +22,11 @@ public class Controller {
     private static User currentUser;
     private boolean filteringIsPossible;//not sure
     private boolean hasDigestHappened;//not sure
-    private Request request;
+    private Application application;
     private static Controller instance = new Controller();
 
     public Controller() {
-        request = Request.getInstance();
+        application = Application.getInstance();
     }
 
     public static Controller getInstance() {
@@ -50,7 +50,7 @@ public class Controller {
         if (!(currentAccount instanceof Buyer)) {
             throw new Exception("only buyer accounts can purchase");
         } else {
-            new BuyerView(null, (Buyer) currentAccount);
+           // new BuyerView(null, (Buyer) currentAccount);
         }
     }
 
@@ -59,11 +59,7 @@ public class Controller {
     }
 
     public static void sendCreatAccountApplication(String userName, String name, String lastName, String email, String phoneNumber, String password, Role role) {
-        Manager.getAccountList().add(new Buyer(new AccountInformation(userName, name, lastName, email, phoneNumber, password), Role.BUYER));
-    }
-
-    public static void sendCreatAccountApplication(String userName, String name, String lastName, String email, String phoneNumber, String password, Role role, String companyInformation) {
-        Manager.addApplication(new CreatAccountRequest(ApplicationType.CREAT_ACCOUNT, userName, name, lastName, email, phoneNumber, password, role, companyInformation));
+        Manager.addApplication(new CreatAccountApplication(ApplicationType.CREAT_ACCOUNT, userName, name, lastName, email, phoneNumber, password, role));
     }
 
     public static double useOffTicket(String offTicketId, Buyer buyer) throws Exception {
@@ -80,9 +76,7 @@ public class Controller {
     }
 
     public static double useOffThicketIfPossible(Buyer buyer, OffTicket offTicket) throws Exception {
-        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = sdformat.parse(offTicket.getEndingDate());
-        if (date1.compareTo(new Date()) < 0) {
+        if (offTicket.getEndingDate().compareTo(new String()) < 0) {
             throw new Exception("off ticket is expired");
         } else if (offTicket.getTimesCanBeUsed() < 1) {
             throw new Exception("no more usages are available for this off ticket");
@@ -173,113 +167,146 @@ public class Controller {
     }
 
     public Collection<OffTicket> getoffTickets() {
-        return request.getOffTickets().values();
+        return application.getOffTickets().values();
     }
 
     public Collection<Good> getgoods() {
-        return request.getGoods().values();
+        return application.getGoods().values();
     }
 
-
+    public boolean isbuy(Good good , Buyer currentAccount){
+        ArrayList<BuyLog> buyLogs=currentAccount.getBuyLog();
+        for (BuyLog buyLog:buyLogs) {
+            ArrayList<Good> goods=new ArrayList<>();
+            goods=buyLog.getGoodsExchanged();
+            for (Good good1:goods) {
+                if (good1.getProductId().equalsIgnoreCase(good.getProductId()))
+                    return true;
+            }
+        }
+        return false;
+    }
+    public void addRate(double Rate , Good good){
+        double result=good.getAverageRate()*good.getNumOfRate()+Rate/good.getNumOfRate()+1;
+        good.setAverageRate(result);
+        good.setNumOfRate(good.getNumOfRate()+1);
+    }
     public void removeDiscount(String offTicketId) {
-        OffTicket offTicket = request.getOffTickets().get(offTicketId);
-        request.getOffTickets().remove(offTicket);
+        OffTicket offTicket = application.getOffTickets().get(offTicketId);
+        application.getOffTickets().remove(offTicket);
     }
-
+    public boolean isManager(){
+        ArrayList<Manager>managers= Manager.getAllManagers();
+        if (managers.size()==0)
+            return false;
+        return true;
+    }
     public Collection<ManagerRequest> getRequests() {
-        return request.getRequests().values();
+        return application.getRequests().values();
     }
 
     public Collection<Category> getCategories() {
-        return request.getCategoories().values();
+        return application.getCategoories().values();
     }
 
     public Collection<User> getUsers() {
-        return request.getUsers().values();
+        return application.getUsers().values();
     }
 
     public Collection<Account> getAccounts() {
-        return request.getAccounts().values();
+        return application.getAccounts().values();
     }
 
     public ManagerRequest viewRequest(String requestId) {
-        return request.getRequests().get(requestId);
+        ManagerRequest managerRequest = application.getRequests().get(requestId);
+        return managerRequest;
     }
 
     public Collection<Comment> getcomments() {
-        return request.getComments().values();
+        return application.getComments().values();
     }
 
     public Good viewProduct(String productId) {
-        return request.getGoods().get(productId);
+        Good good = application.getGoods().get(productId);
+        return good;
         //TODO show product
     }
 
     public void removeProduct(Good product) {
-        request.getGoods().remove(product);
+        application.getGoods().remove(product);
 
     }
-
+    public void createManager(String username , String passWord){
+        Manager manager=new Manager(new AccountInformation(username,null,null,null,null,passWord),null);
+    }
     public void removeUser(Account account) {
-        request.getAccounts().remove(account);
+        application.getAccounts().remove(account);
     }
 
     public void removeCategory(Category category) {
-        request.getCategoories().remove(category);
+        application.getCategoories().remove(category);
     }
 
     public Category getCategory(String name) {
-        return request.getCategoories().get(name);
+        Category category = application.getCategoories().get(name);
+        return category;
     }
 
     public User getUser(String username) {
-        return request.getUsers().get(username);
+        User user = application.getUsers().get(username);
+        return user;
     }
 
     public Account getAccount(String username) {
-        return request.getAccounts().get(username);
+        Account account = application.getAccounts().get(username);
+        return account;
 
     }
 
     public void addGood(Good good) {
-        request.getGoods().put(good.getProductId(), good);
+        application.getGoods().put(good.getProductId(), good);
     }
 
     public void addOffticket(OffTicket offTicket) {
-        request.getOffTickets().put(offTicket.getOffTicketId(), offTicket);
+        application.getOffTickets().put(offTicket.getOffTicketId(), offTicket);
     }
 
     public void addComment(Comment comment, Good product) {
-        request.getComments().put(product, comment);
+        application.getComments().put(product, comment);
     }
 
     public void addAccounts(Account account) {
-        request.getAccounts().put(account.getAccountInformation().getUsername(), account);
+        application.getAccounts().put(account.getAccountInformation().getUsername(), account);
 
     }
 
     public void addcategory(Category category) {
-        request.getCategoories().put(category.getCategoryName(), category);
+        application.getCategoories().put(category.getCategoryName(), category);
 
     }
 
     public Good getGood(String productId) {
-        return request.getGoods().get(productId);
+        Good good = application.getGoods().get(productId);
+        return good;
     }
 
     public OffTicket getOffticket(String offticketId) {
-        return request.getOffTickets().get(offticketId);
+        OffTicket offTicket = application.getOffTickets().get(offticketId);
+        return offTicket;
     }
 
     public boolean checkNoDiscountCode(OffTicket offTicket) {
         String offticketId = offTicket.getOffTicketId();
-        OffTicket offTicket1 = request.getOffTickets().get(offticketId);
-        return offTicket1 == null;
+        OffTicket offTicket1 = application.getOffTickets().get(offticketId);
+        if (offTicket1 == null)
+            return true;
+        else
+            return false;
     }
 
     public Collection<Good> sortbyPrice(Collection<Good> goods) {
         ArrayList<Good> sorted=new ArrayList<>();
-        double max;
+        double max = 0;
         while (true) {
             max = 0;
             if (goods.size()==0)
@@ -294,6 +321,7 @@ public class Controller {
                     if (product.getPrice() == max) {
                         sorted.add(product);
                         goods.remove(product);
+                        break;
                     }
 
                 }
@@ -304,28 +332,56 @@ public class Controller {
 
     }
     public Collection<Good>sortbyVisit(Collection<Good>goods){
+
         ArrayList<Good> sorted=new ArrayList<>();
-        double max;
+        Collection<Good> notsorted=goods;
+
+        double max = 0;
         while (true) {
             max = 0;
-            if (goods.size()==0)
+            if (notsorted.size()==0)
                 return sorted;
             else {
-                for (Good product : goods) {
+                for (Good product : notsorted) {
                     if (product.getPrice() > max)
                         max = product.getTimesVisited();
 
                 }
-                for (Good product : goods) {
+                for (Good product : notsorted) {
                     if (product.getTimesVisited() == max) {
                         sorted.add(product);
-                        goods.remove(product);
+                        notsorted.remove(product);
+                        break;
                     }
 
                 }
             }
 
 
+        }
+    }
+    public Collection<Good>category(Collection<Good>goods,String categoryValue){
+        ArrayList<Good> sorted=new ArrayList<>();
+        Collection<Good>goods1=goods;
+        if (categoryValue.contains("Nothing"))
+            return goods1;
+
+        while (true){
+            if (goods1.size()==0)
+                return sorted;
+            else {
+                for (Good product: goods1) {
+                    if (categoryValue.contains(product.getCategory().getCategoryName())){
+                        sorted.add(product);
+                        goods1.remove(product);
+                        break;
+                    }
+                    else {
+                        goods1.remove(product);
+                        break;
+                    }
+                }
+            }
         }
     }
     public Collection<Good> sortbypriceIn(Collection<Good> goods) {
@@ -345,6 +401,7 @@ public class Controller {
                     if (good.getPrice() == min) {
                         sorted.add(good);
                         goods.remove(good);
+                        break;
                     }
 
                 }

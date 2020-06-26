@@ -8,7 +8,6 @@ import Model.Discount.SaleState;
 import Model.Good.Category;
 import Model.Good.Characteristic;
 import Model.Good.Good;
-import Model.log.SellLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,7 +16,7 @@ import java.util.Date;
 
 public class SellerController extends AccountController {
     private Seller loggedInSeller;
-    private Request request;
+    private Application application;
 
     public SellerController(Seller loggedInSeller) {
         super(loggedInSeller);
@@ -33,11 +32,11 @@ public class SellerController extends AccountController {
     }
 
     public static void sendCreatSaleApplication(ArrayList<Good> inSaleGoods, SaleState saleState, Date startingDate, Date endingDate, double offPercent ){
-        Manager.addApplication(new CreatSaleRequest( ApplicationType.CREAT_SALE , inSaleGoods , SaleState.PENDING , startingDate , endingDate , offPercent ));
+        Manager.addApplication(new CreatSaleApplication( ApplicationType.CREAT_SALE , inSaleGoods , SaleState.PENDING , startingDate , endingDate , offPercent ));
     }
 
     public void editSale( String saleId )throws Exception{
-        this.request = new EditSaleRequest(Manager.getSaleByID(saleId));
+        this.application = new EditSaleApplication(Manager.getSaleByID(saleId));
     }
 
     public void setNewStartingDate(String newStartingDateAsString , Sale sale) throws Exception {
@@ -52,7 +51,7 @@ public class SellerController extends AccountController {
                 throw new Exception("starting date must be after current date");
             }
             else {
-                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
+                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
                 editSaleApplication.setNewStartingDate(newStartingDate);
             }
         } catch (ParseException e) {
@@ -72,7 +71,7 @@ public class SellerController extends AccountController {
                 throw new Exception("ending date must happen after current starting date");
             }
             else{
-                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
+                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
                 editSaleApplication.setNewEndingDate(newEndingDate);
             }
         } catch (ParseException e) {
@@ -85,7 +84,7 @@ public class SellerController extends AccountController {
         try {
             newOffPercent = Double.parseDouble(newOffPercentAsString);
             if(newOffPercent > 0 && newOffPercent < 100){
-                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
+                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
                 editSaleApplication.setNewOffPercent(newOffPercent);
             }
         } catch (NumberFormatException ignore) {
@@ -104,7 +103,7 @@ public class SellerController extends AccountController {
                 throw new Exception("sale already contains this good aka : " + good.getProductName() );
             }
             else{
-                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
+                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
                 editSaleApplication.getGoodsToBeAdded().add(good);
             }
         }
@@ -118,7 +117,7 @@ public class SellerController extends AccountController {
                 throw new Exception("sale already does not contain this good aka : " + good.getProductName() );
             }
             else{
-                EditSaleRequest editSaleApplication = (EditSaleRequest) this.request;
+                EditSaleApplication editSaleApplication = (EditSaleApplication) this.application;
                 editSaleApplication.getGoodsToBeRemoved().add(good);
             }
         }
@@ -155,26 +154,10 @@ public class SellerController extends AccountController {
 
     public void viewSalesHistory(){
         //TODO prints sellers sales history
-        ArrayList<SellLog> sellLogs = loggedInSeller.getSellLog () ;
-        for (SellLog sellLog : sellLogs) {
-            System.out.println("Date :" + sellLog.getDate());
-            System.out.println("Money exchanged :" + sellLog.getMoneyExchanged());
-            System.out.println("Discount amount :" + sellLog.getDiscountAmount());
-            ArrayList<Good> goodsExchanged = sellLog.getGoodsExchanged() ;
-            System.out.println("Goods exchanged :");
-            for (Good good :  goodsExchanged ) {
-                System.out.println(good.getProductName()) ;
-            }
-
-            System.out.println(" ");
-        }
-
     }
 
     public void viewCompanyInformation(){
         //TODO prints sellers company information
-
-        System.out.println(loggedInSeller.getCompanyInformation()) ;
     }
 
 

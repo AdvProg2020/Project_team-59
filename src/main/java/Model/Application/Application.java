@@ -7,15 +7,14 @@ import Model.Discount.OffTicket;
 import Model.Good.Category;
 import Model.Good.Comment;
 import Model.Good.Good;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
 
-public class Request {
-    private static Request ourInstance=new Request();
+public class Application {
+    private static Application ourInstance=new Application();
     private Map<String, Good>goods;
     private Map<String,Account>accounts;
     private Map<String, OffTicket>offTickets;
@@ -24,7 +23,7 @@ public class Request {
     private Map<String , User>users;
     private Map<Good, Comment>comments;
 
-    private Request(){
+    private Application(){
         goods=new HashMap<>();
         accounts=new HashMap<>();
         offTickets=new HashMap<>();
@@ -65,10 +64,10 @@ public class Request {
     public ApplicationType getApplicationType() {
         return applicationType;
     }
-    public static Request getInstance() {
+    public static Application getInstance() {
         return ourInstance;
     }
-    public Request(ApplicationType applicationType) {
+    public Application( ApplicationType applicationType) {
         this.requestId = requestNumber++;
         this.applicationState = ApplicationState.TO_BE_APPROVED;
         this.applicationType = applicationType;

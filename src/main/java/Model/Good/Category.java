@@ -1,5 +1,8 @@
 package Model.Good;
 
+import Model.Application.Application;
+
+import java.nio.MappedByteBuffer;
 import java.util.ArrayList;
 
 public class Category {
@@ -31,6 +34,7 @@ public class Category {
         this.goodsInCategory = goodsInCategory;
         this.subCategories=subCategories;
         this.parentCategory=parentCategory;
+        Application.getInstance().getCategoories().put(this.categoryName,this);
 
     }
 

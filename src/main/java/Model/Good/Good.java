@@ -1,6 +1,7 @@
 package Model.Good;
 
 import Model.Account.Seller;
+import Model.Application.Application;
 
 import java.util.ArrayList;
 
@@ -8,7 +9,7 @@ public class Good {
     private static int idCounter=0;
 
     private String productId;
-
+    private String imageAddress;
     private ProductState productState;
     private boolean isAvailable;
     private ArrayList<Seller> sellers;
@@ -16,29 +17,57 @@ public class Good {
     private String productName;
     private Category category;
     private double averageRate;
+    private int numOfRate;
     private String characteristics;
     private ArrayList<Rating> ratings;
     private ArrayList<Comment> comments;
     private int timesVisited;
+    private int timestoUse;
+
+    public int getTimestoUse() {
+        return timestoUse;
+    }
+
+    public void setTimestoUse(int timestoUse) {
+        this.timestoUse = timestoUse;
+    }
+
     private double offpercent;
 
-    public Good( String productName,double price, String characteristics , ArrayList<Seller>sellers ,ArrayList<Comment>comments) {
+    public String getImageAddress() {
+        return imageAddress;
+    }
+
+    public void setAverageRate(double averageRate) {
+        this.averageRate = averageRate;
+    }
+
+    public int getNumOfRate() {
+        return numOfRate;
+    }
+
+    public void setNumOfRate(int numOfRate) {
+        this.numOfRate = numOfRate;
+    }
+
+    public void setImageAddress(String imageAddress) {
+        this.imageAddress = imageAddress;
+    }
+
+    public Good(String productName,Category category, double price, String characteristics , ArrayList<Seller>sellers , ArrayList<Comment>comments , String imageAddress) {
         this.productId = ""+idCounter++;
         this.productName = productName;
         this.price=price;
         this.characteristics = characteristics;
         this.timesVisited = 0;
         this.isAvailable=true;
+        this.category=category;
         this.productState=ProductState.TO_BE_CREATED;
         this.averageRate=0;
         this.sellers=sellers;
         this.comments=new ArrayList<>();
         this.comments=comments;
-    }
-
-    public Good(double price, String productName) {
-        this.price = price;
-        this.productName = productName;
+        this.imageAddress=imageAddress;
     }
 
     public void setOffpercent(double offpercent) {

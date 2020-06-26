@@ -2,8 +2,12 @@ package Controller;
 
 import Model.Account.AccountInformation;
 import Model.Account.Manager;
+import Model.Application.Application;
 import Model.Good.Category;
+import Model.Good.Characteristic;
 import Model.Good.Good;
+
+import java.util.ArrayList;
 
 public class ManagerController extends AccountController{
     private Manager loggedInManager;
