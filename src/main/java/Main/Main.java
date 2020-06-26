@@ -39,11 +39,10 @@ public class Main extends Application {
 
     }
 
-    public static void startProgram(){
+    public static void startProgram(Stage window){
         Controller controller = new Controller();
-        startProgram();
         if ( !new File("database.ifs").exists() ){
-            new CreatAccountMenu( null ).creatAdmin();
+            new RegistraitionMenuGUI(window, null, true); //todo convert into main menu
         }
         else{
             Controller.initializer();

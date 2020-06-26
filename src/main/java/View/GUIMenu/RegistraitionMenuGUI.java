@@ -1,7 +1,10 @@
 package View.GUIMenu;
 
 import Controller.Controller;
+import Model.Account.AccountInformation;
 import Model.Account.Manager;
+import Model.Account.Role;
+import View.Menus.Menu;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,12 +21,32 @@ import javafx.stage.Stage;
 
 import java.lang.invoke.VarHandle;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 public class RegistraitionMenuGUI extends MenuGUI {
 
     //private URL cssFile = getClass().getResource("/Users/imanalipour/Documents/programming/java/AP-Project2020-team-59-git/src/main/resources/CssFiles/LoginMenu.css");
+    private String username;
+    private String name;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+    private String passWord;
+    private Role role;
 
-    public RegistraitionMenuGUI(Stage window, MenuGUI menu) {
+    private TextField txtUserName;
+    private PasswordField pf;
+
+    private TextField txtName;
+    private TextField txtLastName;
+    private TextField txtCompanyInformation;
+
+    private TextField txtEmail;
+    private TextField txtNumber;
+
+    private ComboBox<String> choiceBox;
+
+    public RegistraitionMenuGUI(Stage window, MenuGUI menu, boolean adminInNeed) {
         super(window, menu);
         window.setTitle("Register");
 
@@ -39,27 +62,28 @@ public class RegistraitionMenuGUI extends MenuGUI {
         gridPane.setVgap(5);
 
         Label lblUserName = new Label("Username");
-        final TextField txtUserName = new TextField();
+        txtUserName = new TextField();
         Label lblPassword = new Label("Password");
-        final PasswordField pf = new PasswordField();
+        pf = new PasswordField();
 
         Label name = new Label("Name");
-        final TextField txtName = new TextField();
+        txtName = new TextField();
         Label lastName = new Label("Last name");
-        final TextField txtLastName = new TextField();
+        txtLastName = new TextField();
         Label companyInformation = new Label("Company Information");
-        final TextField txtCompanyInformation = new TextField();
+        txtCompanyInformation = new TextField();
 
         Label email = new Label("Email");
-        final TextField txtEmail = new TextField();
+        txtEmail = new TextField();
         Label lblNumber = new Label("PhoneNumber");
-        final TextField txtNumber = new TextField();
+        txtNumber = new TextField();
 
         Label role = new Label("Role");
-        ComboBox<String> choiceBox = new ComboBox<>();
+        choiceBox = new ComboBox<>();
         choiceBox.getItems().addAll("Buyer", "Seller");
         choiceBox.setValue("Buyer");
-        if(Controller.getCurrentAccount() instanceof Manager){
+
+        if(Controller.getCurrentAccount() instanceof Manager || adminInNeed){
             choiceBox.setValue("Admin");
             choiceBox.setDisable(true);
         }
@@ -141,13 +165,12 @@ public class RegistraitionMenuGUI extends MenuGUI {
         linkToRegistrationMenu.setFont(Font.font("Verdana", FontPosture.ITALIC, 10));
 
         //Action for btnLogin
-        //btnLogin.setOnAction();
+        btnLogin.setOnAction(e -> getUserInformation());
 
         bp.setTop(hb);
         bp.setCenter(gridPane);
 
         scene = new Scene(bp, 500, 500);
-        //scene.getStylesheets().add(cssFile.toExternalForm());
 
 
         window.setOnCloseRequest(e -> {
@@ -161,5 +184,92 @@ public class RegistraitionMenuGUI extends MenuGUI {
     public void display() {
         window.setScene(scene);
         window.show();
+    }
+
+    public void getUserInformation(){
+        try {
+            getUserUsername();
+            getUserPassword();
+            getUserName();
+            getUserLastName();
+            getUserEmail();
+            getUserPhoneNumber();
+
+            if(choiceBox.getValue().equals("Buyer")){
+                Controller.sendCreatAccountApplication(username, name, lastName, email, phoneNumber, passWord, Role.BUYER);
+            }else if ( choiceBox.getValue().equals("Seller")){
+                Controller.sendCreatAccountApplication(username, name, lastName, email, phoneNumber, passWord, Role.BUYER, txtCompanyInformation.getText());
+            }else if (choiceBox.getValue().equals("Admin")){
+                new Manager(new AccountInformation(username, name, lastName, email, phoneNumber, passWord), Role.MANAGER);
+            }
+        }catch (Exception e){
+            AlertBox.display("Error", e.getMessage());
+        }
+
+    }
+
+
+    public void getUserUsername()throws Exception{
+        this.username = txtUserName.getText();
+        if(username.equals("")){
+            throw new Exception("You must complete username field");
+        }
+    }
+
+    public void getUserPassword()throws Exception{
+        this.passWord = pf.getText();
+        if(pf.equals("")){
+            throw new Exception("You must complete password field");
+        }
+    }
+
+    public void getUserName()throws Exception{
+        this.name = txtName.getText();
+        if ( name.matches(".*\\d.*") ){
+            throw new Exception("what the... whose name has digits in it....? any ways....");
+        }
+    }
+
+    public void getUserLastName()throws Exception{
+        System.out.println("please enter your last name");
+        this.lastName = txtLastName.getText();
+        if ( lastName.matches(".*\\d.*") ){
+            throw new Exception("what the... whose last name has digits in it....? any ways....");
+        }
+    }
+
+    public void getUserEmail(){
+        int flag = 0;
+        do {
+            if( flag == 1 ){
+                AlertBox.display("Error", "this email is not valid.... who are you trying too fool huh??\nPlease enter a valid email address.");
+            }
+            flag = 1;
+            this.email = txtEmail.getText();
+        }while( !emailIsValid(this.email) );
+    }
+
+    public void getUserPhoneNumber(){
+        int flag = 0;
+        do {
+            if( flag == 1 ){
+                AlertBox.display("Error","in which galaxy, phone numbers have characters you said?");
+            }
+            flag = 1;
+            this.phoneNumber = txtNumber.getText();
+        }while( !phoneNumber.matches("^\\d+$") );
+    }
+
+    public static boolean emailIsValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
     }
 }

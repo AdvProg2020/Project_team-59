@@ -59,7 +59,11 @@ public class Controller {
     }
 
     public static void sendCreatAccountApplication(String userName, String name, String lastName, String email, String phoneNumber, String password, Role role) {
-        Manager.addApplication(new CreatAccountRequest(ApplicationType.CREAT_ACCOUNT, userName, name, lastName, email, phoneNumber, password, role));
+        Manager.getAccountList().add(new Buyer(new AccountInformation(userName, name, lastName, email, phoneNumber, password), Role.BUYER));
+    }
+
+    public static void sendCreatAccountApplication(String userName, String name, String lastName, String email, String phoneNumber, String password, Role role, String companyInformation) {
+        Manager.addApplication(new CreatAccountRequest(ApplicationType.CREAT_ACCOUNT, userName, name, lastName, email, phoneNumber, password, role, companyInformation));
     }
 
     public static double useOffTicket(String offTicketId, Buyer buyer) throws Exception {
