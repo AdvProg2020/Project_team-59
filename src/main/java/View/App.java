@@ -1,14 +1,13 @@
 package View;
 
 import Controller.Controller;
-import Model.Account.AccountInformation;
-import Model.Account.Buyer;
-import Model.Account.Manager;
-import Model.Account.Role;
+import Model.Account.*;
 import Model.Good.Category;
 import Model.Good.Comment;
 import Model.Good.Good;
 import Model.log.BuyLog;
+import Model.log.SellLog;
+import Model.log.ShipmentState;
 import View.GUIMenu.LoginAndSignUp;
 import View.GUIMenu.ShoppingCartGUI;
 import javafx.application.Application;
@@ -41,13 +40,15 @@ import java.util.HashMap;
  * JavaFX App
  */
 public class App extends Application {
-    Scene mainscene,signScene,goodsScene,offScene,productScene,createManager,compareScene;
+    Scene mainscene,signScene,goodsScene,offScene,productScene,createManager,compareScene , buyLogsScene ,sellLogsScene;
     String productId;
     final Controller controller = Controller.getInstance();
     Stage stageGlobal;
     GridPane goodGridPane=new GridPane();
     GridPane offGridPane=new GridPane();
     GridPane compareGrid=new GridPane();
+    GridPane sellLogGridPane=new GridPane();
+    GridPane buyLogGridPane=new GridPane();
     @Override
     public void start(Stage stage) throws FileNotFoundException {
         stageGlobal=stage;
@@ -64,7 +65,144 @@ public class App extends Application {
         alert.initOwner(owner);
         alert.show();
     }
+    private void showBuyLogs () {
 
+        Text buyLogText = new Text ("buy Logs page") ;
+        buyLogText.setFont(Font.font("Verdana",30));
+        buyLogGridPane.add(buyLogText, 0, 0);
+        Buyer buyer= (Buyer) Controller.getCurrentAccount() ;
+        ArrayList <BuyLog> buyLogs = buyer.getBuyLog() ;
+        int h=2;
+        for (BuyLog buyLog : buyLogs) {
+
+            Text textDate=new Text();
+
+            textDate.setText(buyLog.getDate().toString());
+            textDate.setFont(Font.font("Verdana",15));
+            buyLogGridPane.add(textDate , 2 , h);
+
+            Text textMoneyExchanged=new Text();
+
+            textMoneyExchanged.setText(String.valueOf(buyLog.getMoneyExchanged()));
+            textMoneyExchanged.setFont(Font.font("Verdana",15));
+            buyLogGridPane.add(textMoneyExchanged , 3 , h);
+
+            Text textGoodsExchanged=new Text();
+            String goodsExchangedName = null;
+            for (Good good : buyLog.getGoodsExchanged()){
+                goodsExchangedName = goodsExchangedName + " "+ good.getProductName()   ;
+
+            }
+            textGoodsExchanged.setText(goodsExchangedName);
+            textGoodsExchanged.setFont(Font.font("Verdana",15));
+            buyLogGridPane.add(textGoodsExchanged , 4 , h);
+            Text textDiscountAmount = new Text ();
+            textDiscountAmount.setText(String.valueOf(buyLog.getDiscountAmount())) ;
+            textDiscountAmount.setFont(Font.font("Verdana",15));
+            buyLogGridPane.add(textDiscountAmount, 5, h);
+            Text textShipmentState = new Text ( );
+            ShipmentState shipmentState = buyLog.getShipmentState() ;
+            String state = null ;
+            if (shipmentState.equals(ShipmentState.PAID))
+                state = " Paid." ;
+            else if (shipmentState.equals(ShipmentState.READY_TO_BE_SENT))
+                state = " Ready to be sent." ;
+            else if (shipmentState.equals(ShipmentState.SENT))
+                state = " Sent." ;
+            else if (shipmentState.equals(ShipmentState.ARRIVED_TO_COUMER))
+                state = " Arrived to coumer." ;
+            textShipmentState.setText("Shipment state :" + state) ;
+            textShipmentState.setFont(Font.font("Verdana",15));
+            buyLogGridPane.add(textShipmentState,6, h) ;
+            Text textBuyerName =new Text () ;
+            textBuyerName.setText("Buyer :" + buyLog.getSellerName());
+            textBuyerName.setFont(Font.font("Verdana",15));
+            buyLogGridPane.add(textShipmentState,7, h) ;
+            h++;
+
+        }
+        buyLogGridPane.setVgap(20);
+        buyLogGridPane.setHgap(20);
+        Text backText=new Text("back");
+        backText.setFont(Font.font("Verdana",20));
+        Button back1Button=new Button(backText.getText());
+        buyLogGridPane.add(back1Button,1,1);
+        back1Button.setOnAction(e-> stageGlobal.setScene(mainscene)); // back to user pannel
+
+        buyLogGridPane.setMinSize(750,480);
+        buyLogsScene=new Scene(buyLogGridPane);
+
+
+    }
+    private void showSellLogs () {
+
+        Text sellLogText = new Text ("sell Logs page") ;
+        sellLogText.setFont(Font.font("Verdana",30));
+        sellLogGridPane.add(sellLogText, 0, 0);
+        Seller seller = (Seller) Controller.getCurrentAccount() ;
+        ArrayList <SellLog> sellLogs = seller.getSellLog() ;
+        int h=2;
+        for (SellLog sellLog : sellLogs) {
+
+            Text textDate=new Text();
+
+            textDate.setText(sellLog.getDate().toString());
+            textDate.setFont(Font.font("Verdana",15));
+            sellLogGridPane.add(textDate , 2 , h);
+
+            Text textMoneyExchanged=new Text();
+
+            textMoneyExchanged.setText(String.valueOf(sellLog.getMoneyExchanged()));
+            textMoneyExchanged.setFont(Font.font("Verdana",15));
+            sellLogGridPane.add(textMoneyExchanged , 3 , h);
+
+            Text textGoodsExchanged=new Text();
+            String goodsExchangedName = null;
+            for (Good good : sellLog.getGoodsExchanged()){
+                goodsExchangedName = goodsExchangedName + " "+ good.getProductName()   ;
+
+            }
+            textGoodsExchanged.setText(goodsExchangedName);
+            textGoodsExchanged.setFont(Font.font("Verdana",15));
+            sellLogGridPane.add(textGoodsExchanged , 4 , h);
+            Text textDiscountAmount = new Text ();
+            textDiscountAmount.setText(String.valueOf(sellLog.getDiscountAmount())) ;
+            textDiscountAmount.setFont(Font.font("Verdana",15));
+            sellLogGridPane.add(textDiscountAmount, 5, h);
+            Text textShipmentState = new Text ( );
+            ShipmentState shipmentState = sellLog.getShipmentState() ;
+            String state = null ;
+            if (shipmentState.equals(ShipmentState.PAID))
+                state = " Paid." ;
+            else if (shipmentState.equals(ShipmentState.READY_TO_BE_SENT))
+                state = " Ready to be sent." ;
+            else if (shipmentState.equals(ShipmentState.SENT))
+                state = " Sent." ;
+            else if (shipmentState.equals(ShipmentState.ARRIVED_TO_COUMER))
+                state = " Arrived to coumer." ;
+            textShipmentState.setText("Shipment state :" + state) ;
+            textShipmentState.setFont(Font.font("Verdana",15));
+            sellLogGridPane.add(textShipmentState,6, h) ;
+            Text textBuyerName =new Text () ;
+            textBuyerName.setText("Buyer :" + sellLog.getBuyerName());
+            textBuyerName.setFont(Font.font("Verdana",15));
+            sellLogGridPane.add(textShipmentState,7, h) ;
+            h++;
+
+        }
+        sellLogGridPane.setVgap(20);
+        sellLogGridPane.setHgap(20);
+        Text backText=new Text("back");
+        backText.setFont(Font.font("Verdana",20));
+        Button back1Button=new Button(backText.getText());
+        sellLogGridPane.add(back1Button,1,1);
+        back1Button.setOnAction(e-> stageGlobal.setScene(mainscene)); // back to user pannel
+
+        sellLogGridPane.setMinSize(750,480);
+        sellLogsScene=new Scene(sellLogGridPane);
+
+
+    }
     private void showProduct(){
 
         Good good=controller.getGood(productId);
