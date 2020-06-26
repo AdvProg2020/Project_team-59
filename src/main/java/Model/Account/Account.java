@@ -16,9 +16,10 @@ public abstract class Account {
     }
 
     public Account(AccountInformation accountInformation, Role role) {
+        offTickets = new ArrayList<>();
         this.accountInformation = accountInformation;
         this.role = role;
-        this.balance = 0;
+        this.balance = 10000;
     }
 
     public void setAccountInformation(AccountInformation accountInformation) {

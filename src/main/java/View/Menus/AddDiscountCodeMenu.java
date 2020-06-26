@@ -14,7 +14,11 @@ public class AddDiscountCodeMenu extends Menu {
             System.out.println("enter off ticket id, or if you dont want, or dont have, enter end\nWARNING NOTE : please keep in mind that if you use an off ticket and are not able to complete the purchase, your off ticket would not redeem.");
             input = Menu.getInputFromUser().trim();
             if(!input.toLowerCase().equals("end")){
-                new PaymentMenu(this).run(catchOffTicket(input , buyer) , buyer);
+                try {
+                    new PaymentMenu(this).run(catchOffTicket(input , buyer) , buyer);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }while(!input.toLowerCase().equals("end"));
     }

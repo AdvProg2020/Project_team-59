@@ -36,6 +36,11 @@ public class Good {
         this.comments=comments;
     }
 
+    public Good(double price, String productName) {
+        this.price = price;
+        this.productName = productName;
+    }
+
     public void setOffpercent(double offpercent) {
         this.offpercent = offpercent;
     }

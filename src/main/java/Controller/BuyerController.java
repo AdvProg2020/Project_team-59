@@ -5,6 +5,9 @@ import Model.Account.Buyer;
 import Model.Account.Seller;
 import Model.Discount.OffTicket;
 import Model.Good.Good;
+import Model.log.BuyLog;
+import Model.log.Log;
+import Model.log.ShipmentState;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -65,10 +68,18 @@ public class BuyerController extends AccountController{
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    public static void purchase( Buyer buyer , double totalPrice){
+    public static void purchase( Buyer buyer , double totalPrice) throws Exception {
+        if(totalPrice > buyer.getBalance()){
+            throw new Exception("insufficient funds");
+        }
         buyer.setBalance(buyer.getBalance() - totalPrice);
+        ArrayList<Good> tmpCart = new ArrayList<>();
+        buyer.getCart().keySet().forEach(p -> tmpCart.add(p));
+        Seller seller = tmpCart.get(0).getSellers().get(0);
+        buyer.getBuyLog().add(new BuyLog(null, new Date(), totalPrice, buyer.getCartValue()-totalPrice, tmpCart, ShipmentState.PAID, seller.getAccountInformation().getName()));
+        buyer.getCart().clear();
         if(totalPrice > 1000000){
-            //buyer.getOffTickets().add(new OffTicket(new Date() , addDaysToADate(new Date()) ,  generateRandomNumber(0 , 90) , generateRandomNumber(5000 , 1000000) , generateRandomNumber(1,5) , new ArrayList<>(Arrays.asList(buyer))));
+            //buyer.getOffTickets().add(new OffTicket(new Date() , addDaysToADate(new Date()) ,  generateRandomNumber(0 , 90) , generateRandomNumber(5000 , 1000000) , generateRandomNumber(1,5) , new ArrayList<Buyer>(Arrays.asList(buyer))));
         }
     }
 

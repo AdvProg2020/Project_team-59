@@ -56,6 +56,10 @@ public class Manager extends Account{
         throw new Exception("product not found");
     }
 
+    public static ArrayList<Account> getAccountList() {
+        return accountList;
+    }
+
     public Account getSellerById(String sellerUsername) throws Exception{
         for (Account account : accountList) {
             if( account.getAccountInformation().getUsername().equals(sellerUsername) && account instanceof Seller )
