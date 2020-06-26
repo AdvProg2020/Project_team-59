@@ -19,11 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce47feaa-bb56-40fd-a878-13b1ca2da8d7" name="Default Changelist" comment="added application modules to project, javafx dependencies and refactored main">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/BuyerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/BuyerController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Menus/BuyerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Menus/BuyerView.java" afterDir="false" />
-    </list>
+    <list default="true" id="ce47feaa-bb56-40fd-a878-13b1ca2da8d7" name="Default Changelist" comment="added application modules to project, javafx dependencies and refactored main" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -126,7 +122,7 @@
       <workItem from="1592040872592" duration="2527000" />
       <workItem from="1593140490959" duration="1752000" />
       <workItem from="1593142548749" duration="1624000" />
-      <workItem from="1593144443359" duration="968000" />
+      <workItem from="1593144443359" duration="1707000" />
     </task>
     <task id="LOCAL-00001" summary="minor bugs fixed(in manager class)">
       <created>1587374840127</created>
@@ -341,7 +337,13 @@
       <option name="presentableId" value="LOCAL‎۰۰۰۳۱" />
       <updated>1593143934399</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL‎۰۰۰۳۲" summary="BuyerController and BuyerView changes">
+      <created>1593145546051</created>
+      <option name="number" value="LOCAL‎۰۰۰۳۲" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۳۲" />
+      <updated>1593145546051</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -360,7 +362,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="edit category option was added" />
     <MESSAGE value="minor warning fixes in edit category" />
     <MESSAGE value="add sub category option added to edit category" />
     <MESSAGE value="add/remove sub category option added to edit category" />
@@ -385,7 +386,8 @@
     <MESSAGE value="added application modules to project, javafx dependencies and refactored main" />
     <MESSAGE value="seller view changes" />
     <MESSAGE value="manager" />
-    <option name="LAST_COMMIT_MESSAGE" value="manager" />
+    <MESSAGE value="BuyerController and BuyerView changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="BuyerController and BuyerView changes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -469,10 +471,10 @@
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="596" y="337" key="Vcs.Multiple.Commit.Info.Dialog.Key/0.0.1792.1120@0.0.1792.1120" timestamp="1591936380593" />
-    <state x="378" y="206" key="Vcs.Push.Dialog.v2" timestamp="1593143938081">
+    <state x="378" y="206" key="Vcs.Push.Dialog.v2" timestamp="1593145555702">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="378" y="206" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1593143938081" />
+    <state x="378" y="206" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1593145555702" />
     <state x="496" y="300" key="Vcs.Push.Dialog.v2/0.0.1792.1120@0.0.1792.1120" timestamp="1589842206263" />
     <state x="573" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1592040872578">
       <screen x="0" y="23" width="1792" height="1022" />
