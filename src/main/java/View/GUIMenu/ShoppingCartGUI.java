@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class ShoppingCartGUI extends MenuGUI{
+public class ShoppingCartGUI {
 
     private TableView<Map.Entry<Good, Integer>> cart;
     //private HashMap<Good, Integer> cartmap;
@@ -30,11 +30,11 @@ public class ShoppingCartGUI extends MenuGUI{
     private Button reduceButton;
     private Button purchase, view;
     private Buyer buyer;
-    private Stage window2;
+    private Stage window;
+    private Scene scene;
 
-    public ShoppingCartGUI(Stage window, Scene headScene, Buyer buyer) {
-        super(window, headScene);
-        window2 = new Stage();
+    public ShoppingCartGUI( Buyer buyer) {
+        window = new Stage();
 
         this.buyer = buyer;
 
@@ -92,15 +92,10 @@ public class ShoppingCartGUI extends MenuGUI{
 
         scene = new Scene(vBox, 500, 500);
 
-        window.setOnCloseRequest(e -> {
-            window.setScene(headScene);
-            window.show();
-        });
 
     }
 
     public ShoppingCartGUI(Stage window, Scene headScene, User buyer) {
-        super(window, headScene);
 
         //Number
 
@@ -165,9 +160,6 @@ public class ShoppingCartGUI extends MenuGUI{
 
     private void addButtonFunctions(){
         ObservableList<Map.Entry<Good, Integer>> products,selectedProducts;
-        products = cart.getItems();
-
-
         selectedProducts = cart.getSelectionModel().getSelectedItems();
 
         addButton.setOnAction(e -> {
@@ -190,7 +182,7 @@ public class ShoppingCartGUI extends MenuGUI{
 
         purchase.setOnAction(e -> {
             window.close();
-            new PurchasePageGUI(window, this.scene, buyer).display();
+            new PurchasePageGUI( buyer).display();
         });
 
         view.setOnAction(e -> {
@@ -223,13 +215,10 @@ public class ShoppingCartGUI extends MenuGUI{
         });
 
         purchase.setOnAction(e -> {
-            new LoginAndSignUp(window, headScene);
+            new LoginAndSignUp();
             if(Controller.getCurrentAccount() instanceof Buyer) {
                 window.close();
-                new PurchasePageGUI(window, headScene, (Buyer) Controller.getCurrentAccount());
-            }else {
-                window.setScene(headScene);
-                window.show();
+                new PurchasePageGUI((Buyer) Controller.getCurrentAccount());
             }
         });
 
@@ -240,7 +229,6 @@ public class ShoppingCartGUI extends MenuGUI{
         });
     }
 
-    @Override
     public void display() {
         window.setScene(scene);
         window.show();

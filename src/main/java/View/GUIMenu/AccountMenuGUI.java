@@ -16,15 +16,17 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.w3c.dom.Text;
 
-public class AccountMenuGUI extends MenuGUI{
+public class AccountMenuGUI {
 
     private HBox topMenu;
     private VBox mainMenu;
     private Button back, logOut, showPersonalInfo;
     private Account account;
+    private Stage window;
+    private Scene scene;
 
-    public AccountMenuGUI(Stage window, Scene headMenu, Account account) {
-        super(window, headMenu);
+    public AccountMenuGUI( Account account) {
+        window = new Stage();
 
         topMenu = new HBox();
         topMenu.setPadding(new Insets(20, 20, 20, 20));

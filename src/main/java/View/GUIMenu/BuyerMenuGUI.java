@@ -26,17 +26,18 @@ import javafx.stage.Stage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class BuyerMenuGUI extends MenuGUI{
+public class BuyerMenuGUI {
 
     private HBox topMenu;
     private VBox mainMenu;
     private Button back, logOut, showPersonalInfo, showBuyLogs, viewCart, showOffTickets;
     private Account account;
     private Label role;
+    private Stage window;
+    private Scene scene;
 
-    public BuyerMenuGUI(Stage window, Scene headScene, Account account) {
-        super(window, headScene);
-
+    public BuyerMenuGUI( Account account) {
+        window = new Stage();
         this.account = account;
 
         topMenu = new HBox();
@@ -99,7 +100,7 @@ public class BuyerMenuGUI extends MenuGUI{
 
         scene = new Scene(mainMenu, 500, 300);
 
-        viewCart.setOnAction(e -> new ShoppingCartGUI(window, scene, (Buyer) account).display());
+        viewCart.setOnAction(e -> new ShoppingCartGUI( (Buyer) account).display());
     }
 
     private void showOffInfo(OffTicket offTicket){
@@ -256,7 +257,6 @@ public class BuyerMenuGUI extends MenuGUI{
         window2.show();
     }
 
-    @Override
     public void display() {
         window.setScene(scene);
         window.show();

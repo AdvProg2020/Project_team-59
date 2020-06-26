@@ -23,7 +23,7 @@ import java.lang.invoke.VarHandle;
 import java.net.URL;
 import java.util.regex.Pattern;
 
-public class RegistraitionMenuGUI extends MenuGUI {
+public class RegistraitionMenuGUI {
 
     //private URL cssFile = getClass().getResource("/Users/imanalipour/Documents/programming/java/AP-Project2020-team-59-git/src/main/resources/CssFiles/LoginMenu.css");
     private String username;
@@ -33,6 +33,8 @@ public class RegistraitionMenuGUI extends MenuGUI {
     private String phoneNumber;
     private String passWord;
     private Role role;
+    private Stage window;
+    private Scene scene;
 
     private TextField txtUserName;
     private PasswordField pf;
@@ -46,8 +48,8 @@ public class RegistraitionMenuGUI extends MenuGUI {
 
     private ComboBox<String> choiceBox;
 
-    public RegistraitionMenuGUI(Stage window, Scene headScene, boolean adminInNeed) {
-        super(window, headScene);
+    public RegistraitionMenuGUI( boolean adminInNeed) {
+        window = new Stage();
         window.setTitle("Register");
 
         BorderPane bp = new BorderPane();
@@ -91,7 +93,7 @@ public class RegistraitionMenuGUI extends MenuGUI {
         Button btnLogin = new Button("Register");
         final Label lblMessage = new Label();
         Hyperlink linkToRegistrationMenu = new Hyperlink("Or Login");
-        linkToRegistrationMenu.setOnAction(e -> new LoginAndSignUp(window, this.headScene).display());
+        linkToRegistrationMenu.setOnAction(e -> new LoginAndSignUp().display());
 
         gridPane.add(lblUserName, 0, 0);
         gridPane.add(txtUserName, 1, 0);
@@ -171,17 +173,8 @@ public class RegistraitionMenuGUI extends MenuGUI {
         bp.setCenter(gridPane);
 
         scene = new Scene(bp, 500, 500);
-
-
-        window.setOnCloseRequest(e -> {
-            window.close();
-            window.setScene(headScene);
-            window.show();
-        });
-
     }
 
-    @Override
     public void display() {
         window.setScene(scene);
         window.show();

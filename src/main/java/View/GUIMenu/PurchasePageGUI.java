@@ -19,13 +19,15 @@ import javafx.stage.Stage;
 import java.net.URL;
 import Controller.BuyerController;
 
-public class PurchasePageGUI extends MenuGUI {
+public class PurchasePageGUI {
 
     private Double finalPrice;
     private Buyer buyer;
+    private Stage window;
+    private Scene scene;
 
-    public PurchasePageGUI(Stage window, Scene headScene, Buyer buyer) {
-        super(window, headScene);
+    public PurchasePageGUI( Buyer buyer) {
+        window = new Stage();
         this.buyer = buyer;
         window.setTitle("Purchase");
 
@@ -94,8 +96,7 @@ public class PurchasePageGUI extends MenuGUI {
                     finalPrice = Controller.useOffTicket(offTicketField.getText(), buyer);
                     try {
                         BuyerController.purchase(buyer, finalPrice);
-                        window.setScene(headScene);
-                        window.show();
+                        window.close();
                         AlertBox.display("Congrats", "Purchase was successful!");
                     } catch (Exception ex) {
                         AlertBox.display("Error", ex.getMessage());
@@ -107,15 +108,12 @@ public class PurchasePageGUI extends MenuGUI {
                 finalPrice = buyer.getCartValue();
                 try {
                     BuyerController.purchase(buyer, finalPrice);
-                    window.setScene(headScene);
-                    window.show();
+                    window.close();
                     AlertBox.display("Congrats", "Purchase was successful!");
                 } catch (Exception ex) {
                     AlertBox.display("Error", ex.getMessage());
                 }
             }
-            window.setScene(headScene);
-            window.show();
         });
 
         bp.setTop(hb);
@@ -124,15 +122,8 @@ public class PurchasePageGUI extends MenuGUI {
         scene = new Scene(bp);
         //scene.getStylesheets().add(cssFile.toExternalForm());
 
-
-        window.setOnCloseRequest(e -> {
-            window.setScene(headScene);
-            window.show();
-        });
-
     }
 
-    @Override
     public void display() {
         window.setScene(scene);
         window.show();

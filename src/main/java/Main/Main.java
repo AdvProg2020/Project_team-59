@@ -46,14 +46,14 @@ public class Main extends Application {
         buyer.getOffTickets().add(new OffTicket(dateFormat.format(new Date()), dateFormat.format(new Date()), 10, 20, 2, bu));
 
 
-        new BuyerMenuGUI(stage, null, buyer).display();
+        new BuyerMenuGUI( buyer).display();
 
     }
 
     public static void startProgram(Stage window){
         Controller controller = new Controller();
           if ( !new File("database.ifs").exists() ){
-            new RegistraitionMenuGUI(window, null, true); //todo convert into main menu
+            new RegistraitionMenuGUI(true); //todo convert into main menu
         }
         else{
             Controller.initializer();

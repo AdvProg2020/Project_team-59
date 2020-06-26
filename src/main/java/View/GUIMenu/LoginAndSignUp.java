@@ -25,15 +25,17 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 
-public class LoginAndSignUp extends MenuGUI {
+public class LoginAndSignUp {
 
     //private URL cssFile = getClass().getResource("/Users/imanalipour/Documents/programming/java/AP-Project2020-team-59-git/src/main/resources/CssFiles/LoginMenu.css");
 
     final TextField txtUserName;
     final TextField pf;
+    private Stage window;
+    private Scene scene;
 
-    public LoginAndSignUp(Stage window, Scene headScene) {
-        super(window, headScene);
+    public LoginAndSignUp() {
+        window = new Stage();
         window.setTitle("Login");
 
         BorderPane bp = new BorderPane();
@@ -54,7 +56,7 @@ public class LoginAndSignUp extends MenuGUI {
         Button btnLogin = new Button("Login");
         final Label lblMessage = new Label();
         Hyperlink linkToRegistrationMenu = new Hyperlink("Or Register");
-        linkToRegistrationMenu.setOnAction(e -> new RegistraitionMenuGUI(window, headScene, false).display());
+        linkToRegistrationMenu.setOnAction(e -> new RegistraitionMenuGUI( false).display());
 
         gridPane.add(lblUserName, 0, 0);
         gridPane.add(txtUserName, 1, 0);
@@ -98,13 +100,6 @@ public class LoginAndSignUp extends MenuGUI {
 
         scene = new Scene(bp);
 
-
-        window.setOnCloseRequest(e -> {
-            window.close();
-            window.setScene(headScene);
-            window.show();
-        });
-
     }
 
     public void run(){
@@ -116,8 +111,6 @@ public class LoginAndSignUp extends MenuGUI {
             if (account.passwordIsCorrect(pf.getText())) {
                 goToAccountsPage(account);
                 window.close();
-                window.setScene(headScene);
-                window.show();
             } else {
                 throw new Exception("password is incorrect");
             }
@@ -139,7 +132,6 @@ public class LoginAndSignUp extends MenuGUI {
         buyer.addItemsToCart(Controller.getCurrentUser().getCart());
     }
 
-    @Override
     public void display() {
         window.setScene(scene);
         window.show();
