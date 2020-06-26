@@ -461,7 +461,7 @@ public class ManagerView extends Menu {
         double price=scanner.nextDouble();
         System.out.println("enter characteristic : ");
         String characteristic=scanner.nextLine();
-        Good good=new Good(name,price,characteristic,null , null);
+        Good good=new Good(name,null,price,characteristic,null , null ,null);
         return good;
 
     }
@@ -471,7 +471,7 @@ public class ManagerView extends Menu {
         String characteristic=scanner.nextLine();
         System.out.println("enter price : ");
         double price=scanner.nextDouble();
-        Good good=new Good(name,price,characteristic,null , null);
+        Good good=new Good(name,null,price,characteristic,null , null,null);
 
         System.out.println("GOOD ADDED");
         return good;

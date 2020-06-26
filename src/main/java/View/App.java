@@ -164,7 +164,7 @@ public class App extends Application {
         buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                new ShoppingCartGUI(Controller.getCurrentAccount()).display();
+                new ShoppingCartGUI((Buyer)Controller.getCurrentAccount()).display();
             }
 
         });
