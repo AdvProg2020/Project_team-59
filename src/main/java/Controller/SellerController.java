@@ -8,6 +8,7 @@ import Model.Discount.SaleState;
 import Model.Good.Category;
 import Model.Good.Characteristic;
 import Model.Good.Good;
+import Model.log.SellLog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -154,10 +155,26 @@ public class SellerController extends AccountController {
 
     public void viewSalesHistory(){
         //TODO prints sellers sales history
+        ArrayList<SellLog> sellLogs = loggedInSeller.getSellLog () ;
+        for (SellLog sellLog : sellLogs) {
+            System.out.println("Date :" + sellLog.getDate());
+            System.out.println("Money exchanged :" + sellLog.getMoneyExchanged());
+            System.out.println("Discount amount :" + sellLog.getDiscountAmount());
+            ArrayList<Good> goodsExchanged = sellLog.getGoodsExchanged() ;
+            System.out.println("Goods exchanged :");
+            for (Good good :  goodsExchanged ) {
+                System.out.println(good.getProductName()) ;
+            }
+
+            System.out.println(" ");
+        }
+
     }
 
     public void viewCompanyInformation(){
         //TODO prints sellers company information
+
+        System.out.println(loggedInSeller.getCompanyInformation()) ;
     }
 
 
