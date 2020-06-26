@@ -236,7 +236,9 @@ public class RegistraitionMenuGUI {
         int flag = 0;
         do {
             if( flag == 1 ){
-                AlertBox.display("Error", "this email is not valid.... who are you trying too fool huh??\nPlease enter a valid email address.");
+                AlertBox.display("Error", "this email is not valid....\nPlease enter a valid email address.");
+                txtEmail.clear();
+                return;
             }
             flag = 1;
             this.email = txtEmail.getText();
@@ -248,6 +250,8 @@ public class RegistraitionMenuGUI {
         do {
             if( flag == 1 ){
                 AlertBox.display("Error","in which galaxy, phone numbers have characters you said?");
+                txtName.clear();
+                return;
             }
             flag = 1;
             this.phoneNumber = txtNumber.getText();
