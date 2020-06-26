@@ -14,7 +14,7 @@ public class PaymentMenu extends Menu {
 
     }
 
-    public void run(double totalValue , Buyer buyer){
+    public void run(double totalValue , Buyer buyer) throws Exception {
         if(buyer.getBalance() < totalValue){
             System.out.println("your balance is not enough");
         }

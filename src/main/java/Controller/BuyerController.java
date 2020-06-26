@@ -65,10 +65,13 @@ public class BuyerController extends AccountController{
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    public static void purchase( Buyer buyer , double totalPrice){
+    public static void purchase( Buyer buyer , double totalPrice) throws Exception {
+        if(totalPrice > buyer.getBalance()){
+            throw new Exception("insufficient funds");
+        }
         buyer.setBalance(buyer.getBalance() - totalPrice);
         if(totalPrice > 1000000){
-            //buyer.getOffTickets().add(new OffTicket(new Date() , addDaysToADate(new Date()) ,  generateRandomNumber(0 , 90) , generateRandomNumber(5000 , 1000000) , generateRandomNumber(1,5) , new ArrayList<>(Arrays.asList(buyer))));
+            //buyer.getOffTickets().add(new OffTicket(new Date() , addDaysToADate(new Date()) ,  generateRandomNumber(0 , 90) , generateRandomNumber(5000 , 1000000) , generateRandomNumber(1,5) , new ArrayList<Buyer>(Arrays.asList(buyer))));
         }
     }
 

@@ -21,7 +21,7 @@ public class LoginAndSignUp extends MenuGUI {
     //private URL cssFile = getClass().getResource("/Users/imanalipour/Documents/programming/java/AP-Project2020-team-59-git/src/main/resources/CssFiles/LoginMenu.css");
 
     public LoginAndSignUp(Stage window, MenuGUI menu) {
-        super(window);
+        super(window, menu);
         window.setTitle("Login");
 
         BorderPane bp = new BorderPane();
