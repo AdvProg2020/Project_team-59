@@ -9,6 +9,8 @@ import Model.Good.Category;
 import Model.Good.Comment;
 import Model.Good.Good;
 import Model.log.BuyLog;
+import View.GUIMenu.LoginAndSignUp;
+import View.GUIMenu.ShoppingCartGUI;
 import javafx.application.Application;
 import javafx.css.Size;
 import javafx.event.ActionEvent;
@@ -162,7 +164,7 @@ public class App extends Application {
         buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                new ShoppingCartGUI(Controller.getCurrentAccount()).display();
             }
 
         });
@@ -552,7 +554,7 @@ public class App extends Application {
         goodsScene=new Scene(goodGridPane);
     }
     public void signInShow(){
-
+        new LoginAndSignUp().display();
     }
     public void showbriefGood(Collection<Good> goods1){
         int i=2;

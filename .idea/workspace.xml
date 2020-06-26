@@ -20,12 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce47feaa-bb56-40fd-a878-13b1ca2da8d7" name="Default Changelist" comment="added application modules to project, javafx dependencies and refactored main">
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Controller/Controller.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Account/Account.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Account/Manager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Model/Account/User.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
