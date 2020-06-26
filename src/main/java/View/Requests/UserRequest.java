@@ -2,6 +2,7 @@ package View.Requests;
 
 public enum UserRequest {
     LOG_IN,
+    LOG_OFF,
     CREAT_ACCOUNT,
     GO_TO_OFFS,
     GO_TO_PRODUCTS_MENU,

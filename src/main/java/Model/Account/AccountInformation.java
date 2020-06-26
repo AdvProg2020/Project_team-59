@@ -68,4 +68,9 @@ public class AccountInformation {
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
+    public void printAccountInformation ()
+    {
+        System.out.println("name : " + this.name + "\n lastname : " + this.lastName + "\n username : " + this.username + "\n password : " +this.passWord + "\n email : " + this.email + "\n phone number : " + this.phoneNumber) ;
+
+    }
 }

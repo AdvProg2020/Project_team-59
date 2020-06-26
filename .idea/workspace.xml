@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce47feaa-bb56-40fd-a878-13b1ca2da8d7" name="Default Changelist" comment="" />
+    <list default="true" id="ce47feaa-bb56-40fd-a878-13b1ca2da8d7" name="Default Changelist" comment="added application modules to project, javafx dependencies and refactored main" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,31 +43,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="MERGE" />
   </component>
-  <component name="IgnoredFileRootStore">
-    <option name="generatedRoots">
-      <set>
-        <option value="$PROJECT_DIR$/.idea" />
-      </set>
-    </option>
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="importingSettings">
-      <MavenImportingSettings>
-        <option name="importAutomatically" value="true" />
-      </MavenImportingSettings>
-    </option>
-  </component>
   <component name="ProjectId" id="1an1NxXYLY4Ajkg5e8fe8GF6SAb" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -83,7 +87,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7cf0e959-80b2-47aa-b116-2906563aa596" name="Default Changelist" comment="" />
+      <changelist id="ce47feaa-bb56-40fd-a878-13b1ca2da8d7" name="Default Changelist" comment="" />
       <created>1587356507205</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -116,6 +120,9 @@
       <workItem from="1590231790469" duration="247000" />
       <workItem from="1591934585881" duration="8206000" />
       <workItem from="1592040872592" duration="2527000" />
+      <workItem from="1593140490959" duration="1752000" />
+      <workItem from="1593142548749" duration="1624000" />
+      <workItem from="1593144443359" duration="1707000" />
     </task>
     <task id="LOCAL-00001" summary="minor bugs fixed(in manager class)">
       <created>1587374840127</created>
@@ -306,29 +313,55 @@
       <option name="project" value="LOCAL" />
       <updated>1592041129964</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL‎۰۰۰۲۸" summary="added application modules to project, javafx dependencies and refactored main">
+      <created>1593141480934</created>
+      <option name="number" value="LOCAL‎۰۰۰۲۸" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۲۸" />
+      <updated>1593141480935</updated>
+    </task>
+    <task id="LOCAL‎۰۰۰۲۹" summary="seller view changes">
+      <created>1593142819004</created>
+      <option name="number" value="LOCAL‎۰۰۰۲۹" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۲۹" />
+      <updated>1593142819004</updated>
+    </task>
+    <task id="LOCAL‎۰۰۰۳۰" summary="seller view changes">
+      <created>1593142866508</created>
+      <option name="number" value="LOCAL‎۰۰۰۳۰" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۳۰" />
+      <updated>1593142866508</updated>
+    </task>
+    <task id="LOCAL‎۰۰۰۳۱" summary="manager">
+      <created>1593143934398</created>
+      <option name="number" value="LOCAL‎۰۰۰۳۱" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۳۱" />
+      <updated>1593143934399</updated>
+    </task>
+    <task id="LOCAL‎۰۰۰۳۲" summary="BuyerController and BuyerView changes">
+      <created>1593145546051</created>
+      <option name="number" value="LOCAL‎۰۰۰۳۲" />
+      <option name="presentableId" value="LOCAL‎۰۰۰۳۲" />
+      <updated>1593145546051</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added delete category by manager option" />
-    <MESSAGE value="creat category option was added" />
-    <MESSAGE value="edit category option was added" />
     <MESSAGE value="minor warning fixes in edit category" />
     <MESSAGE value="add sub category option added to edit category" />
     <MESSAGE value="add/remove sub category option added to edit category" />
@@ -351,7 +384,10 @@
     <MESSAGE value="Fixed gitignore :(" />
     <MESSAGE value="updated a class name" />
     <MESSAGE value="added application modules to project, javafx dependencies and refactored main" />
-    <option name="LAST_COMMIT_MESSAGE" value="added application modules to project, javafx dependencies and refactored main" />
+    <MESSAGE value="seller view changes" />
+    <MESSAGE value="manager" />
+    <MESSAGE value="BuyerController and BuyerView changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="BuyerController and BuyerView changes" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="WindowStateProjectService">
@@ -435,9 +471,10 @@
       <screen x="0" y="0" width="1792" height="1120" />
     </state>
     <state x="596" y="337" key="Vcs.Multiple.Commit.Info.Dialog.Key/0.0.1792.1120@0.0.1792.1120" timestamp="1591936380593" />
-    <state x="496" y="300" key="Vcs.Push.Dialog.v2" timestamp="1589842206263">
-      <screen x="0" y="0" width="1792" height="1120" />
+    <state x="378" y="206" key="Vcs.Push.Dialog.v2" timestamp="1593145555702">
+      <screen x="0" y="0" width="1366" height="768" />
     </state>
+    <state x="378" y="206" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1593145555702" />
     <state x="496" y="300" key="Vcs.Push.Dialog.v2/0.0.1792.1120@0.0.1792.1120" timestamp="1589842206263" />
     <state x="573" y="345" key="com.intellij.ide.util.TipDialog" timestamp="1592040872578">
       <screen x="0" y="23" width="1792" height="1022" />

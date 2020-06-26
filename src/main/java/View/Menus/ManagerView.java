@@ -26,6 +26,7 @@ import View.Menus.CreatAccountMenu;
 public class ManagerView extends Menu {
     private ManagerRequest managerRequest;
     private UserRequest userRequest;
+    private static Scanner scanner ;
 
     String command;
     private static final Controller controller = Controller.getInstance();

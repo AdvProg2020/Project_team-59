@@ -15,6 +15,7 @@ public class ProductsView extends Menu {
     private UserRequest userRequest;
     private String filter;
     private int i = 0;
+    private Scanner scanner ;
     private String sort;
 
     public ProductsView(Menu menu) {

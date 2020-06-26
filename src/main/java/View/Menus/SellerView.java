@@ -6,6 +6,7 @@ import Model.Account.Seller;
 import Model.Discount.Sale;
 import Model.Discount.SaleState;
 import Model.Good.Good;
+import Model.Good.Category ;
 import View.Requests.SellerRequest;
 import View.Requests.UserRequest;
 
@@ -41,6 +42,32 @@ public class SellerView extends Menu{
         if(sellerRequest.equals(SellerRequest.VIEW_SELLERS_SALES)){
             showSellersSales();
         }
+        if(sellerRequest.equals(SellerRequest.VIEW_COMPANY_INFORMATION)){
+            sellerController.viewCompanyInformation() ;
+        }
+        if(sellerRequest.equals(SellerRequest.SHOW_CATEGORIES)){
+            showCategories();
+        }
+        if(sellerRequest.equals(SellerRequest.VIEW_BALANCE)){
+            viewBalance();
+        }
+        if(sellerRequest.equals(SellerRequest.VIEW_SALES_HISTORY)){
+            sellerController.viewSalesHistory() ;
+        }
+
+    }
+    private void showCategories ()
+    {
+        ArrayList<Category> categoryList = Manager.getCategoryList () ;
+        for (Category category : categoryList)
+        {
+            System.out.println(category.getCategoryName ());
+        }
+    }
+
+    private void  viewBalance ()
+    {
+        System.out.println (sellerController.getLoggedInSeller().getBalance () ) ;
     }
 
     private void showSellersSales(){
@@ -309,6 +336,19 @@ public class SellerView extends Menu{
     private void getRequestType(String command){
         if(command.startsWith("view offs")){
             sellerRequest = SellerRequest.VIEW_SELLERS_SALES;
+        }
+        else if (command.startsWith("view balance")) {
+            sellerRequest = SellerRequest.VIEW_BALANCE;
+        }
+        else if (command.startsWith("show categories")) {
+            sellerRequest = SellerRequest.SHOW_CATEGORIES;
+        }
+
+        else if (command.startsWith("view company information")) {
+            sellerRequest = SellerRequest.VIEW_COMPANY_INFORMATION;
+        }
+        else if (command.startsWith("view sales history")) {
+            sellerRequest = SellerRequest.VIEW_SALES_HISTORY;
         }
     }
 
