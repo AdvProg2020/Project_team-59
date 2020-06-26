@@ -46,7 +46,7 @@ public class Main extends Application {
         buyer.getOffTickets().add(new OffTicket(dateFormat.format(new Date()), dateFormat.format(new Date()), 10, 20, 2, bu));
 
 
-        new BuyerMenuGUI( buyer).display();
+        new LoginAndSignUp().display();
 
     }
 
