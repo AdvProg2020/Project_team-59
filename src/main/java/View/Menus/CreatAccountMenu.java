@@ -43,6 +43,15 @@ public class CreatAccountMenu extends Menu{
         getAdminInformation();
         Controller.creatAdmin( new AccountInformation( this.username , this.name , this.lastName , this.email , this.phoneNumber , this.passWord ) );
     }
+    public void createSupporter(){
+
+        getUserPassword();
+        getUserName();
+        getUserLastName();
+        getUserEmail();
+        getUserPhoneNumber();
+        Controller.creatSupporter( new AccountInformation( this.username , this.name , this.lastName , this.email , this.phoneNumber , this.passWord ) );
+    }
 
     public void getUserInformation(String roleType){
         if(roleType.toLowerCase().equals("buyer")){
@@ -78,7 +87,7 @@ public class CreatAccountMenu extends Menu{
     }
 
     public void getUserName(){
-        System.out.println("please enter your name");
+        System.out.println("please enter  name");
         this.name = Menu.getInputFromUser().trim();
         if ( name.matches(".*\\d.*") ){
             System.out.println("what the... whose name has digits in it....? any ways....");
@@ -86,7 +95,7 @@ public class CreatAccountMenu extends Menu{
     }
 
     public void getUserLastName(){
-        System.out.println("please enter your last name");
+        System.out.println("please enter  last name");
         this.lastName = Menu.getInputFromUser().trim();
         if ( lastName.matches(".*\\d.*") ){
             System.out.println("what the... whose last name has digits in it....? any ways....");
@@ -100,7 +109,7 @@ public class CreatAccountMenu extends Menu{
                 System.out.println("this email is not valid.... who are you trying too fool huh??");
             }
             flag = 1;
-            System.out.println("please enter your email");
+            System.out.println("please enter  email");
             this.email = Menu.getInputFromUser().trim();
         }while( !emailIsValid(this.email) );
     }

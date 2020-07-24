@@ -354,6 +354,11 @@ public class ManagerView extends Menu {
         create.creatAdmin();
 
     }
+    private static void createSupporter(){
+        CreatAccountMenu create=new CreatAccountMenu(new Menu());
+        create.createSupporter();
+
+    }
     private static void deleteUser(String username){
         Account account=controller.getAccount(username);
         if (account==null)

@@ -39,6 +39,14 @@ public class Manager extends Account{
         }
         throw new Exception("user not found with this username");
     }
+    public static Account getAccountByToken(String token) throws Exception{
+        for (Account account : accountList) {
+            if (account.getToken().equals(token)){
+                return account;
+            }
+        }
+        throw new Exception("user not found with this username");
+    }
 
     public static Good getGoodByName(String productName) throws Exception{
         for (Good good : allGoodsList) {

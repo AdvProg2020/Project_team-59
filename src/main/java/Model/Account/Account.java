@@ -1,5 +1,6 @@
 package Model.Account;
 
+import Controller.Controller;
 import Model.Discount.OffTicket;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public abstract class Account {
     private ArrayList<OffTicket> offTickets;
     private double balance;
     private boolean isLogin;
+    private String token ;
 
     public boolean isLogin() {
         return isLogin;
@@ -19,6 +21,13 @@ public abstract class Account {
         this.accountInformation = accountInformation;
         this.role = role;
         this.balance = 0;
+        this.token = "" ;
+    }
+    public String getToken ( ){
+        return this.token ;
+    }
+    public void setToken(){
+        this.token = Controller.generateNewToken() ;
     }
 
     public void setAccountInformation(AccountInformation accountInformation) {
