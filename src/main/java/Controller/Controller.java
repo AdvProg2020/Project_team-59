@@ -12,7 +12,9 @@ import Model.Good.Good;
 import Model.log.BuyLog;
 //import View.Menus.BuyerView;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Map;
 
@@ -24,6 +26,8 @@ public class Controller {
     private boolean hasDigestHappened;//not sure
     private Application application;
     private static Controller instance = new Controller();
+    private static final SecureRandom secureRandom = new SecureRandom(); //threadsafe
+    private static final Base64.Encoder base64Encoder = Base64.getUrlEncoder(); //threadsafe
 
     public Controller() {
         application = Application.getInstance();
@@ -38,8 +42,19 @@ public class Controller {
         //TODO sets up current user
     }
 
+
+    public static String generateNewToken() {
+        byte[] randomBytes = new byte[24];
+        secureRandom.nextBytes(randomBytes);
+        return base64Encoder.encodeToString(randomBytes);
+    }
+
     public static void creatAdmin(AccountInformation accountInformation) {
         coreManager = new Manager(accountInformation, Role.MANAGER);
+        currentUser = new User();
+    }
+    public static void creatSupporter(AccountInformation accountInformation) {
+        Supporter newSupporter= new Supporter(accountInformation, Role.SUPPORTER);
         currentUser = new User();
     }
 
