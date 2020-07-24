@@ -1,5 +1,7 @@
 package Model.Application;
 
+import Controller.NetWork.Bank;
+import Controller.NetWork.BankAccount;
 import Model.Account.Account;
 import Model.Account.ManagerRequest;
 import Model.Account.User;
@@ -22,7 +24,7 @@ public class Application {
     private Map<String, Category>categoories;
     private Map<String , User>users;
     private Map<Good, Comment>comments;
-
+    private BankAccount bankAccount;
     private Application(){
         goods=new HashMap<>();
         accounts=new HashMap<>();
@@ -31,6 +33,9 @@ public class Application {
         categoories=new HashMap<>();
         users=new HashMap<>();
         comments=new HashMap<>();
+        BankAccount bankAccount=new BankAccount("super","Market","superMarket","SuperMarket.123");
+        Bank.BankImpl bank=new Bank.BankImpl();
+        bank.addAccount(bankAccount);
     }
     public Map<String,Category>getCategoories(){
         return categoories;

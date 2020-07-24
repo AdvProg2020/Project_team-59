@@ -21,6 +21,7 @@ public class Manager extends Account{
     private static ArrayList<Sale> allSales = new ArrayList<>();
 
 
+
     public Manager(AccountInformation accountInformation, Role role) {
         super(accountInformation, Role.MANAGER);
         allManagers.add(this);

@@ -1,10 +1,15 @@
 package Model.Account;
 
+import Controller.NetWork.Bank;
+import Controller.NetWork.BankAccount;
+import Controller.NetWork.Wallet;
 import Model.Discount.OffTicket;
 
 import java.util.ArrayList;
 
 public abstract class Account {
+    private BankAccount bankAccount;
+    private Wallet wallet;
     private AccountInformation accountInformation;
     private Role role;
     private ArrayList<OffTicket> offTickets;
@@ -19,6 +24,27 @@ public abstract class Account {
         this.accountInformation = accountInformation;
         this.role = role;
         this.balance = 0;
+        this.bankAccount=new BankAccount(accountInformation.getName(),accountInformation.getLastname(),accountInformation.getUsername(),accountInformation.getPassWord());
+        Bank.BankImpl bankIm=new Bank.BankImpl();
+        bankIm.addAccount(bankAccount);
+
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public void setAccountInformation(AccountInformation accountInformation) {
